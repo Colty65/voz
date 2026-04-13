@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <title>Voz postoperatoria v2.6</title>
+  <style>
+    :root{
+      --bg:#0b1220; --card:#121a2b; --card2:#182235; --text:#f3f4f6; --muted:#b7c0cf;
+      --border:#2b3850; --safe-top:max(env(safe-area-inset-top),14px); --safe-bottom:max(env(safe-area-inset-bottom),14px);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    body{margin:0;background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    .app{max-width:900px;margin:0 auto;min-height:100vh;padding:var(--safe-top) 14px calc(30px + var(--safe-bottom))}
+    .card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+    .title{font-size:1.16rem;font-weight:800}
+    .sub{font-size:.9rem;color:var(--muted)}
+    .tag{border:1px solid var(--border);padding:10px 12px;border-radius:999px;color:var(--muted);font-size:.84rem}
+    h1{margin:0 0 8px;font-size:1.42rem;line-height:1.15}
+    p{margin:0;color:var(--muted);line-height:1.45}
+    .status,.result,.raw{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523}
+    .result{font-size:1.5rem;font-weight:900;text-align:center}
+    .raw{color:var(--muted);font-size:1.05rem}
+    .sep{height:1px;background:var(--border);margin:14px 0}
+    button{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border);padding:18px 14px;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer}
+    .primary{background:linear-gradient(180deg,#2f90cb,#2679ab);border:none}
+    .success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
+    .small{color:var(--muted);font-size:.92rem;line-height:1.4}
+    .big-indicator{margin-top:12px;padding:18px;border-radius:18px;text-align:center;font-size:1.55rem;font-weight:900;border:2px solid rgba(255,255,255,.15);background:#111827}
+    .hidden{display:none!important}
+    .listening{background:rgba(168,107,73,.22);border-color:rgba(168,107,73,.8);color:#fff3e8;animation:pulseWarn 1s infinite}
+    .processing{background:rgba(47,143,216,.22);border-color:rgba(47,143,216,.8);color:#e8f4ff;animation:pulseWarn 1s infinite}
+    @keyframes pulseWarn{0%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(1.02)}100%{opacity:1;transform:scale(1)}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div>
+      <div class="title">Voz postoperatoria</div>
+      <div class="sub">Escuchar una vez y decir detectado</div>
+    </div>
+    <div class="tag">(c)oltyLAB '26 V2.6</div>
+  </div>
+
+  <section class="card">
+    <h1>Escucha una vez</h1>
+    <p>La app escucha una vez, muestra el texto detectado, intenta decirlo automáticamente y después queda esperando a que vuelvas a pulsar <strong>Escuchar</strong>.</p>
+  </section>
+
+  <section class="card">
+    <div class="status" id="statusBox">Listo. Pulsa “Escuchar”.</div>
+    <div class="big-indicator hidden" id="activityIndicator"></div>
+
+    <div class="sep"></div>
+
+    <div class="raw" id="rawBox">Detectado: —</div>
+
+    <div class="sep"></div>
+
+    <div class="result" id="resultBox">—</div>
+
+    <div class="sep"></div>
+
+    <button class="primary" id="listenBtn">Escuchar</button>
+
+    <div class="sep"></div>
+
+    <button class="success" id="speakDetectedBtn">Decir detectado</button>
+
+    <div class="small" style="margin-top:10px">
+      Si Safari bloquea la reproducción automática, usa <strong>Decir detectado</strong>.
+    </div>
+  </section>
+</div>
+
+<script>
+let rawDetected = '';
+let recognition = null;
+let recognitionSupported = false;
+let isListening = false;
+let speechUnlocked = false;
+
+const els = {
+  statusBox: document.getElementById('statusBox'),
+  activityIndicator: document.getElementById('activityIndicator'),
+  rawBox: document.getElementById('rawBox'),
+  resultBox: document.getElementById('resultBox'),
+  listenBtn: document.getElementById('listenBtn'),
+  speakDetectedBtn: document.getElementById('speakDetectedBtn')
+};
+
+function setStatus(msg){ els.statusBox.textContent = msg; }
+function setActivity(mode, text=''){
+  els.activityIndicator.className = 'big-indicator';
+  if(!mode){
+    els.activityIndicator.classList.add('hidden');
+    els.activityIndicator.textContent = '';
+    return;
+  }
+  els.activityIndicator.classList.remove('hidden');
+  els.activityIndicator.classList.add(mode);
+  els.activityIndicator.textContent = text;
+}
+function normalize(s=''){ return s.replace(/\s+/g,' ').trim(); }
+function setDetected(text){
+  rawDetected = normalize(text || '');
+  els.rawBox.textContent = 'Detectado: ' + (rawDetected || '—');
+  els.resultBox.textContent = rawDetected || '—';
+}
+function unlockSpeech(){
+  const synth = window.speechSynthesis;
+  if(!synth) return;
+  try{
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(' ');
+    u.volume = 0;
+    u.rate = 1;
+    u.lang = 'es-ES';
+    synth.speak(u);
+    speechUnlocked = true;
+  }catch(e){}
+}
+function speakText(text){
+  if(!text) return Promise.resolve(false);
+  const synth = window.speechSynthesis;
+  if(!synth) return Promise.resolve(false);
+  return new Promise((resolve)=>{
+    let done = false;
+    const finish = (ok)=>{ if(!done){ done = true; resolve(ok); } };
+    try{
+      synth.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'es-ES';
+      u.rate = 0.95;
+      u.volume = 1;
+      u.onend = ()=>finish(true);
+      u.onerror = ()=>finish(false);
+      synth.speak(u);
+      setTimeout(()=>finish(false), 8000);
+    }catch(e){
+      finish(false);
+    }
+  });
+}
+async function speakWithRetry(text){
+  let ok = await speakText(text);
+  if(ok) return true;
+  await new Promise(r=>setTimeout(r,250));
+  return await speakText(text);
+}
+function initRecognition(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    recognitionSupported = false;
+    return false;
+  }
+  recognitionSupported = true;
+  recognition = new SR();
+  recognition.lang = 'es-ES';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 5;
+  recognition.continuous = false;
+
+  recognition.onresult = async (e) => {
+    const results = [];
+    for(let i = e.resultIndex; i < e.results.length; i++){
+      const result = e.results[i];
+      for(let j = 0; j < result.length; j++){
+        if(result[j] && result[j].transcript){
+          results.push(result[j].transcript);
+        }
+      }
+    }
+    const recognized = results.sort((a,b)=>b.length-a.length)[0] || '';
+    setActivity('processing', 'PROCESANDO…');
+    setDetected(recognized);
+
+    if(!recognized){
+      setStatus('No se detectó texto reconocible. Pulsa “Escuchar” otra vez.');
+      return;
+    }
+
+    setStatus('Texto detectado. Reproduciendo…');
+    const ok = await speakWithRetry(recognized);
+    if(ok){
+      setStatus('Listo. Pulsa “Escuchar” otra vez.');
+    } else {
+      setStatus('Texto detectado, pero Safari no lo reprodujo automáticamente. Pulsa “Decir detectado”.');
+    }
+  };
+
+  recognition.onerror = (e) => {
+    if(e.error === 'aborted') return;
+    setStatus('Error de escucha: ' + e.error);
+  };
+
+  recognition.onend = () => {
+    isListening = false;
+    els.listenBtn.disabled = false;
+    els.listenBtn.textContent = 'Escuchar';
+    setActivity(null);
+    if(!rawDetected){
+      setStatus('Listo. Pulsa “Escuchar”.');
+    }
+  };
+
+  return true;
+}
+
+function startListening(){
+  if(!recognition && !initRecognition()){
+    setStatus('Este navegador no ofrece reconocimiento de voz web.');
+    return;
+  }
+  if(!speechUnlocked) unlockSpeech();
+  isListening = true;
+  rawDetected = '';
+  setDetected('');
+  els.listenBtn.disabled = true;
+  els.listenBtn.textContent = 'Escuchando…';
+  setActivity('listening', 'ESCUCHANDO…');
+  setStatus('Escuchando…');
+  try{
+    recognition.start();
+  }catch(err){
+    isListening = false;
+    els.listenBtn.disabled = false;
+    els.listenBtn.textContent = 'Escuchar';
+    setActivity(null);
+    setStatus('No se pudo iniciar el micrófono.');
+  }
+}
+
+els.listenBtn.addEventListener('click', ()=>{ if(!isListening) startListening(); });
+els.speakDetectedBtn.addEventListener('click', async ()=>{
+  if(!rawDetected){
+    setStatus('Todavía no hay texto en Detectado:.');
+    return;
+  }
+  if(!speechUnlocked) unlockSpeech();
+  const ok = await speakWithRetry(rawDetected);
+  if(ok){
+    setStatus('Texto detectado reproducido.');
+  } else {
+    setStatus('No se pudo reproducir el texto detectado.');
+  }
+});
+
+initRecognition();
+</script>
+</body>
+</html>
