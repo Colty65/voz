@@ -1,10 +1,11 @@
+
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#111827">
-  <title>Voz postoperatoria v3.1</title>
+  <title>Voz postoperatoria v3.2</title>
   <style>
     :root{
       --bg:#0b1220; --card:#121a2b; --card2:#182235; --text:#f3f4f6; --muted:#b7c0cf;
@@ -20,7 +21,7 @@
     .tag{border:1px solid var(--border);padding:10px 12px;border-radius:999px;color:var(--muted);font-size:.84rem}
     h1{margin:0 0 8px;font-size:1.42rem;line-height:1.15}
     p{margin:0;color:var(--muted);line-height:1.45}
-    .status,.result,.raw,.suggestion{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523}
+    .status,.result,.raw,.suggestion,.controlBox{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523}
     .result{font-size:1.5rem;font-weight:900;text-align:center}
     .raw,.suggestion{font-size:1.02rem}
     .label{font-size:.82rem;color:var(--muted);margin-bottom:6px}
@@ -42,6 +43,9 @@
     .meta{font-size:.84rem;color:var(--muted);margin-top:6px}
     .audio-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
     .audio-row button{width:auto;padding:10px 12px;border-radius:12px}
+    .sliderRow{display:grid;grid-template-columns:54px 1fr 54px;gap:10px;align-items:center}
+    input[type=range]{padding:0;background:transparent;border:none}
+    .strictValue{text-align:center;font-weight:800}
     @keyframes pulseWarn{0%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(1.02)}100%{opacity:1;transform:scale(1)}}
   </style>
 </head>
@@ -50,17 +54,33 @@
   <div class="top">
     <div>
       <div class="title">Voz postoperatoria</div>
-      <div class="sub">Aprendizaje optimizado y más estricto</div>
+      <div class="sub">Aprendizaje optimizado con control de estrictez</div>
     </div>
-    <div class="tag">(c)oltyLAB '26 V3.1</div>
+    <div class="tag">(c)oltyLAB '26 V3.2</div>
   </div>
 
   <section class="card">
     <h1>Escuchar, sugerir, corregir y aprender</h1>
-    <p>Esta versión es más estricta: solo usa frases aprendidas cuando la coincidencia es fuerte. Además, intenta ser más predictiva con sonidos cortos.</p>
+    <p>Ahora puedes ajustar tú mismo el grado de estrictez sin tocar código. A la izquierda será más permisiva; a la derecha, más exigente.</p>
   </section>
 
   <section class="card">
+    <div class="label">Grado de estrictez</div>
+    <div class="controlBox">
+      <div class="sliderRow">
+        <div class="small">0</div>
+        <input type="range" id="strictnessSlider" min="0" max="100" step="1" value="50">
+        <div class="small" style="text-align:right">100</div>
+      </div>
+      <div class="audio-row" style="justify-content:space-between">
+        <div class="small">Más permisiva</div>
+        <div class="strictValue" id="strictnessValue">50</div>
+        <div class="small">Más estricta</div>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+
     <div class="status" id="statusBox">Listo. Pulsa “Escuchar”.</div>
     <div class="big-indicator hidden" id="activityIndicator"></div>
 
@@ -106,8 +126,10 @@
 </div>
 
 <script>
-const STORAGE_KEY = 'coltylab_postop_v31_learning';
+const STORAGE_KEY = 'coltylab_postop_v32_learning';
+const SETTINGS_KEY = 'coltylab_postop_v32_settings';
 let memories = loadMemories();
+let settings = loadSettings();
 let rawDetected = '';
 let currentSuggestion = '';
 let isListening = false;
@@ -129,8 +151,13 @@ const els = {
   correctionInput: document.getElementById('correctionInput'),
   saveCorrectionBtn: document.getElementById('saveCorrectionBtn'),
   cancelCorrectionBtn: document.getElementById('cancelCorrectionBtn'),
-  memoryBox: document.getElementById('memoryBox')
+  memoryBox: document.getElementById('memoryBox'),
+  strictnessSlider: document.getElementById('strictnessSlider'),
+  strictnessValue: document.getElementById('strictnessValue')
 };
+
+els.strictnessSlider.value = settings.strictness;
+els.strictnessValue.textContent = settings.strictness;
 
 renderMemories();
 
@@ -142,7 +169,16 @@ function loadMemories(){
     return Array.isArray(parsed) ? parsed : [];
   }catch(e){ return []; }
 }
+function loadSettings(){
+  try{
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    if(!raw) return {strictness: 50};
+    const parsed = JSON.parse(raw);
+    return {strictness: typeof parsed.strictness === 'number' ? parsed.strictness : 50};
+  }catch(e){ return {strictness: 50}; }
+}
 function saveMemories(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(memories)); }
+function saveSettings(){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
 function setStatus(msg){ els.statusBox.textContent = msg; }
 function setActivity(mode, text=''){
   els.activityIndicator.className = 'big-indicator';
@@ -236,21 +272,31 @@ function wordMatchScore(a, b){
   });
   return matches / Math.max(wa.length, 1);
 }
+function strictnessConfig(value){
+  const v = Number(value);
+  return {
+    minAccept: 0.35 + (v / 100) * 0.40,
+    autoAccept: 0.55 + (v / 100) * 0.30,
+    ambiguityGap: 0.03 + (v / 100) * 0.07
+  };
+}
 function findBestLearnedPhrase(detected){
   if(!detected || !memories.length) return null;
+  const cfg = strictnessConfig(settings.strictness);
+
   const scored = memories.map(m => {
     let score = similarity(detected, m.heardPattern);
     score += wordMatchScore(detected, m.heardPattern) * 0.30;
     score += Math.min(0.12, (m.timesConfirmed || 0) * 0.02);
     score -= Math.min(0.10, (m.timesRejected || 0) * 0.03);
-    return {...m, score};
+    return Object.assign({}, m, {score});
   }).sort((a,b)=>b.score-a.score);
 
   const top = scored[0];
   const second = scored[1];
-  if(!top || top.score < 0.65) return null;
-  if(top.score < 0.80) return {ambiguous:true, choices: scored.slice(0,3)};
-  if(second && Math.abs(top.score - second.score) < 0.06) return {ambiguous:true, choices: scored.slice(0,3)};
+  if(!top || top.score < cfg.minAccept) return null;
+  if(top.score < cfg.autoAccept) return {ambiguous:true, choices: scored.slice(0,3)};
+  if(second && Math.abs(top.score - second.score) < cfg.ambiguityGap) return {ambiguous:true, choices: scored.slice(0,3)};
   return {ambiguous:false, match: top};
 }
 function upsertMemory(heardPattern, realPhrase, wasConfirmed){
@@ -353,13 +399,13 @@ async function processDetected(recognized){
 
   if(!learned){
     setSuggestion(recognized);
-    setStatus('No hay coincidencia suficientemente fuerte. Se usa Detectado.');
+    setStatus('No hay coincidencia suficiente con el grado actual. Se usa Detectado.');
   } else if(learned.ambiguous){
     setSuggestion(learned.choices[0].realPhrase);
-    setStatus('Coincidencia media. Revisa la sugerencia con más cuidado antes de confirmarla.');
+    setStatus('Coincidencia media con el grado actual. Revisa la sugerencia con más cuidado.');
   } else {
     setSuggestion(learned.match.realPhrase);
-    setStatus('Coincidencia fuerte a partir del aprendizaje. Revisa si era correcta.');
+    setStatus('Coincidencia fuerte con el grado actual. Revisa si era correcta.');
   }
 
   showFeedback(true);
@@ -395,6 +441,11 @@ async function startListening(){
 }
 
 els.listenBtn.addEventListener('click', ()=>{ if(!isListening) startListening(); });
+els.strictnessSlider.addEventListener('input', ()=>{
+  settings.strictness = Number(els.strictnessSlider.value);
+  els.strictnessValue.textContent = settings.strictness;
+  saveSettings();
+});
 els.correctBtn.addEventListener('click', ()=>{
   if(!rawDetected || !currentSuggestion) return;
   upsertMemory(rawDetected, currentSuggestion, true);
