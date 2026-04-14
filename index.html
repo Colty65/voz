@@ -1,67 +1,47 @@
-
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#111827">
-  <title>Voz postoperatoria v3.2</title>
-  <style>
-    :root{
-      --bg:#0b1220; --card:#121a2b; --card2:#182235; --text:#f3f4f6; --muted:#b7c0cf;
-      --border:#2b3850; --safe-top:max(env(safe-area-inset-top),14px); --safe-bottom:max(env(safe-area-inset-bottom),14px);
-    }
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    body{margin:0;background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-    .app{max-width:980px;margin:0 auto;min-height:100vh;padding:var(--safe-top) 14px calc(30px + var(--safe-bottom))}
-    .card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
-    .title{font-size:1.16rem;font-weight:800}
-    .sub{font-size:.9rem;color:var(--muted)}
-    .tag{border:1px solid var(--border);padding:10px 12px;border-radius:999px;color:var(--muted);font-size:.84rem}
-    h1{margin:0 0 8px;font-size:1.42rem;line-height:1.15}
-    p{margin:0;color:var(--muted);line-height:1.45}
-    .status,.result,.raw,.suggestion,.controlBox{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523}
-    .result{font-size:1.5rem;font-weight:900;text-align:center}
-    .raw,.suggestion{font-size:1.02rem}
-    .label{font-size:.82rem;color:var(--muted);margin-bottom:6px}
-    .sep{height:1px;background:var(--border);margin:14px 0}
-    button,input,textarea{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border)}
-    input,textarea{padding:14px;background:#0d1523;color:var(--text)}
-    textarea{min-height:86px;resize:vertical}
-    button{padding:18px 14px;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer}
-    .primary{background:linear-gradient(180deg,#2f90cb,#2679ab);border:none}
-    .success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
-    .danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}
-    .ghost{background:#10151d}
-    .small{color:var(--muted);font-size:.92rem;line-height:1.4}
-    .big-indicator{margin-top:12px;padding:18px;border-radius:18px;text-align:center;font-size:1.55rem;font-weight:900;border:2px solid rgba(255,255,255,.15);background:#111827}
-    .hidden{display:none!important}
-    .listening{background:rgba(168,107,73,.22);border-color:rgba(168,107,73,.8);color:#fff3e8;animation:pulseWarn 1s infinite}
-    .processing{background:rgba(47,143,216,.22);border-color:rgba(47,143,216,.8);color:#e8f4ff;animation:pulseWarn 1s infinite}
-    .item{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
-    .meta{font-size:.84rem;color:var(--muted);margin-top:6px}
-    .audio-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
-    .audio-row button{width:auto;padding:10px 12px;border-radius:12px}
-    .sliderRow{display:grid;grid-template-columns:54px 1fr 54px;gap:10px;align-items:center}
-    input[type=range]{padding:0;background:transparent;border:none}
-    .strictValue{text-align:center;font-weight:800}
-    @keyframes pulseWarn{0%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(1.02)}100%{opacity:1;transform:scale(1)}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<title>Voz postoperatoria v3.3</title>
+<style>
+:root{--bg:#0b1220;--card:#121a2b;--card2:#182235;--text:#f3f4f6;--muted:#b7c0cf;--border:#2b3850;--safe-top:max(env(safe-area-inset-top),14px);--safe-bottom:max(env(safe-area-inset-bottom),14px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.app{max-width:980px;margin:0 auto;min-height:100vh;padding:var(--safe-top) 14px calc(30px + var(--safe-bottom))}
+.card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.title{font-size:1.16rem;font-weight:800}.sub{font-size:.9rem;color:var(--muted)}.tag{border:1px solid var(--border);padding:10px 12px;border-radius:999px;color:var(--muted);font-size:.84rem}
+h1{margin:0 0 8px;font-size:1.42rem;line-height:1.15} p{margin:0;color:var(--muted);line-height:1.45}
+.status,.result,.raw,.suggestion,.controlBox{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523}
+.result{font-size:1.5rem;font-weight:900;text-align:center}.raw,.suggestion{font-size:1.02rem}.label{font-size:.82rem;color:var(--muted);margin-bottom:6px}
+.sep{height:1px;background:var(--border);margin:14px 0}
+button,input,textarea{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border)}
+input,textarea{padding:14px;background:#0d1523;color:var(--text)} textarea{min-height:86px;resize:vertical}
+button{padding:18px 14px;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer}
+.primary{background:linear-gradient(180deg,#2f90cb,#2679ab);border:none}.success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}.danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}.ghost{background:#10151d}
+.small{color:var(--muted);font-size:.92rem;line-height:1.4}
+.big-indicator{margin-top:12px;padding:18px;border-radius:18px;text-align:center;font-size:1.55rem;font-weight:900;border:2px solid rgba(255,255,255,.15);background:#111827}
+.hidden{display:none!important}.listening{background:rgba(168,107,73,.22);border-color:rgba(168,107,73,.8);color:#fff3e8;animation:pulseWarn 1s infinite}.processing{background:rgba(47,143,216,.22);border-color:rgba(47,143,216,.8);color:#e8f4ff;animation:pulseWarn 1s infinite}
+.item{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}.meta{font-size:.84rem;color:var(--muted);margin-top:6px}
+.audio-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}.audio-row button{width:auto;padding:10px 12px;border-radius:12px}
+.sliderRow{display:grid;grid-template-columns:54px 1fr 54px;gap:10px;align-items:center} input[type=range]{padding:0;background:transparent;border:none}.strictValue{text-align:center;font-weight:800}
+.micWrap{display:flex;justify-content:center;align-items:center}.micBtn{width:160px;height:160px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 30%, #4aa6df, #256f9e);box-shadow:0 10px 28px rgba(0,0,0,.35)} .micBtn.stop{background:radial-gradient(circle at 30% 30%, #d66a6a, #8d3f3f)} .micIcon{font-size:72px;line-height:1}
+details.group{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px} details.group summary{cursor:pointer;list-style:none;font-weight:800} details.group summary::-webkit-details-marker{display:none}.groupHead{display:flex;justify-content:space-between;gap:10px;align-items:center}.groupCount{font-size:.84rem;color:var(--muted)}
+@keyframes pulseWarn{0%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(1.02)}100%{opacity:1;transform:scale(1)}}
+</style>
 </head>
 <body>
 <div class="app">
   <div class="top">
-    <div>
-      <div class="title">Voz postoperatoria</div>
-      <div class="sub">Aprendizaje optimizado con control de estrictez</div>
-    </div>
-    <div class="tag">(c)oltyLAB '26 V3.2</div>
+    <div><div class="title">Voz postoperatoria</div><div class="sub">Aprendizaje optimizado con control de estrictez</div></div>
+    <div class="tag">(c)oltyLAB '26 V3.3</div>
   </div>
 
   <section class="card">
     <h1>Escuchar, sugerir, corregir y aprender</h1>
-    <p>Ahora puedes ajustar tú mismo el grado de estrictez sin tocar código. A la izquierda será más permisiva; a la derecha, más exigente.</p>
+    <p>El control de estrictez ahora modifica de forma clara cuándo la app acepta, duda o descarta una frase aprendida. El botón central alterna entre escuchar y parar.</p>
   </section>
 
   <section class="card">
@@ -69,19 +49,19 @@
     <div class="controlBox">
       <div class="sliderRow">
         <div class="small">0</div>
-        <input type="range" id="strictnessSlider" min="0" max="100" step="1" value="50">
+        <input type="range" id="strictnessSlider" min="0" max="100" step="1" value="30">
         <div class="small" style="text-align:right">100</div>
       </div>
       <div class="audio-row" style="justify-content:space-between">
         <div class="small">Más permisiva</div>
-        <div class="strictValue" id="strictnessValue">50</div>
+        <div class="strictValue" id="strictnessValue">30</div>
         <div class="small">Más estricta</div>
       </div>
+      <div class="small" id="strictnessExplain"></div>
     </div>
 
     <div class="sep"></div>
-
-    <div class="status" id="statusBox">Listo. Pulsa “Escuchar”.</div>
+    <div class="status" id="statusBox">Listo. Pulsa el micrófono.</div>
     <div class="big-indicator hidden" id="activityIndicator"></div>
 
     <div class="sep"></div>
@@ -97,7 +77,10 @@
     <div class="result" id="resultBox">—</div>
 
     <div class="sep"></div>
-    <button class="primary" id="listenBtn">Escuchar</button>
+    <div class="micWrap">
+      <button class="micBtn" id="listenBtn" aria-label="Escuchar"><span class="micIcon" id="micIcon">🎤</span></button>
+    </div>
+    <div class="small" style="text-align:center;margin-top:10px" id="micHelp">Pulsa para escuchar. Mientras escucha, vuelve a pulsar para parar.</div>
 
     <div class="audio-row" id="feedbackRow" style="display:none">
       <button class="success" id="correctBtn">Sí, eso era</button>
@@ -119,378 +102,75 @@
 
   <section class="card">
     <div class="title" style="font-size:1rem;margin-bottom:10px">Frases aprendidas</div>
-    <div class="small">Ordenadas por el dato “Quiere decir”.</div>
+    <div class="small">Agrupadas por “Quiere decir” y, dentro de cada grupo, ordenadas por confirmaciones de mayor a menor.</div>
     <div class="sep"></div>
     <div id="memoryBox"></div>
   </section>
 </div>
 
 <script>
-const STORAGE_KEY = 'coltylab_postop_v32_learning';
-const SETTINGS_KEY = 'coltylab_postop_v32_settings';
-let memories = loadMemories();
-let settings = loadSettings();
-let rawDetected = '';
-let currentSuggestion = '';
-let isListening = false;
-let speechUnlocked = false;
+const STORAGE_KEY='coltylab_postop_v33_learning';
+const SETTINGS_KEY='coltylab_postop_v33_settings';
+let memories=loadMemories();
+let settings=loadSettings();
+let rawDetected=''; let currentSuggestion=''; let isListening=false; let speechUnlocked=false; let activeRecognition=null; let manuallyStopped=false; let isSpeaking=false;
 
-const els = {
-  statusBox: document.getElementById('statusBox'),
-  activityIndicator: document.getElementById('activityIndicator'),
-  rawBox: document.getElementById('rawBox'),
-  suggestionBox: document.getElementById('suggestionBox'),
-  resultBox: document.getElementById('resultBox'),
-  listenBtn: document.getElementById('listenBtn'),
-  feedbackRow: document.getElementById('feedbackRow'),
-  correctBtn: document.getElementById('correctBtn'),
-  wrongBtn: document.getElementById('wrongBtn'),
-  speakBtn: document.getElementById('speakBtn'),
-  useDetectedBtn: document.getElementById('useDetectedBtn'),
-  correctionBox: document.getElementById('correctionBox'),
-  correctionInput: document.getElementById('correctionInput'),
-  saveCorrectionBtn: document.getElementById('saveCorrectionBtn'),
-  cancelCorrectionBtn: document.getElementById('cancelCorrectionBtn'),
-  memoryBox: document.getElementById('memoryBox'),
-  strictnessSlider: document.getElementById('strictnessSlider'),
-  strictnessValue: document.getElementById('strictnessValue')
+const els={
+ statusBox:document.getElementById('statusBox'), activityIndicator:document.getElementById('activityIndicator'),
+ rawBox:document.getElementById('rawBox'), suggestionBox:document.getElementById('suggestionBox'), resultBox:document.getElementById('resultBox'),
+ listenBtn:document.getElementById('listenBtn'), micIcon:document.getElementById('micIcon'), micHelp:document.getElementById('micHelp'),
+ feedbackRow:document.getElementById('feedbackRow'), correctBtn:document.getElementById('correctBtn'), wrongBtn:document.getElementById('wrongBtn'),
+ speakBtn:document.getElementById('speakBtn'), useDetectedBtn:document.getElementById('useDetectedBtn'),
+ correctionBox:document.getElementById('correctionBox'), correctionInput:document.getElementById('correctionInput'),
+ saveCorrectionBtn:document.getElementById('saveCorrectionBtn'), cancelCorrectionBtn:document.getElementById('cancelCorrectionBtn'),
+ memoryBox:document.getElementById('memoryBox'), strictnessSlider:document.getElementById('strictnessSlider'),
+ strictnessValue:document.getElementById('strictnessValue'), strictnessExplain:document.getElementById('strictnessExplain')
 };
 
-els.strictnessSlider.value = settings.strictness;
-els.strictnessValue.textContent = settings.strictness;
-
+els.strictnessSlider.value=settings.strictness;
+updateStrictnessUI();
 renderMemories();
 
-function loadMemories(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  }catch(e){ return []; }
-}
-function loadSettings(){
-  try{
-    const raw = localStorage.getItem(SETTINGS_KEY);
-    if(!raw) return {strictness: 50};
-    const parsed = JSON.parse(raw);
-    return {strictness: typeof parsed.strictness === 'number' ? parsed.strictness : 50};
-  }catch(e){ return {strictness: 50}; }
-}
-function saveMemories(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(memories)); }
-function saveSettings(){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
-function setStatus(msg){ els.statusBox.textContent = msg; }
-function setActivity(mode, text=''){
-  els.activityIndicator.className = 'big-indicator';
-  if(!mode){
-    els.activityIndicator.classList.add('hidden');
-    els.activityIndicator.textContent = '';
-    return;
-  }
-  els.activityIndicator.classList.remove('hidden');
-  els.activityIndicator.classList.add(mode);
-  els.activityIndicator.textContent = text;
-}
-function normalize(s=''){
-  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim();
-}
-function titleText(s=''){ return String(s).replace(/\s+/g,' ').trim(); }
-function setDetected(text){
-  rawDetected = titleText(text || '');
-  els.rawBox.textContent = rawDetected || '—';
-}
-function setSuggestion(text){
-  currentSuggestion = titleText(text || '');
-  els.suggestionBox.textContent = currentSuggestion || '—';
-  els.resultBox.textContent = currentSuggestion || '—';
-}
-function showFeedback(show){ els.feedbackRow.style.display = show ? 'flex' : 'none'; }
-function showCorrection(show){ els.correctionBox.classList.toggle('hidden', !show); }
+function loadMemories(){try{const raw=localStorage.getItem(STORAGE_KEY); if(!raw) return []; const parsed=JSON.parse(raw); return Array.isArray(parsed)?parsed:[];}catch(e){return [];}}
+function loadSettings(){try{const raw=localStorage.getItem(SETTINGS_KEY); if(!raw) return {strictness:30}; const parsed=JSON.parse(raw); return {strictness: typeof parsed.strictness==='number'?parsed.strictness:30};}catch(e){return {strictness:30};}}
+function saveMemories(){localStorage.setItem(STORAGE_KEY,JSON.stringify(memories))}
+function saveSettings(){localStorage.setItem(SETTINGS_KEY,JSON.stringify(settings))}
+function setStatus(msg){els.statusBox.textContent=msg}
+function setActivity(mode,text=''){els.activityIndicator.className='big-indicator'; if(!mode){els.activityIndicator.classList.add('hidden'); els.activityIndicator.textContent=''; return;} els.activityIndicator.classList.remove('hidden'); els.activityIndicator.classList.add(mode); els.activityIndicator.textContent=text;}
+function normalize(s=''){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim()}
+function titleText(s=''){return String(s).replace(/\s+/g,' ').trim()}
+function setDetected(text){rawDetected=titleText(text||''); els.rawBox.textContent=rawDetected||'—'}
+function setSuggestion(text){currentSuggestion=titleText(text||''); els.suggestionBox.textContent=currentSuggestion||'—'; els.resultBox.textContent=currentSuggestion||'—'}
+function showFeedback(show){els.feedbackRow.style.display=show?'flex':'none'}
+function showCorrection(show){els.correctionBox.classList.toggle('hidden',!show)}
+function setMicListening(state){if(state){els.listenBtn.classList.add('stop'); els.micIcon.textContent='🚫🎤'; els.micHelp.textContent='Escuchando. Pulsa de nuevo para parar.';}else{els.listenBtn.classList.remove('stop'); els.micIcon.textContent='🎤'; els.micHelp.textContent='Pulsa para escuchar. Mientras escucha, vuelve a pulsar para parar.';}}
+function unlockSpeech(){const synth=window.speechSynthesis; if(!synth) return; try{synth.cancel(); const u=new SpeechSynthesisUtterance(' '); u.volume=0; u.lang='es-ES'; synth.speak(u); speechUnlocked=true;}catch(e){}}
+function speakText(text){if(!text) return Promise.resolve(false); const synth=window.speechSynthesis; if(!synth) return Promise.resolve(false); isSpeaking=true; return new Promise((resolve)=>{let done=false; const finish=(ok)=>{if(!done){done=true; isSpeaking=false; resolve(ok);}}; try{synth.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='es-ES'; u.rate=0.95; u.onend=()=>finish(true); u.onerror=()=>finish(false); synth.speak(u); setTimeout(()=>finish(false),8000);}catch(e){finish(false);}})}
+async function speakWithRetry(text){let ok=await speakText(text); if(ok) return true; await new Promise(r=>setTimeout(r,250)); return await speakText(text);}
+function levenshtein(a,b){const m=a.length,n=b.length,dp=Array.from({length:m+1},()=>Array(n+1).fill(0)); for(let i=0;i<=m;i++) dp[i][0]=i; for(let j=0;j<=n;j++) dp[0][j]=j; for(let i=1;i<=m;i++) for(let j=1;j<=n;j++){const cost=a[i-1]===b[j-1]?0:1; dp[i][j]=Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+cost);} return dp[m][n]}
+function similarity(a,b){a=normalize(a); b=normalize(b); if(!a||!b) return 0; if(a===b) return 1; if(a.includes(b)||b.includes(a)) return 0.92; const dist=levenshtein(a,b); return Math.max(0,1-dist/Math.max(a.length,b.length,1))}
+function wordMatchScore(a,b){const wa=normalize(a).split(' ').filter(Boolean); const wb=normalize(b).split(' ').filter(Boolean); if(!wa.length||!wb.length) return 0; let matches=0; wa.forEach(w=>{if(wb.some(x=>x.startsWith(w)||w.startsWith(x)||similarity(w,x)>=0.75)) matches++;}); return matches/Math.max(wa.length,1)}
+function strictnessConfig(value){const v=Number(value); return {minAccept:0.20+(v/100)*0.60, autoAccept:0.38+(v/100)*0.52, ambiguityGap:0.01+(v/100)*0.14}}
+function updateStrictnessUI(){els.strictnessValue.textContent=settings.strictness; const cfg=strictnessConfig(settings.strictness); let txt=''; const s=settings.strictness; if(s<=20) txt='Muy permisiva: acepta similitudes bajas y propone más frases aprendidas.'; else if(s<=40) txt='Permisiva: buena para los primeros días si habla muy poco claro.'; else if(s<=60) txt='Equilibrada: intenta no inventar demasiado, pero sigue proponiendo.'; else if(s<=80) txt='Estrica: exige parecidos bastante claros antes de usar lo aprendido.'; else txt='Muy estricta: solo acepta coincidencias muy fuertes.'; els.strictnessExplain.textContent=txt+' Umbral mínimo '+cfg.minAccept.toFixed(2)+' · Autoaceptar '+cfg.autoAccept.toFixed(2)+'.';}
+function findBestLearnedPhrase(detected){if(!detected||!memories.length) return null; const cfg=strictnessConfig(settings.strictness); const scored=memories.map(m=>{let score=similarity(detected,m.heardPattern); score+=wordMatchScore(detected,m.heardPattern)*0.45; score+=Math.min(0.18,(m.timesConfirmed||0)*0.03); score-=Math.min(0.18,(m.timesRejected||0)*0.05); return {...m,score};}).sort((a,b)=>b.score-a.score); const top=scored[0], second=scored[1]; if(!top||top.score<cfg.minAccept) return null; if(top.score<cfg.autoAccept) return {ambiguous:true, choices: scored.slice(0,3)}; if(second && Math.abs(top.score-second.score)<cfg.ambiguityGap) return {ambiguous:true, choices: scored.slice(0,3)}; return {ambiguous:false, match: top};}
+function upsertMemory(heardPattern,realPhrase,wasConfirmed){const heard=titleText(heardPattern), real=titleText(realPhrase); let existing=memories.find(m=>normalize(m.heardPattern)===normalize(heard)&&normalize(m.realPhrase)===normalize(real)); if(existing){if(wasConfirmed) existing.timesConfirmed=(existing.timesConfirmed||0)+1; existing.lastUsed=Date.now();} else {memories.push({id:String(Date.now()), heardPattern:heard, realPhrase:real, timesConfirmed:wasConfirmed?1:0, timesRejected:0, lastUsed:Date.now()});} saveMemories(); renderMemories();}
+function markRejected(heardPattern,realPhrase){const existing=memories.find(m=>normalize(m.heardPattern)===normalize(heardPattern)&&normalize(m.realPhrase)===normalize(realPhrase)); if(existing){existing.timesRejected=(existing.timesRejected||0)+1; existing.lastUsed=Date.now(); saveMemories(); renderMemories();}}
+function renderMemories(){els.memoryBox.innerHTML=''; if(!memories.length){els.memoryBox.innerHTML='<div class="small">Todavía no hay aprendizaje guardado.</div>'; return;} const groups={}; for(const m of memories){if(!groups[m.realPhrase]) groups[m.realPhrase]=[]; groups[m.realPhrase].push(m);} const grouped=Object.entries(groups).map(([realPhrase,items])=>({realPhrase, items:items.slice().sort((a,b)=>(b.timesConfirmed||0)-(a.timesConfirmed||0)||a.heardPattern.localeCompare(b.heardPattern,'es')), totalConfirmed:items.reduce((n,x)=>n+(x.timesConfirmed||0),0)})).sort((a,b)=>a.realPhrase.localeCompare(b.realPhrase,'es')||b.totalConfirmed-a.totalConfirmed); grouped.forEach(group=>{const details=document.createElement('details'); details.className='group'; details.innerHTML=`<summary><div class="groupHead"><div>${escapeHtml(group.realPhrase)}</div><div class="groupCount">${group.items.length} caso(s) · ${group.totalConfirmed} confirmaciones</div></div></summary>`; group.items.forEach(m=>{const div=document.createElement('div'); div.className='item'; div.style.marginTop='10px'; div.innerHTML=`<div><strong>Oído:</strong> ${escapeHtml(m.heardPattern)}</div><div class="meta">Confirmada ${m.timesConfirmed||0} vez/veces · Rechazada ${m.timesRejected||0}</div><div class="audio-row"><button class="ghost say">Decir frase</button><button class="danger del">Borrar caso</button></div>`; div.querySelector('.say').addEventListener('click',async()=>{await speakWithRetry(m.realPhrase);}); div.querySelector('.del').addEventListener('click',()=>{memories=memories.filter(x=>x.id!==m.id); saveMemories(); renderMemories(); setStatus('Caso borrado.');}); details.appendChild(div);}); els.memoryBox.appendChild(details);});}
+function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function stopListening(){manuallyStopped=true; if(activeRecognition){try{activeRecognition.stop();}catch(e){}} isListening=false; setMicListening(false); setActivity(null); if(!isSpeaking) setStatus('Escucha detenida. Pulsa el micrófono para escuchar otra vez.');}
+async function recognizeSpeechOnce(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition; if(!SR) throw new Error('Este navegador no ofrece reconocimiento de voz web.'); return await new Promise((resolve,reject)=>{const sr=new SR(); activeRecognition=sr; sr.lang='es-ES'; sr.interimResults=false; sr.maxAlternatives=5; sr.continuous=false; let done=false; sr.onresult=(e)=>{done=true; const arr=Array.from(e.results[0]).map(x=>x.transcript).filter(Boolean); resolve(arr);}; sr.onerror=(e)=>{if(!done && e.error!=='aborted') reject(new Error('No se pudo reconocer la voz.'));}; sr.onend=()=>{activeRecognition=null; if(!done && !manuallyStopped) reject(new Error('No hubo audio suficiente.'));}; try{sr.start();}catch(e){reject(new Error('No se pudo iniciar el micrófono.'));}})}
+function getBestRecognized(alternatives){if(!alternatives||!alternatives.length) return ''; return alternatives.slice().sort((a,b)=>b.length-a.length)[0]}
+async function processDetected(recognized){setActivity('processing','PROCESANDO…'); setDetected(recognized); if(!recognized){setSuggestion(''); showFeedback(false); setStatus('No se detectó texto reconocible. Pulsa el micrófono otra vez.'); return;} const learned=findBestLearnedPhrase(recognized); if(!learned){setSuggestion(recognized); setStatus('No hay coincidencia suficiente con el grado actual. Se usa Detectado.');} else if(learned.ambiguous){setSuggestion(learned.choices[0].realPhrase); setStatus('Coincidencia media con el grado actual. Revisa la sugerencia con más cuidado.');} else {setSuggestion(learned.match.realPhrase); setStatus('Coincidencia fuerte con el grado actual. Revisa si era correcta.');} showFeedback(true); const ok=await speakWithRetry(currentSuggestion); if(!ok) setStatus('Frase mostrada, pero Safari no la reprodujo automáticamente. Pulsa “Repetir”.'); else setStatus('Listo. Pulsa el micrófono para escuchar otra vez.');}
+async function startListening(){if(!speechUnlocked) unlockSpeech(); manuallyStopped=false; isListening=true; rawDetected=''; currentSuggestion=''; setDetected(''); setSuggestion(''); showFeedback(false); showCorrection(false); setMicListening(true); setActivity('listening','ESCUCHANDO…'); setStatus('Escuchando… Pulsa de nuevo para parar.'); try{const alternatives=await recognizeSpeechOnce(); if(manuallyStopped) return; const recognized=getBestRecognized(alternatives); isListening=false; setMicListening(false); await processDetected(recognized);}catch(err){if(!manuallyStopped) setStatus(err && err.message ? err.message : 'No se pudo escuchar.');}finally{isListening=false; setMicListening(false); setActivity(null);}}
 
-function unlockSpeech(){
-  const synth = window.speechSynthesis;
-  if(!synth) return;
-  try{
-    synth.cancel();
-    const u = new SpeechSynthesisUtterance(' ');
-    u.volume = 0;
-    u.lang = 'es-ES';
-    synth.speak(u);
-    speechUnlocked = true;
-  }catch(e){}
-}
-function speakText(text){
-  if(!text) return Promise.resolve(false);
-  const synth = window.speechSynthesis;
-  if(!synth) return Promise.resolve(false);
-  return new Promise((resolve)=>{
-    let done = false;
-    const finish = (ok)=>{ if(!done){ done = true; resolve(ok); } };
-    try{
-      synth.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'es-ES';
-      u.rate = 0.95;
-      u.onend = ()=>finish(true);
-      u.onerror = ()=>finish(false);
-      synth.speak(u);
-      setTimeout(()=>finish(false), 8000);
-    }catch(e){ finish(false); }
-  });
-}
-async function speakWithRetry(text){
-  let ok = await speakText(text);
-  if(ok) return true;
-  await new Promise(r=>setTimeout(r,250));
-  return await speakText(text);
-}
-function levenshtein(a,b){
-  const m=a.length,n=b.length,dp=Array.from({length:m+1},()=>Array(n+1).fill(0));
-  for(let i=0;i<=m;i++) dp[i][0]=i;
-  for(let j=0;j<=n;j++) dp[0][j]=j;
-  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++){
-    const cost = a[i-1]===b[j-1] ? 0 : 1;
-    dp[i][j]=Math.min(dp[i-1][j]+1, dp[i][j-1]+1, dp[i-1][j-1]+cost);
-  }
-  return dp[m][n];
-}
-function similarity(a,b){
-  a = normalize(a); b = normalize(b);
-  if(!a || !b) return 0;
-  if(a === b) return 1;
-  if(a.includes(b) || b.includes(a)) return 0.92;
-  const dist = levenshtein(a,b);
-  return Math.max(0, 1 - dist / Math.max(a.length,b.length,1));
-}
-function wordMatchScore(a, b){
-  const wa = normalize(a).split(' ').filter(Boolean);
-  const wb = normalize(b).split(' ').filter(Boolean);
-  if(!wa.length || !wb.length) return 0;
-  let matches = 0;
-  wa.forEach(w => {
-    if(wb.some(x => x.startsWith(w) || w.startsWith(x) || similarity(w, x) >= 0.75)) matches++;
-  });
-  return matches / Math.max(wa.length, 1);
-}
-function strictnessConfig(value){
-  const v = Number(value);
-  return {
-    minAccept: 0.35 + (v / 100) * 0.40,
-    autoAccept: 0.55 + (v / 100) * 0.30,
-    ambiguityGap: 0.03 + (v / 100) * 0.07
-  };
-}
-function findBestLearnedPhrase(detected){
-  if(!detected || !memories.length) return null;
-  const cfg = strictnessConfig(settings.strictness);
-
-  const scored = memories.map(m => {
-    let score = similarity(detected, m.heardPattern);
-    score += wordMatchScore(detected, m.heardPattern) * 0.30;
-    score += Math.min(0.12, (m.timesConfirmed || 0) * 0.02);
-    score -= Math.min(0.10, (m.timesRejected || 0) * 0.03);
-    return Object.assign({}, m, {score});
-  }).sort((a,b)=>b.score-a.score);
-
-  const top = scored[0];
-  const second = scored[1];
-  if(!top || top.score < cfg.minAccept) return null;
-  if(top.score < cfg.autoAccept) return {ambiguous:true, choices: scored.slice(0,3)};
-  if(second && Math.abs(top.score - second.score) < cfg.ambiguityGap) return {ambiguous:true, choices: scored.slice(0,3)};
-  return {ambiguous:false, match: top};
-}
-function upsertMemory(heardPattern, realPhrase, wasConfirmed){
-  const heard = titleText(heardPattern);
-  const real = titleText(realPhrase);
-  let existing = memories.find(m => normalize(m.heardPattern) === normalize(heard) && normalize(m.realPhrase) === normalize(real));
-  if(existing){
-    if(wasConfirmed) existing.timesConfirmed = (existing.timesConfirmed || 0) + 1;
-    existing.lastUsed = Date.now();
-  } else {
-    memories.push({
-      id: String(Date.now()),
-      heardPattern: heard,
-      realPhrase: real,
-      timesConfirmed: wasConfirmed ? 1 : 0,
-      timesRejected: 0,
-      lastUsed: Date.now()
-    });
-  }
-  saveMemories();
-  renderMemories();
-}
-function markRejected(heardPattern, realPhrase){
-  const existing = memories.find(m => normalize(m.heardPattern) === normalize(heardPattern) && normalize(m.realPhrase) === normalize(realPhrase));
-  if(existing){
-    existing.timesRejected = (existing.timesRejected || 0) + 1;
-    existing.lastUsed = Date.now();
-    saveMemories();
-    renderMemories();
-  }
-}
-function renderMemories(){
-  els.memoryBox.innerHTML = '';
-  if(!memories.length){
-    els.memoryBox.innerHTML = '<div class="small">Todavía no hay aprendizaje guardado.</div>';
-    return;
-  }
-  const ordered = memories.slice().sort((a,b)=> a.realPhrase.localeCompare(b.realPhrase, 'es'));
-  ordered.forEach((m)=>{
-    const div = document.createElement('div');
-    div.className = 'item';
-    div.innerHTML = `
-      <div><strong>Oído:</strong> ${escapeHtml(m.heardPattern)}</div>
-      <div style="margin-top:4px"><strong>Quiere decir:</strong> ${escapeHtml(m.realPhrase)}</div>
-      <div class="meta">Confirmada ${m.timesConfirmed || 0} vez/veces · Rechazada ${m.timesRejected || 0}</div>
-      <div class="audio-row">
-        <button class="ghost say">Decir frase</button>
-        <button class="danger del">Borrar</button>
-      </div>
-    `;
-    div.querySelector('.say').addEventListener('click', async ()=>{ await speakWithRetry(m.realPhrase); });
-    div.querySelector('.del').addEventListener('click', ()=>{
-      memories = memories.filter(x => x.id !== m.id);
-      saveMemories();
-      renderMemories();
-      setStatus('Aprendizaje borrado.');
-    });
-    els.memoryBox.appendChild(div);
-  });
-}
-function escapeHtml(s=''){
-  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-}
-async function recognizeSpeech(){
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SR) throw new Error('Este navegador no ofrece reconocimiento de voz web.');
-  return await new Promise((resolve,reject)=>{
-    const sr = new SR();
-    sr.lang = 'es-ES';
-    sr.interimResults = false;
-    sr.maxAlternatives = 5;
-    sr.continuous = false;
-    let done = false;
-    sr.onresult = (e)=>{
-      done = true;
-      const arr = Array.from(e.results[0]).map(x => x.transcript).filter(Boolean);
-      resolve(arr);
-    };
-    sr.onerror = ()=>{ if(!done) reject(new Error('No se pudo reconocer la voz.')); };
-    sr.onend = ()=>{ if(!done) reject(new Error('No hubo audio suficiente.')); };
-    try{ sr.start(); } catch(e){ reject(new Error('No se pudo iniciar el micrófono.')); }
-  });
-}
-function getBestRecognized(alternatives){
-  if(!alternatives || !alternatives.length) return '';
-  return alternatives.slice().sort((a,b)=>b.length-a.length)[0];
-}
-async function processDetected(recognized){
-  setActivity('processing', 'PROCESANDO…');
-  setDetected(recognized);
-
-  if(!recognized){
-    setSuggestion('');
-    showFeedback(false);
-    setStatus('No se detectó texto reconocible. Pulsa “Escuchar” otra vez.');
-    return;
-  }
-
-  const learned = findBestLearnedPhrase(recognized);
-
-  if(!learned){
-    setSuggestion(recognized);
-    setStatus('No hay coincidencia suficiente con el grado actual. Se usa Detectado.');
-  } else if(learned.ambiguous){
-    setSuggestion(learned.choices[0].realPhrase);
-    setStatus('Coincidencia media con el grado actual. Revisa la sugerencia con más cuidado.');
-  } else {
-    setSuggestion(learned.match.realPhrase);
-    setStatus('Coincidencia fuerte con el grado actual. Revisa si era correcta.');
-  }
-
-  showFeedback(true);
-  const ok = await speakWithRetry(currentSuggestion);
-  if(!ok) setStatus('Frase mostrada, pero Safari no la reprodujo automáticamente. Pulsa “Repetir”.');
-}
-async function startListening(){
-  if(!speechUnlocked) unlockSpeech();
-  isListening = true;
-  rawDetected = '';
-  currentSuggestion = '';
-  setDetected('');
-  setSuggestion('');
-  showFeedback(false);
-  showCorrection(false);
-  els.listenBtn.disabled = true;
-  els.listenBtn.textContent = 'Escuchando…';
-  setActivity('listening', 'ESCUCHANDO…');
-  setStatus('Escuchando…');
-
-  try{
-    const alternatives = await recognizeSpeech();
-    const recognized = getBestRecognized(alternatives);
-    await processDetected(recognized);
-  } catch(err){
-    setStatus(err && err.message ? err.message : 'No se pudo escuchar.');
-  } finally {
-    isListening = false;
-    els.listenBtn.disabled = false;
-    els.listenBtn.textContent = 'Escuchar';
-    setActivity(null);
-  }
-}
-
-els.listenBtn.addEventListener('click', ()=>{ if(!isListening) startListening(); });
-els.strictnessSlider.addEventListener('input', ()=>{
-  settings.strictness = Number(els.strictnessSlider.value);
-  els.strictnessValue.textContent = settings.strictness;
-  saveSettings();
-});
-els.correctBtn.addEventListener('click', ()=>{
-  if(!rawDetected || !currentSuggestion) return;
-  upsertMemory(rawDetected, currentSuggestion, true);
-  setStatus('Aprendizaje confirmado. La app lo recordará para próximas veces.');
-  showCorrection(false);
-});
-els.wrongBtn.addEventListener('click', ()=>{
-  if(rawDetected && currentSuggestion) markRejected(rawDetected, currentSuggestion);
-  els.correctionInput.value = '';
-  showCorrection(true);
-  setStatus('Escribe la frase real y guárdala para que la app aprenda.');
-});
-els.useDetectedBtn.addEventListener('click', ()=>{
-  if(!rawDetected) return;
-  setSuggestion(rawDetected);
-  setStatus('Se está usando exactamente el texto detectado.');
-});
-els.saveCorrectionBtn.addEventListener('click', ()=>{
-  const real = titleText(els.correctionInput.value);
-  if(!real){
-    setStatus('Escribe la frase real primero.');
-    return;
-  }
-  if(!rawDetected){
-    setStatus('No hay frase detectada para aprender.');
-    return;
-  }
-  upsertMemory(rawDetected, real, true);
-  setSuggestion(real);
-  showCorrection(false);
-  setStatus('Aprendizaje guardado. La próxima vez se intentará usar esta frase.');
-});
-els.cancelCorrectionBtn.addEventListener('click', ()=>{
-  showCorrection(false);
-  setStatus('Corrección cancelada.');
-});
-els.speakBtn.addEventListener('click', async ()=>{
-  if(!currentSuggestion){
-    setStatus('No hay frase para repetir.');
-    return;
-  }
-  const ok = await speakWithRetry(currentSuggestion);
-  if(!ok) setStatus('No se pudo reproducir la frase.');
-});
-
+els.listenBtn.addEventListener('click',()=>{if(isListening) stopListening(); else startListening();});
+els.strictnessSlider.addEventListener('input',()=>{settings.strictness=Number(els.strictnessSlider.value); saveSettings(); updateStrictnessUI();});
+els.correctBtn.addEventListener('click',()=>{if(!rawDetected||!currentSuggestion) return; upsertMemory(rawDetected,currentSuggestion,true); setStatus('Aprendizaje confirmado. La app lo recordará para próximas veces.'); showCorrection(false);});
+els.wrongBtn.addEventListener('click',()=>{if(rawDetected&&currentSuggestion) markRejected(rawDetected,currentSuggestion); els.correctionInput.value=''; showCorrection(true); setStatus('Escribe la frase real y guárdala para que la app aprenda.');});
+els.useDetectedBtn.addEventListener('click',()=>{if(!rawDetected) return; setSuggestion(rawDetected); setStatus('Se está usando exactamente el texto detectado.');});
+els.saveCorrectionBtn.addEventListener('click',()=>{const real=titleText(els.correctionInput.value); if(!real){setStatus('Escribe la frase real primero.'); return;} if(!rawDetected){setStatus('No hay frase detectada para aprender.'); return;} upsertMemory(rawDetected,real,true); setSuggestion(real); showCorrection(false); setStatus('Aprendizaje guardado. La próxima vez se intentará usar esta frase.');});
+els.cancelCorrectionBtn.addEventListener('click',()=>{showCorrection(false); setStatus('Corrección cancelada.');});
+els.speakBtn.addEventListener('click',async()=>{if(!currentSuggestion){setStatus('No hay frase para repetir.'); return;} const ok=await speakWithRetry(currentSuggestion); if(!ok) setStatus('No se pudo reproducir la frase.');});
 unlockSpeech();
 </script>
 </body>
