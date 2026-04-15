@@ -2,121 +2,413 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#111827">
-<title>Voz postoperatoria v4.1</title>
-<style>
-:root{--bg:#0b1220;--card:#121a2b;--card2:#182235;--text:#f3f4f6;--muted:#b7c0cf;--border:#2b3850}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220)}
-.app{max-width:1020px;margin:0 auto;min-height:100vh;padding:16px 14px 28px}
-.card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
-.title{font-size:1.16rem;font-weight:800}.sub{font-size:.9rem;color:var(--muted)}.tag{border:1px solid var(--border);padding:10px 12px;border-radius:999px;color:var(--muted);font-size:.84rem}
-h1{margin:0 0 8px;font-size:1.35rem;line-height:1.15} p{margin:0;color:var(--muted);line-height:1.45}
-.status,.result,.box,.raw{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523}
-.result{font-size:1.45rem;font-weight:900;text-align:center}.raw{font-size:1.02rem}
-.sep{height:1px;background:var(--border);margin:14px 0}.label{font-size:.82rem;color:var(--muted);margin-bottom:6px}
-button,input,textarea{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border)}
-input,textarea{padding:14px;background:#0d1523;color:var(--text)} textarea{min-height:86px;resize:vertical}
-button{padding:16px 14px;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer}
-.primary{background:linear-gradient(180deg,#2f90cb,#2679ab);border:none}.success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}.danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}.ghost{background:#10151d}
-.small{color:var(--muted);font-size:.92rem;line-height:1.4}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media (max-width:760px){.grid2{grid-template-columns:1fr}}
-.audio-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.audio-row button{width:auto;padding:10px 12px;border-radius:12px}
-.big-indicator{margin-top:12px;padding:18px;border-radius:18px;text-align:center;font-size:1.45rem;font-weight:900;border:2px solid rgba(255,255,255,.15);background:#111827}
-.hidden{display:none!important}
-.item{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
-.meta{font-size:.84rem;color:var(--muted);margin-top:6px}
-.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#101726;border:1px solid var(--border);color:var(--muted);font-size:.8rem;margin:4px 6px 0 0}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <title>Voz postoperatoria v4.2</title>
+  <style>
+    :root{
+      --bg:#0b1220; --card:#121a2b; --card2:#182235; --text:#f3f4f6; --muted:#b7c0cf; --border:#2b3850;
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    body{
+      margin:0; color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220);
+    }
+    .app{max-width:1000px;margin:0 auto;min-height:100vh;padding:16px 14px 28px}
+    .card{
+      background:linear-gradient(180deg,var(--card),var(--card2));
+      border:1px solid var(--border); border-radius:22px; padding:16px; margin-bottom:14px;
+    }
+    .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+    .title{font-size:1.16rem;font-weight:800}
+    .sub{font-size:.9rem;color:var(--muted)}
+    .tag{border:1px solid var(--border);padding:10px 12px;border-radius:999px;color:var(--muted);font-size:.84rem}
+    h1{margin:0 0 8px;font-size:1.35rem;line-height:1.15}
+    p{margin:0;color:var(--muted);line-height:1.45}
+    .status,.result,.raw{
+      border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523
+    }
+    .result{font-size:1.5rem;font-weight:900;text-align:center}
+    .raw{font-size:1.02rem}
+    .sep{height:1px;background:var(--border);margin:14px 0}
+    .label{font-size:.82rem;color:var(--muted);margin-bottom:6px}
+    button,input{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border)}
+    input{padding:14px;background:#0d1523;color:var(--text)}
+    button{padding:16px 14px;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer}
+    .success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
+    .danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}
+    .ghost{background:#10151d}
+    .small{color:var(--muted);font-size:.92rem;line-height:1.4}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media (max-width:760px){.grid2{grid-template-columns:1fr}}
+    .item{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
+    .pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#101726;border:1px solid var(--border);color:var(--muted);font-size:.8rem;margin:4px 6px 0 0}
+    .meta{font-size:.84rem;color:var(--muted);margin-top:6px}
+    .micWrap{display:flex;justify-content:center;align-items:center}
+    .micBtn{
+      width:120px;height:120px;border-radius:999px;border:none;
+      display:flex;align-items:center;justify-content:center;
+      background:radial-gradient(circle at 30% 30%, #4aa6df, #256f9e);
+      box-shadow:0 10px 28px rgba(0,0,0,.35);
+    }
+    .micBtn.stop{
+      background:radial-gradient(circle at 30% 30%, #d66a6a, #8d3f3f);
+    }
+    .micIcon{font-size:52px;line-height:1}
+    .audio-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .audio-row button{width:auto;padding:10px 12px;border-radius:12px}
+    .big-indicator{
+      margin-top:12px;padding:18px;border-radius:18px;text-align:center;font-size:1.35rem;font-weight:900;
+      border:2px solid rgba(255,255,255,.15);background:#111827
+    }
+    .hidden{display:none!important}
+    .listening{background:rgba(168,107,73,.22);border-color:rgba(168,107,73,.8);color:#fff3e8;animation:pulse 1s infinite}
+    @keyframes pulse{0%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(1.02)}100%{opacity:1;transform:scale(1)}}
+  </style>
 </head>
 <body>
 <div class="app">
   <div class="top">
     <div>
       <div class="title">Voz postoperatoria</div>
-      <div class="sub">Secuencia de sonidos → secuencia de palabras</div>
+      <div class="sub">Sonidos cortos encadenados a palabras reales</div>
     </div>
-    <div class="tag">(c)oltyLAB '26 V4.1</div>
+    <div class="tag">(c)oltyLAB '26 V4.2</div>
   </div>
 
   <section class="card">
-    <h1>Entrena sonidos y construye frases</h1>
-    <p>Define sonidos como "aua", "ero"... y asígnales palabras reales. Luego la app encadena automáticamente.</p>
+    <h1>Entrena sonidos y encadena frases</h1>
+    <p>Guarda pares del tipo <strong>“ieo → Quiero”</strong>, <strong>“aua → agua”</strong> o <strong>“oy → Voy”</strong>. Al escuchar una secuencia, la app intenta convertir cada sonido en su palabra real respetando el orden.</p>
   </section>
 
   <section class="card">
-    <div class="label">Escuchar secuencia</div>
-    <button class="primary" onclick="listen()">Escuchar</button>
+    <div class="status" id="statusBox">Listo. Pulsa el micrófono para escuchar.</div>
+    <div class="big-indicator hidden" id="activityIndicator"></div>
+
     <div class="sep"></div>
-    <div class="label">Detectado</div>
-    <div class="raw" id="heard">—</div>
-    <div class="label">Resultado</div>
-    <div class="result" id="result">—</div>
+    <div class="label">Secuencia detectada</div>
+    <div class="raw" id="heardBox">—</div>
+
+    <div class="sep"></div>
+    <div class="label">Frase resultante</div>
+    <div class="result" id="resultBox">—</div>
+
+    <div class="sep"></div>
+    <div class="micWrap">
+      <button class="micBtn" id="listenBtn" aria-label="Escuchar">
+        <span class="micIcon" id="micIcon">🎤</span>
+      </button>
+    </div>
+    <div class="small" style="text-align:center;margin-top:10px" id="micHelp">Pulsa para escuchar. Si vuelve a pulsarse mientras escucha, se detiene.</div>
+
+    <div class="audio-row">
+      <button class="ghost" id="repeatBtn">Repetir frase</button>
+      <button class="ghost" id="useDetectedBtn">Usar detectado literal</button>
+    </div>
   </section>
 
   <section class="card">
-    <div class="label">Nuevo sonido</div>
-    <input id="token" placeholder="Ej: aua">
-    <input id="real" placeholder="Ej: Agua">
-    <button class="success" onclick="save()">Guardar</button>
+    <div class="title" style="font-size:1rem;margin-bottom:10px">Alta / entrenamiento</div>
+    <div class="small">Escribe cómo suena y su palabra real.</div>
+
+    <div class="sep"></div>
+    <label class="label" for="heardToken">Sonido escrito</label>
+    <input id="heardToken" placeholder="Ejemplo: ieo">
+
+    <div class="sep"></div>
+    <label class="label" for="realWord">Palabra real</label>
+    <input id="realWord" placeholder="Ejemplo: Quiero">
+
+    <div class="audio-row">
+      <button class="success" id="saveTrainBtn">Guardar caso</button>
+    </div>
   </section>
 
   <section class="card">
-    <div class="label">Aprendidos</div>
-    <div id="list"></div>
+    <div class="title" style="font-size:1rem;margin-bottom:10px">Sonidos entrenados</div>
+    <div class="small">Agrupados por palabra real.</div>
+    <div class="sep"></div>
+    <div id="memoryBox"></div>
   </section>
 </div>
 
 <script>
-let data = JSON.parse(localStorage.getItem("voz_v41")||"[]");
+const STORAGE_KEY = 'voz_v42_tokens';
+let data = loadData();
+let lastResult = '';
+let lastDetected = '';
+let isListening = false;
+let activeRecognition = null;
 
-function render(){
-  const list = document.getElementById("list");
-  list.innerHTML="";
-  data.forEach(d=>{
-    list.innerHTML += "<div class='item'><span class='pill'>"+d.t+"</span> → "+d.r+"</div>";
-  });
-}
+const els = {
+  statusBox: document.getElementById('statusBox'),
+  activityIndicator: document.getElementById('activityIndicator'),
+  heardBox: document.getElementById('heardBox'),
+  resultBox: document.getElementById('resultBox'),
+  listenBtn: document.getElementById('listenBtn'),
+  micIcon: document.getElementById('micIcon'),
+  micHelp: document.getElementById('micHelp'),
+  repeatBtn: document.getElementById('repeatBtn'),
+  useDetectedBtn: document.getElementById('useDetectedBtn'),
+  heardToken: document.getElementById('heardToken'),
+  realWord: document.getElementById('realWord'),
+  saveTrainBtn: document.getElementById('saveTrainBtn'),
+  memoryBox: document.getElementById('memoryBox')
+};
+
 render();
 
-function save(){
-  const t = document.getElementById("token").value.trim();
-  const r = document.getElementById("real").value.trim();
-  if(!t||!r) return alert("rellena ambos");
-  data.push({t,r});
-  localStorage.setItem("voz_v41",JSON.stringify(data));
-  render();
+function loadData(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  }catch(e){ return []; }
 }
-
-function normalize(s){
-  return s.toLowerCase().replace(/[^a-záéíóúñ ]/gi,"").trim();
+function saveData(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+function normalize(s=''){
+  return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim();
 }
-
-function listen(){
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SR) return alert("no compatible");
-  const sr = new SR();
-  sr.lang="es-ES";
-  sr.onresult = e=>{
-    const text = e.results[0][0].transcript;
-    document.getElementById("heard").innerText=text;
-    const tokens = normalize(text).split(" ");
-    let res=[];
-    tokens.forEach(tok=>{
-      let f = data.find(d=>normalize(d.t)==tok);
-      if(f) res.push(f.r);
-      else res.push("?");
+function prettify(s=''){ return String(s).replace(/\s+/g,' ').trim(); }
+function setStatus(msg){ els.statusBox.textContent = msg; }
+function setHeard(msg){ lastDetected = msg || ''; els.heardBox.textContent = msg || '—'; }
+function setResult(msg){ lastResult = msg || ''; els.resultBox.textContent = msg || '—'; }
+function setActivity(on, text=''){
+  if(!on){
+    els.activityIndicator.classList.add('hidden');
+    els.activityIndicator.textContent = '';
+    return;
+  }
+  els.activityIndicator.classList.remove('hidden');
+  els.activityIndicator.className = 'big-indicator listening';
+  els.activityIndicator.textContent = text;
+}
+function setMicListening(state){
+  if(state){
+    els.listenBtn.classList.add('stop');
+    els.micIcon.textContent = '🚫🎤';
+    els.micHelp.textContent = 'Escuchando. Pulsa de nuevo para parar.';
+  }else{
+    els.listenBtn.classList.remove('stop');
+    els.micIcon.textContent = '🎤';
+    els.micHelp.textContent = 'Pulsa para escuchar. Si vuelve a pulsarse mientras escucha, se detiene.';
+  }
+}
+function escapeHtml(s=''){
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function speak(text){
+  if(!text) return Promise.resolve(false);
+  const synth = window.speechSynthesis;
+  if(!synth) return Promise.resolve(false);
+  return new Promise((resolve)=>{
+    let done = false;
+    const finish = ok => { if(!done){ done = true; resolve(ok); } };
+    try{
+      synth.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'es-ES';
+      u.rate = 0.95;
+      u.onend = ()=>finish(true);
+      u.onerror = ()=>finish(false);
+      synth.speak(u);
+      setTimeout(()=>finish(false), 8000);
+    }catch(e){ finish(false); }
+  });
+}
+function render(){
+  els.memoryBox.innerHTML = '';
+  if(!data.length){
+    els.memoryBox.innerHTML = '<div class="small">Todavía no hay sonidos entrenados.</div>';
+    return;
+  }
+  const grouped = {};
+  data.forEach(d=>{
+    const key = d.real;
+    if(!grouped[key]) grouped[key] = [];
+    grouped[key].push(d);
+  });
+  Object.keys(grouped).sort((a,b)=>a.localeCompare(b,'es')).forEach(real=>{
+    const details = document.createElement('details');
+    details.className = 'item';
+    details.innerHTML = '<summary><strong>'+escapeHtml(real)+'</strong> <span class="meta">· '+grouped[real].length+' caso(s)</span></summary>';
+    grouped[real].sort((a,b)=>a.token.localeCompare(b.token,'es')).forEach(d=>{
+      const div = document.createElement('div');
+      div.className = 'box';
+      div.style.marginTop = '10px';
+      div.innerHTML = '<div><span class="pill">'+escapeHtml(d.token)+'</span></div><div class="audio-row"><button class="ghost say">Decir palabra</button><button class="danger del">Borrar caso</button></div>';
+      div.querySelector('.say').addEventListener('click', async ()=>{ await speak(d.real); });
+      div.querySelector('.del').addEventListener('click', ()=>{
+        data = data.filter(x => x.id !== d.id);
+        saveData();
+        render();
+        setStatus('Caso borrado.');
+      });
+      details.appendChild(div);
     });
-    const phrase = res.join(" ");
-    document.getElementById("result").innerText=phrase;
-    speechSynthesis.speak(new SpeechSynthesisUtterance(phrase));
-  };
-  sr.start();
+    els.memoryBox.appendChild(details);
+  });
 }
+function scoreToken(token, learned){
+  const a = normalize(token);
+  const b = normalize(learned);
+  if(!a || !b) return 0;
+  if(a === b) return 1;
+  if(a.includes(b) || b.includes(a)) return 0.92;
+  let same = 0;
+  for(let i=0;i<Math.min(a.length,b.length);i++){
+    if(a[i] === b[i]) same++;
+  }
+  const prefix = same / Math.max(a.length,b.length,1);
+
+  let bigrams = 0;
+  const setA = new Set();
+  for(let i=0;i<a.length-1;i++) setA.add(a.slice(i,i+2));
+  for(let i=0;i<b.length-1;i++){
+    if(setA.has(b.slice(i,i+2))) bigrams++;
+  }
+  const gramScore = bigrams / Math.max(1, Math.min(Math.max(a.length-1,1), Math.max(b.length-1,1)));
+  return Math.max(prefix, gramScore * 0.9);
+}
+function resolveToken(token){
+  const scored = data.map(d => ({...d, score: scoreToken(token, d.token)})).sort((a,b)=>b.score-a.score);
+  const top = scored[0];
+  const second = scored[1];
+  if(!top) return null;
+  if(top.score < 0.58) return null;
+  if(second && top.real !== second.real && (top.score - second.score) < 0.05) return null;
+  return top.real;
+}
+function tokenizeDetected(text){
+  return normalize(text).split(' ').filter(Boolean);
+}
+async function processDetected(text){
+  setHeard(text || '—');
+  const tokens = tokenizeDetected(text);
+  if(!tokens.length){
+    setResult('—');
+    setStatus('No se detectó una secuencia útil.');
+    return;
+  }
+  const words = tokens.map(resolveToken);
+  const unresolved = words.some(w => !w);
+  if(unresolved){
+    const mixed = words.map((w, i) => w || '['+tokens[i]+']').join(' ');
+    setResult(mixed);
+    setStatus('Hay sonidos no resueltos. Añádelos arriba con su palabra real.');
+    return;
+  }
+  const phrase = words.join(' ');
+  setResult(phrase);
+  setStatus('Secuencia resuelta correctamente.');
+  await speak(phrase);
+}
+function stopListening(){
+  try{
+    if(activeRecognition) activeRecognition.stop();
+  }catch(e){}
+  isListening = false;
+  setMicListening(false);
+  setActivity(false);
+  setStatus('Escucha detenida.');
+}
+async function listen(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    setStatus('Este navegador no ofrece reconocimiento de voz web.');
+    return;
+  }
+  if(isListening){
+    stopListening();
+    return;
+  }
+  isListening = true;
+  setMicListening(true);
+  setActivity(true, 'ESCUCHANDO…');
+  setStatus('Escuchando…');
+  activeRecognition = new SR();
+  activeRecognition.lang = 'es-ES';
+  activeRecognition.interimResults = false;
+  activeRecognition.maxAlternatives = 5;
+  activeRecognition.continuous = false;
+
+  let finished = false;
+
+  activeRecognition.onresult = async (e)=>{
+    finished = true;
+    const text = Array.from(e.results[0]).map(x=>x.transcript).sort((a,b)=>b.length-a.length)[0] || '';
+    isListening = false;
+    setMicListening(false);
+    setActivity(false);
+    await processDetected(text);
+  };
+  activeRecognition.onerror = ()=>{
+    if(!finished){
+      isListening = false;
+      setMicListening(false);
+      setActivity(false);
+      setStatus('No se pudo reconocer la secuencia.');
+    }
+  };
+  activeRecognition.onend = ()=>{
+    if(!finished){
+      isListening = false;
+      setMicListening(false);
+      setActivity(false);
+      setStatus('Escucha finalizada.');
+    }
+  };
+
+  try{
+    activeRecognition.start();
+  }catch(e){
+    isListening = false;
+    setMicListening(false);
+    setActivity(false);
+    setStatus('No se pudo iniciar la escucha.');
+  }
+}
+
+els.listenBtn.addEventListener('click', listen);
+
+els.saveTrainBtn.addEventListener('click', ()=>{
+  const token = prettify(els.heardToken.value);
+  const real = prettify(els.realWord.value);
+  if(!token){
+    setStatus('Escribe primero el sonido.');
+    return;
+  }
+  if(!real){
+    setStatus('Escribe la palabra real.');
+    return;
+  }
+  data.push({id:String(Date.now())+'_'+token, token, real});
+  saveData();
+  render();
+  els.heardToken.value = '';
+  els.realWord.value = '';
+  setStatus('Caso guardado.');
+});
+
+els.repeatBtn.addEventListener('click', async ()=>{
+  if(!lastResult){
+    setStatus('Todavía no hay frase para repetir.');
+    return;
+  }
+  await speak(lastResult);
+});
+
+els.useDetectedBtn.addEventListener('click', async ()=>{
+  if(!lastDetected){
+    setStatus('Todavía no hay secuencia detectada.');
+    return;
+  }
+  setResult(lastDetected);
+  await speak(lastDetected);
+});
 </script>
 </body>
 </html>
