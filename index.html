@@ -5,21 +5,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#111827">
-  <title>Voz postoperatoria v4.2</title>
+  <title>Voz postoperatoria v5.0</title>
   <style>
     :root{
       --bg:#0b1220; --card:#121a2b; --card2:#182235; --text:#f3f4f6; --muted:#b7c0cf; --border:#2b3850;
     }
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
     body{
-      margin:0; color:var(--text);
+      margin:0;color:var(--text);
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-      background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220);
+      background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220)
     }
-    .app{max-width:1000px;margin:0 auto;min-height:100vh;padding:16px 14px 28px}
+    .app{max-width:1050px;margin:0 auto;min-height:100vh;padding:16px 14px 28px}
     .card{
       background:linear-gradient(180deg,var(--card),var(--card2));
-      border:1px solid var(--border); border-radius:22px; padding:16px; margin-bottom:14px;
+      border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px
     }
     .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
     .title{font-size:1.16rem;font-weight:800}
@@ -27,14 +27,16 @@
     .tag{border:1px solid var(--border);padding:10px 12px;border-radius:999px;color:var(--muted);font-size:.84rem}
     h1{margin:0 0 8px;font-size:1.35rem;line-height:1.15}
     p{margin:0;color:var(--muted);line-height:1.45}
-    .status,.result,.raw{
+    .status,.result,.raw,.box{
       border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523
     }
-    .result{font-size:1.5rem;font-weight:900;text-align:center}
+    .result{font-size:1.45rem;font-weight:900;text-align:center}
     .raw{font-size:1.02rem}
     .sep{height:1px;background:var(--border);margin:14px 0}
     .label{font-size:.82rem;color:var(--muted);margin-bottom:6px}
-    button,input{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border)}
+    button,input{
+      width:100%;font:inherit;border-radius:18px;border:1px solid var(--border)
+    }
     input{padding:14px;background:#0d1523;color:var(--text)}
     button{padding:16px 14px;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer}
     .success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
@@ -43,20 +45,6 @@
     .small{color:var(--muted);font-size:.92rem;line-height:1.4}
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     @media (max-width:760px){.grid2{grid-template-columns:1fr}}
-    .item{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
-    .pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#101726;border:1px solid var(--border);color:var(--muted);font-size:.8rem;margin:4px 6px 0 0}
-    .meta{font-size:.84rem;color:var(--muted);margin-top:6px}
-    .micWrap{display:flex;justify-content:center;align-items:center}
-    .micBtn{
-      width:120px;height:120px;border-radius:999px;border:none;
-      display:flex;align-items:center;justify-content:center;
-      background:radial-gradient(circle at 30% 30%, #4aa6df, #256f9e);
-      box-shadow:0 10px 28px rgba(0,0,0,.35);
-    }
-    .micBtn.stop{
-      background:radial-gradient(circle at 30% 30%, #d66a6a, #8d3f3f);
-    }
-    .micIcon{font-size:52px;line-height:1}
     .audio-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     .audio-row button{width:auto;padding:10px 12px;border-radius:12px}
     .big-indicator{
@@ -65,6 +53,21 @@
     }
     .hidden{display:none!important}
     .listening{background:rgba(168,107,73,.22);border-color:rgba(168,107,73,.8);color:#fff3e8;animation:pulse 1s infinite}
+    .item{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
+    .meta{font-size:.84rem;color:var(--muted);margin-top:6px}
+    .pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#101726;border:1px solid var(--border);color:var(--muted);font-size:.8rem;margin:4px 6px 0 0}
+    .micWrap{display:flex;justify-content:center;align-items:center}
+    .micBtn{
+      width:120px;height:120px;border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;
+      background:radial-gradient(circle at 30% 30%, #4aa6df, #256f9e);box-shadow:0 10px 28px rgba(0,0,0,.35)
+    }
+    .micBtn.stop{background:radial-gradient(circle at 30% 30%, #d66a6a, #8d3f3f)}
+    .micIcon{font-size:52px;line-height:1}
+    details.group{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
+    details.group summary{cursor:pointer;list-style:none;font-weight:800}
+    details.group summary::-webkit-details-marker{display:none}
+    .groupHead{display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .groupCount{font-size:.84rem;color:var(--muted)}
     @keyframes pulse{0%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(1.02)}100%{opacity:1;transform:scale(1)}}
   </style>
 </head>
@@ -73,14 +76,14 @@
   <div class="top">
     <div>
       <div class="title">Voz postoperatoria</div>
-      <div class="sub">Sonidos cortos encadenados a palabras reales</div>
+      <div class="sub">Diccionario inicial de monosílabos/sonidos y corrección en secuencia</div>
     </div>
-    <div class="tag">(c)oltyLAB '26 V4.2</div>
+    <div class="tag">(c)oltyLAB '26 V5.0</div>
   </div>
 
   <section class="card">
-    <h1>Entrena sonidos y encadena frases</h1>
-    <p>Guarda pares del tipo <strong>“ieo → Quiero”</strong>, <strong>“aua → agua”</strong> o <strong>“oy → Voy”</strong>. Al escuchar una secuencia, la app intenta convertir cada sonido en su palabra real respetando el orden.</p>
+    <h1>Diccionario precargado para mandíbula cerrada</h1>
+    <p>La app parte de un diccionario inicial de sonidos cortos y palabras frecuentes. Durante la escucha, cuando encuentra un sonido conocido, dice esa palabra y sigue con la siguiente. Si un sonido no se reconoce, te pide corregirlo para futuras veces.</p>
   </section>
 
   <section class="card">
@@ -101,7 +104,7 @@
         <span class="micIcon" id="micIcon">🎤</span>
       </button>
     </div>
-    <div class="small" style="text-align:center;margin-top:10px" id="micHelp">Pulsa para escuchar. Si vuelve a pulsarse mientras escucha, se detiene.</div>
+    <div class="small" style="text-align:center;margin-top:10px" id="micHelp">Pulsa para escuchar. Si vuelves a pulsar mientras escucha, se detiene.</div>
 
     <div class="audio-row">
       <button class="ghost" id="repeatBtn">Repetir frase</button>
@@ -109,38 +112,65 @@
     </div>
   </section>
 
-  <section class="card">
-    <div class="title" style="font-size:1rem;margin-bottom:10px">Alta / entrenamiento</div>
-    <div class="small">Escribe cómo suena y su palabra real.</div>
-
+  <section class="card hidden" id="resolveCard">
+    <div class="title" style="font-size:1rem;margin-bottom:10px">Resolver sonidos no encontrados</div>
+    <div class="small">Completa cada sonido no reconocido con su palabra real. Se guardará en el diccionario para próximas veces.</div>
     <div class="sep"></div>
-    <label class="label" for="heardToken">Sonido escrito</label>
-    <input id="heardToken" placeholder="Ejemplo: ieo">
+    <div id="resolveList"></div>
+    <div class="audio-row">
+      <button class="success" id="saveResolveBtn">Guardar todos</button>
+      <button class="ghost" id="cancelResolveBtn">Cancelar</button>
+    </div>
+  </section>
 
+  <section class="card">
+    <div class="title" style="font-size:1rem;margin-bottom:10px">Añadir o ajustar caso manualmente</div>
+    <div class="small">Si quieres, puedes añadir o modificar sonidos cortos manualmente.</div>
+    <div class="sep"></div>
+    <label class="label" for="heardToken">Sonido</label>
+    <input id="heardToken" placeholder="Ejemplo: aua">
     <div class="sep"></div>
     <label class="label" for="realWord">Palabra real</label>
-    <input id="realWord" placeholder="Ejemplo: Quiero">
-
+    <input id="realWord" placeholder="Ejemplo: agua">
     <div class="audio-row">
       <button class="success" id="saveTrainBtn">Guardar caso</button>
     </div>
   </section>
 
   <section class="card">
-    <div class="title" style="font-size:1rem;margin-bottom:10px">Sonidos entrenados</div>
-    <div class="small">Agrupados por palabra real.</div>
+    <div class="title" style="font-size:1rem;margin-bottom:10px">Diccionario</div>
+    <div class="small">Agrupado por palabra real. Incluye el diccionario precargado y tus correcciones.</div>
     <div class="sep"></div>
     <div id="memoryBox"></div>
   </section>
 </div>
 
 <script>
-const STORAGE_KEY = 'voz_v42_tokens';
+const STORAGE_KEY = 'voz_v50_monosilabos_dict';
+const DEFAULT_DICT = [
+  {token:'a', real:'a'}, {token:'e', real:'el'}, {token:'la', real:'la'}, {token:'lo', real:'lo'},
+  {token:'un', real:'un'}, {token:'na', real:'una'}, {token:'de', real:'de'}, {token:'i', real:'y'},
+  {token:'o', real:'o'}, {token:'en', real:'en'}, {token:'con', real:'con'}, {token:'sin', real:'sin'},
+  {token:'por', real:'por'}, {token:'or', real:'por'}, {token:'pa', real:'para'}, {token:'ra', real:'para'},
+  {token:'no', real:'no'}, {token:'si', real:'sí'}, {token:'ya', real:'ya'}, {token:'ke', real:'que'},
+  {token:'qe', real:'que'}, {token:'ki', real:'quiero'}, {token:'ieo', real:'quiero'}, {token:'ero', real:'quiero'},
+  {token:'oy', real:'voy'}, {token:'bo', real:'voy'}, {token:'be', real:'ve'}, {token:'ben', real:'ven'},
+  {token:'eer', real:'beber'}, {token:'ber', real:'beber'}, {token:'aua', real:'agua'}, {token:'awa', real:'agua'},
+  {token:'aga', real:'agua'}, {token:'elo', real:'hielo'}, {token:'ilo', real:'hielo'}, {token:'amb', real:'hambre'},
+  {token:'anbe', real:'hambre'}, {token:'se', real:'sed'}, {token:'dol', real:'dolor'}, {token:'olor', real:'dolor'},
+  {token:'ban', real:'baño'}, {token:'bano', real:'baño'}, {token:'aso', real:'paseo'}, {token:'aseo', real:'paseo'},
+  {token:'ama', real:'mamá'}, {token:'apa', real:'papá'}, {token:'uda', real:'ayuda'}, {token:'ef', real:'enfermera'},
+  {token:'me', real:'me'}, {token:'te', real:'te'}, {token:'mi', real:'mi'}, {token:'tu', real:'tu'},
+  {token:'mas', real:'más'}, {token:'meno', real:'menos'}, {token:'bien', real:'bien'}, {token:'mal', real:'mal'},
+  {token:'aki', real:'aquí'}, {token:'alli', real:'allí'}, {token:'eso', real:'eso'}, {token:'esto', real:'esto'}
+];
+
 let data = loadData();
 let lastResult = '';
 let lastDetected = '';
 let isListening = false;
 let activeRecognition = null;
+let pendingUnknownTokens = [];
 
 const els = {
   statusBox: document.getElementById('statusBox'),
@@ -152,6 +182,10 @@ const els = {
   micHelp: document.getElementById('micHelp'),
   repeatBtn: document.getElementById('repeatBtn'),
   useDetectedBtn: document.getElementById('useDetectedBtn'),
+  resolveCard: document.getElementById('resolveCard'),
+  resolveList: document.getElementById('resolveList'),
+  saveResolveBtn: document.getElementById('saveResolveBtn'),
+  cancelResolveBtn: document.getElementById('cancelResolveBtn'),
   heardToken: document.getElementById('heardToken'),
   realWord: document.getElementById('realWord'),
   saveTrainBtn: document.getElementById('saveTrainBtn'),
@@ -160,19 +194,23 @@ const els = {
 
 render();
 
-function loadData(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  }catch(e){ return []; }
-}
-function saveData(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
 function normalize(s=''){
   return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim();
 }
 function prettify(s=''){ return String(s).replace(/\s+/g,' ').trim(); }
+function loadData(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      if(Array.isArray(parsed)) return parsed;
+    }
+  }catch(e){}
+  const seeded = DEFAULT_DICT.map((d,i)=>({id:'seed_'+i, token:d.token, real:d.real, seed:true}));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(seeded));
+  return seeded;
+}
+function saveData(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
 function setStatus(msg){ els.statusBox.textContent = msg; }
 function setHeard(msg){ lastDetected = msg || ''; els.heardBox.textContent = msg || '—'; }
 function setResult(msg){ lastResult = msg || ''; els.resultBox.textContent = msg || '—'; }
@@ -194,9 +232,10 @@ function setMicListening(state){
   }else{
     els.listenBtn.classList.remove('stop');
     els.micIcon.textContent = '🎤';
-    els.micHelp.textContent = 'Pulsa para escuchar. Si vuelve a pulsarse mientras escucha, se detiene.';
+    els.micHelp.textContent = 'Pulsa para escuchar. Si vuelves a pulsar mientras escucha, se detiene.';
   }
 }
+function showResolve(show){ els.resolveCard.classList.toggle('hidden', !show); }
 function escapeHtml(s=''){
   return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 }
@@ -222,7 +261,7 @@ function speak(text){
 function render(){
   els.memoryBox.innerHTML = '';
   if(!data.length){
-    els.memoryBox.innerHTML = '<div class="small">Todavía no hay sonidos entrenados.</div>';
+    els.memoryBox.innerHTML = '<div class="small">No hay datos.</div>';
     return;
   }
   const grouped = {};
@@ -231,13 +270,14 @@ function render(){
     if(!grouped[key]) grouped[key] = [];
     grouped[key].push(d);
   });
-  Object.keys(grouped).sort((a,b)=>a.localeCompare(b,'es')).forEach(real=>{
+  const ordered = Object.entries(grouped).sort((a,b)=>a[0].localeCompare(b[0],'es'));
+  ordered.forEach(([real, arr])=>{
     const details = document.createElement('details');
-    details.className = 'item';
-    details.innerHTML = '<summary><strong>'+escapeHtml(real)+'</strong> <span class="meta">· '+grouped[real].length+' caso(s)</span></summary>';
-    grouped[real].sort((a,b)=>a.token.localeCompare(b.token,'es')).forEach(d=>{
+    details.className = 'group';
+    details.innerHTML = '<summary><div class="groupHead"><div>'+escapeHtml(real)+'</div><div class="groupCount">'+arr.length+' caso(s)</div></div></summary>';
+    arr.sort((a,b)=>a.token.localeCompare(b.token,'es')).forEach(d=>{
       const div = document.createElement('div');
-      div.className = 'box';
+      div.className = 'item';
       div.style.marginTop = '10px';
       div.innerHTML = '<div><span class="pill">'+escapeHtml(d.token)+'</span></div><div class="audio-row"><button class="ghost say">Decir palabra</button><button class="danger del">Borrar caso</button></div>';
       div.querySelector('.say').addEventListener('click', async ()=>{ await speak(d.real); });
@@ -252,34 +292,34 @@ function render(){
     els.memoryBox.appendChild(details);
   });
 }
-function scoreToken(token, learned){
-  const a = normalize(token);
+function tokenScore(input, learned){
+  const a = normalize(input);
   const b = normalize(learned);
   if(!a || !b) return 0;
   if(a === b) return 1;
-  if(a.includes(b) || b.includes(a)) return 0.92;
-  let same = 0;
+  if(a.includes(b) || b.includes(a)) return 0.94;
+  let prefix = 0;
   for(let i=0;i<Math.min(a.length,b.length);i++){
-    if(a[i] === b[i]) same++;
+    if(a[i]===b[i]) prefix++;
+    else break;
   }
-  const prefix = same / Math.max(a.length,b.length,1);
-
-  let bigrams = 0;
+  const prefixScore = prefix / Math.max(1, Math.min(a.length,b.length));
+  let common = 0;
   const setA = new Set();
   for(let i=0;i<a.length-1;i++) setA.add(a.slice(i,i+2));
   for(let i=0;i<b.length-1;i++){
-    if(setA.has(b.slice(i,i+2))) bigrams++;
+    if(setA.has(b.slice(i,i+2))) common++;
   }
-  const gramScore = bigrams / Math.max(1, Math.min(Math.max(a.length-1,1), Math.max(b.length-1,1)));
-  return Math.max(prefix, gramScore * 0.9);
+  const gramScore = common / Math.max(1, Math.min(Math.max(a.length-1,1), Math.max(b.length-1,1)));
+  return Math.max(prefixScore, gramScore * 0.9);
 }
 function resolveToken(token){
-  const scored = data.map(d => ({...d, score: scoreToken(token, d.token)})).sort((a,b)=>b.score-a.score);
+  const scored = data.map(d => ({...d, score: tokenScore(token, d.token)})).sort((a,b)=>b.score-a.score);
   const top = scored[0];
   const second = scored[1];
   if(!top) return null;
-  if(top.score < 0.58) return null;
-  if(second && top.real !== second.real && (top.score - second.score) < 0.05) return null;
+  if(top.score < 0.56) return null;
+  if(second && top.real !== second.real && (top.score - second.score) < 0.04) return null;
   return top.real;
 }
 function tokenizeDetected(text){
@@ -293,23 +333,44 @@ async function processDetected(text){
     setStatus('No se detectó una secuencia útil.');
     return;
   }
-  const words = tokens.map(resolveToken);
-  const unresolved = words.some(w => !w);
-  if(unresolved){
-    const mixed = words.map((w, i) => w || '['+tokens[i]+']').join(' ');
-    setResult(mixed);
-    setStatus('Hay sonidos no resueltos. Añádelos arriba con su palabra real.');
+
+  const words = [];
+  const unknown = [];
+  for(const tk of tokens){
+    const found = resolveToken(tk);
+    if(found){
+      words.push(found);
+      await speak(found);
+    } else {
+      unknown.push(tk);
+      words.push('['+tk+']');
+    }
+  }
+
+  setResult(words.join(' '));
+
+  if(unknown.length){
+    pendingUnknownTokens = unknown;
+    renderResolveList(unknown);
+    showResolve(true);
+    setStatus('Hay sonidos no resueltos. Complétalos abajo y quedarán aprendidos.');
     return;
   }
-  const phrase = words.join(' ');
-  setResult(phrase);
+
+  showResolve(false);
   setStatus('Secuencia resuelta correctamente.');
-  await speak(phrase);
+}
+function renderResolveList(tokens){
+  els.resolveList.innerHTML = '';
+  tokens.forEach((tk, idx)=>{
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = '<div><strong>Sonido no encontrado:</strong> '+escapeHtml(tk)+'</div><div class="meta">Posición: '+(idx+1)+'</div><div class="sep"></div><label class="label">Palabra real</label><input class="resolveWord" data-token="'+escapeHtml(tk)+'" placeholder="Ejemplo: agua">';
+    els.resolveList.appendChild(div);
+  });
 }
 function stopListening(){
-  try{
-    if(activeRecognition) activeRecognition.stop();
-  }catch(e){}
+  try{ if(activeRecognition) activeRecognition.stop(); }catch(e){}
   isListening = false;
   setMicListening(false);
   setActivity(false);
@@ -325,6 +386,7 @@ async function listen(){
     stopListening();
     return;
   }
+
   isListening = true;
   setMicListening(true);
   setActivity(true, 'ESCUCHANDO…');
@@ -408,6 +470,34 @@ els.useDetectedBtn.addEventListener('click', async ()=>{
   }
   setResult(lastDetected);
   await speak(lastDetected);
+});
+
+els.saveResolveBtn.addEventListener('click', ()=>{
+  const inputs = Array.from(document.querySelectorAll('.resolveWord'));
+  if(!inputs.length || !pendingUnknownTokens.length){
+    setStatus('No hay sonidos pendientes.');
+    return;
+  }
+  for(const input of inputs){
+    const token = prettify(input.dataset.token || '');
+    const real = prettify(input.value || '');
+    if(!real){
+      setStatus('Debes rellenar todas las palabras reales pendientes.');
+      return;
+    }
+    data.push({id:String(Date.now())+'_'+token, token, real});
+  }
+  saveData();
+  render();
+  showResolve(false);
+  pendingUnknownTokens = [];
+  setStatus('Sonidos pendientes guardados.');
+});
+
+els.cancelResolveBtn.addEventListener('click', ()=>{
+  pendingUnknownTokens = [];
+  showResolve(false);
+  setStatus('Resolución cancelada.');
 });
 </script>
 </body>
