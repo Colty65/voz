@@ -5,36 +5,30 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#111827">
-  <title>Voz postoperatoria v7.0</title>
+  <title>VOZ postoperatoria v7.1</title>
   <style>
     :root{--card:#121a2b;--card2:#182235;--text:#f3f4f6;--muted:#b7c0cf;--border:#2b3850}
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
     body{margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220)}
     .app{max-width:1080px;margin:0 auto;min-height:100vh;padding:16px 14px 28px}
     .card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
-    .title{font-size:1.16rem;font-weight:800}.sub{font-size:.9rem;color:var(--muted)}.tag{border:1px solid var(--border);padding:10px 12px;border-radius:999px;color:var(--muted);font-size:.84rem}
-    h1{margin:0 0 8px;font-size:1.35rem;line-height:1.15} p{margin:0;color:var(--muted);line-height:1.45}
-    .status,.result{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523}
-    .result{font-size:1.3rem;font-weight:900}
-    .sep{height:1px;background:var(--border);margin:14px 0}
-    .label{font-size:.82rem;color:var(--muted);margin-bottom:6px}
-    button,input,textarea{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border)}
-    input,textarea{padding:14px;background:#0d1523;color:var(--text)}
-    textarea{min-height:96px;resize:vertical}
-    button{padding:14px 14px;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer}
-    .success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;white-space:nowrap}
+    .brand{font-size:1.18rem;font-weight:900;letter-spacing:.2px}
+    .tag{font-size:.92rem;color:var(--muted);font-weight:700}
+    textarea,input{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border);padding:14px;background:#0d1523;color:var(--text)}
+    textarea{min-height:100px;resize:vertical}
+    .entryRow{display:grid;grid-template-columns:1fr 72px;gap:10px;align-items:stretch}
+    .btnCol{display:grid;grid-template-rows:1fr 1fr;gap:8px}
+    button{font:inherit;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer;border:1px solid var(--border)}
+    .iconBtn{border-radius:16px;display:flex;align-items:center;justify-content:center;padding:0;min-height:46px}
+    .iconBtn .icon{font-size:1.2rem}
     .primary{background:linear-gradient(180deg,#2f90cb,#2679ab);border:none}
+    .success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
     .danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}
     .ghost{background:#10151d}
-    .small{color:var(--muted);font-size:.92rem;line-height:1.4}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    @media (max-width:760px){.grid2{grid-template-columns:1fr}}
-    .actionBtn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:68px;font-size:1.02rem}
-    .actionBtn .icon{font-size:1.35rem}
-    .suggestions{margin-top:10px}
     .suggestion{background:#111a2b;border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:8px;cursor:pointer}
-    .suggestion .meta{font-size:.82rem;color:var(--muted);margin-top:4px}
+    .meta{font-size:.82rem;color:var(--muted);margin-top:4px}
+    .small{color:var(--muted);font-size:.92rem;line-height:1.4}
     details.group{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
     details.group summary{cursor:pointer;list-style:none;font-weight:800}
     details.group summary::-webkit-details-marker{display:none}
@@ -43,54 +37,41 @@
     .phrase{background:#0d1523;border:1px solid var(--border);border-radius:16px;padding:12px;margin-top:10px}
     .audio-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     .audio-row button{width:auto;padding:10px 12px;border-radius:12px}
+    .hidden{display:none!important}
+    .status{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523;margin-bottom:14px}
+    .editBox{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
   </style>
 </head>
 <body>
 <div class="app">
-  <div class="top">
-    <div>
-      <div class="title">Voz postoperatoria</div>
-      <div class="sub">Texto escrito, hablar y guardar por grupos</div>
+  <div class="card">
+    <div class="top">
+      <div class="brand">VOZ postoperatoria</div>
+      <div class="tag">(c)oltyLAB '26 V7.1</div>
     </div>
-    <div class="tag">(c)oltyLAB '26 V7.0</div>
+
+    <div class="entryRow">
+      <textarea id="phraseInput" placeholder="Escribe aquí..."></textarea>
+      <div class="btnCol">
+        <button class="primary iconBtn" id="speakBtn" title="Hablar"><span class="icon">🗣️</span></button>
+        <button class="success iconBtn" id="speakSaveBtn" title="Hablar y guardar"><span class="icon">🗣️📁</span></button>
+      </div>
+    </div>
+
+    <div id="suggestionsBox" style="margin-top:12px">
+      <div class="small">Empieza a escribir para ver sugerencias.</div>
+    </div>
   </div>
 
-  <section class="card">
-    <h1>Escribe lo que quieres decir</h1>
-    <p>El enfermo escribe el texto y la app lo dice en voz alta. También puede guardarlo para reutilizarlo luego.</p>
+  <div class="status" id="statusBox">Listo.</div>
 
-    <div class="sep"></div>
-    <div class="label">Texto a decir</div>
-    <textarea id="phraseInput" placeholder="Ejemplo: Voy a salir a pasear"></textarea>
-
-    <div class="grid2" style="margin-top:10px">
-      <button class="primary actionBtn" id="speakBtn"><span class="icon">🗣️</span><span>Hablar</span></button>
-      <button class="success actionBtn" id="speakSaveBtn"><span class="icon">🗣️ 📁</span><span>Hablar y guardar</span></button>
-    </div>
-
-    <div class="sep"></div>
-    <div class="label">Sugerencias</div>
-    <div id="suggestionsBox" class="suggestions">
-      <div class="small">Empieza a escribir para ver frases ya usadas anteriormente.</div>
-    </div>
-  </section>
-
-  <section class="card">
-    <div class="label">Última frase</div>
-    <div class="result" id="lastPhraseBox">—</div>
-    <div class="small" id="statusBox" style="margin-top:10px">Listo.</div>
-  </section>
-
-  <section class="card">
-    <h1>Guardados por grupo</h1>
-    <p>Solo se muestran los grupos. Al pulsar un grupo se despliegan sus frases, que se pueden hablar o borrar.</p>
-    <div class="sep"></div>
+  <div class="card">
     <div id="groupsBox"></div>
-  </section>
+  </div>
 </div>
 
 <script>
-const STORAGE_KEY='voz_v70_frases_grupos';
+const STORAGE_KEY='voz_v71_frases_grupos';
 let phrases=loadPhrases();
 
 const els={
@@ -98,7 +79,6 @@ const els={
   speakBtn:document.getElementById('speakBtn'),
   speakSaveBtn:document.getElementById('speakSaveBtn'),
   suggestionsBox:document.getElementById('suggestionsBox'),
-  lastPhraseBox:document.getElementById('lastPhraseBox'),
   statusBox:document.getElementById('statusBox'),
   groupsBox:document.getElementById('groupsBox')
 };
@@ -117,7 +97,7 @@ function savePhrases(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(phrases
 function normalize(s=''){ return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim(); }
 function pretty(s=''){ return String(s).replace(/\s+/g,' ').trim(); }
 function setStatus(s){ els.statusBox.textContent=s; }
-function setLastPhrase(s){ els.lastPhraseBox.textContent=s||'—'; }
+function escapeHtml(s=''){ return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
 function speak(text){
   if(!text) return Promise.resolve(false);
@@ -153,8 +133,8 @@ function inferGroup(phrase){
   if(!norm) return 'GENERAL';
 
   const keywordGroups=[
-    {group:'PASEO', keys:['paseo','pasear','andar','salir','calle','caminar','paseando']},
-    {group:'AGUA', keys:['agua','beber','sed','botella','vaso']},
+    {group:'CAMPO', keys:['campo','paseo','pasear','paseando','andar','calle','salir']},
+    {group:'AGUA', keys:['agua','beber','sed','vaso','botella']},
     {group:'COMIDA', keys:['comer','hambre','desayuno','almuerzo','cena','merienda']},
     {group:'DOLOR', keys:['dolor','duele','molesta','medicina','medicacion','mal']},
     {group:'BAÑO', keys:['bano','baño','pis','servicio','aseo']},
@@ -181,13 +161,12 @@ function inferGroup(phrase){
   }
   if(bestExisting.score>=0.45) return bestExisting.group;
 
-  const words=norm.split(' ').filter(Boolean);
+  const words=norm.split(' ').filter(Boolean).filter(w=>!['voy','estoy','quiero','necesito','el','la','de','a','y','en','me','te','mi','tu','es','un','una'].includes(w));
   return words.length ? words[0].slice(0,12).toUpperCase() : 'GENERAL';
 }
 
 async function usePhrase(item, increment=true){
   const ok=await speak(item.text);
-  setLastPhrase(item.text);
   if(ok){
     if(increment){
       item.uses=(item.uses||0)+1;
@@ -227,7 +206,7 @@ function savePhrase(text){
 function renderSuggestions(){
   const query=normalize(els.phraseInput.value);
   if(!query){
-    els.suggestionsBox.innerHTML='<div class="small">Empieza a escribir para ver frases ya usadas anteriormente.</div>';
+    els.suggestionsBox.innerHTML='<div class="small"></div>';
     return;
   }
   const matches=phrases
@@ -237,7 +216,7 @@ function renderSuggestions(){
     .slice(0,8);
 
   if(!matches.length){
-    els.suggestionsBox.innerHTML='<div class="small">No hay sugerencias todavía.</div>';
+    els.suggestionsBox.innerHTML='<div class="small">No hay sugerencias.</div>';
     return;
   }
 
@@ -277,34 +256,54 @@ function renderGroups(){
     const details=document.createElement('details');
     details.className='group';
     details.innerHTML='<summary><div class="groupHead"><div>'+escapeHtml(g.group)+'</div><div class="groupCount">'+g.items.length+' frase(s) · '+g.totalUses+' usos</div></div></summary>';
+
     g.items.forEach(item=>{
       const div=document.createElement('div');
       div.className='phrase';
-      div.innerHTML='<div>'+escapeHtml(item.text)+'</div><div class="meta">Usos: '+(item.uses||0)+'</div><div class="audio-row"><button class="ghost say">Hablar</button><button class="danger del">Borrar</button></div>';
+      div.innerHTML='<div>'+escapeHtml(item.text)+'</div><div class="meta">Usos: '+(item.uses||0)+'</div><div class="audio-row"><button class="ghost say">Hablar</button><button class="ghost edit">Editar</button><button class="danger del">Borrar</button></div><div class="editBox hidden"><div class="label">Frase</div><input class="editText" value="'+escapeHtml(item.text)+'"><div class="label" style="margin-top:10px">Grupo</div><input class="editGroup" value="'+escapeHtml(item.group)+'"><div class="audio-row"><button class="success saveEdit">Guardar cambios</button><button class="ghost cancelEdit">Cancelar</button></div></div>';
+
+      const editBox=div.querySelector('.editBox');
       div.querySelector('.say').addEventListener('click', async ()=>{ await usePhrase(item,true); });
+      div.querySelector('.edit').addEventListener('click', ()=>{ editBox.classList.remove('hidden'); });
+      div.querySelector('.cancelEdit').addEventListener('click', ()=>{ editBox.classList.add('hidden'); });
+      div.querySelector('.saveEdit').addEventListener('click', ()=>{
+        const newText=pretty(div.querySelector('.editText').value);
+        const newGroup=pretty(div.querySelector('.editGroup').value);
+        if(!newText){ setStatus('La frase no puede estar vacía.'); return; }
+        if(!newGroup){ setStatus('El grupo no puede estar vacío.'); return; }
+        item.text=newText;
+        item.group=newGroup.toUpperCase();
+        item.lastUsed=Date.now();
+        savePhrases();
+        renderAll();
+        setStatus('Frase y grupo actualizados.');
+      });
       div.querySelector('.del').addEventListener('click', ()=>{
         phrases=phrases.filter(x=>x.id!==item.id);
         savePhrases();
         renderAll();
         setStatus('Frase borrada.');
       });
+
       details.appendChild(div);
     });
+
     els.groupsBox.appendChild(details);
   });
 }
 
 function renderAll(){ renderSuggestions(); renderGroups(); }
 
-function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-
+els.phraseInput.addEventListener('focus', ()=>{
+  els.phraseInput.value='';
+  els.suggestionsBox.innerHTML='<div class="small"></div>';
+});
 els.phraseInput.addEventListener('input', renderSuggestions);
 
 els.speakBtn.addEventListener('click', async ()=>{
   const text=pretty(els.phraseInput.value);
   if(!text){ setStatus('Escribe primero una frase.'); return; }
   const ok=await speak(text);
-  setLastPhrase(text);
   setStatus(ok ? 'Frase reproducida.' : 'No se pudo reproducir la frase.');
 });
 
