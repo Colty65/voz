@@ -5,35 +5,44 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#111827">
-  <title>Voz postoperatoria v6.0</title>
+  <title>Voz postoperatoria v7.0</title>
   <style>
     :root{--card:#121a2b;--card2:#182235;--text:#f3f4f6;--muted:#b7c0cf;--border:#2b3850}
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
     body{margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220)}
-    .app{max-width:1050px;margin:0 auto;min-height:100vh;padding:16px 14px 28px}
+    .app{max-width:1080px;margin:0 auto;min-height:100vh;padding:16px 14px 28px}
     .card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px}
     .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
     .title{font-size:1.16rem;font-weight:800}.sub{font-size:.9rem;color:var(--muted)}.tag{border:1px solid var(--border);padding:10px 12px;border-radius:999px;color:var(--muted);font-size:.84rem}
     h1{margin:0 0 8px;font-size:1.35rem;line-height:1.15} p{margin:0;color:var(--muted);line-height:1.45}
-    .status,.result,.raw{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523}
-    .result{font-size:1.45rem;font-weight:900;text-align:center}.raw{font-size:1.02rem}
-    .sep{height:1px;background:var(--border);margin:14px 0}.label{font-size:.82rem;color:var(--muted);margin-bottom:6px}
+    .status,.result{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523}
+    .result{font-size:1.3rem;font-weight:900}
+    .sep{height:1px;background:var(--border);margin:14px 0}
+    .label{font-size:.82rem;color:var(--muted);margin-bottom:6px}
     button,input,textarea{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border)}
-    input,textarea{padding:14px;background:#0d1523;color:var(--text)} textarea{min-height:110px;resize:vertical}
-    button{padding:16px 14px;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer}
-    .primary{background:linear-gradient(180deg,#2f90cb,#2679ab);border:none}.success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}.danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}.ghost{background:#10151d}
+    input,textarea{padding:14px;background:#0d1523;color:var(--text)}
+    textarea{min-height:96px;resize:vertical}
+    button{padding:14px 14px;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer}
+    .success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
+    .primary{background:linear-gradient(180deg,#2f90cb,#2679ab);border:none}
+    .danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}
+    .ghost{background:#10151d}
     .small{color:var(--muted);font-size:.92rem;line-height:1.4}
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     @media (max-width:760px){.grid2{grid-template-columns:1fr}}
-    .audio-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.audio-row button{width:auto;padding:10px 12px;border-radius:12px}
-    .item{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
-    .pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#101726;border:1px solid var(--border);color:var(--muted);font-size:.8rem;margin:4px 6px 0 0}
-    .meta{font-size:.84rem;color:var(--muted);margin-top:6px}
+    .actionBtn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:68px;font-size:1.02rem}
+    .actionBtn .icon{font-size:1.35rem}
+    .suggestions{margin-top:10px}
+    .suggestion{background:#111a2b;border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:8px;cursor:pointer}
+    .suggestion .meta{font-size:.82rem;color:var(--muted);margin-top:4px}
     details.group{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
     details.group summary{cursor:pointer;list-style:none;font-weight:800}
     details.group summary::-webkit-details-marker{display:none}
-    .groupHead{display:flex;justify-content:space-between;gap:10px;align-items:center}.groupCount{font-size:.84rem;color:var(--muted)}
-    .hidden{display:none!important}
+    .groupHead{display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .groupCount{font-size:.84rem;color:var(--muted)}
+    .phrase{background:#0d1523;border:1px solid var(--border);border-radius:16px;padding:12px;margin-top:10px}
+    .audio-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .audio-row button{width:auto;padding:10px 12px;border-radius:12px}
   </style>
 </head>
 <body>
@@ -41,144 +50,82 @@
   <div class="top">
     <div>
       <div class="title">Voz postoperatoria</div>
-      <div class="sub">Interpretación desde app externa de reconocimiento</div>
+      <div class="sub">Texto escrito, hablar y guardar por grupos</div>
     </div>
-    <div class="tag">(c)oltyLAB '26 V6.0</div>
+    <div class="tag">(c)oltyLAB '26 V7.0</div>
   </div>
 
   <section class="card">
-    <h1>Nuevo enfoque: usar una app externa para reconocer la voz</h1>
-    <p>Como el navegador falla reconociendo sonidos, esta versión trabaja con el texto que obtengas en otra app de reconocimiento. Tú pegas ese texto aquí y la app lo transforma a palabras reales con tu diccionario.</p>
-  </section>
-
-  <section class="card">
-    <div class="status" id="statusBox">Paso 1: usa una app externa de reconocimiento. Paso 2: pega aquí el texto reconocido. Paso 3: pulsa “Interpretar”.</div>
+    <h1>Escribe lo que quieres decir</h1>
+    <p>El enfermo escribe el texto y la app lo dice en voz alta. También puede guardarlo para reutilizarlo luego.</p>
 
     <div class="sep"></div>
-    <div class="label">Texto reconocido por la app externa</div>
-    <textarea id="recognizedText" placeholder="Ejemplo: ieo aua o oy e aseo"></textarea>
+    <div class="label">Texto a decir</div>
+    <textarea id="phraseInput" placeholder="Ejemplo: Voy a salir a pasear"></textarea>
 
-    <div class="audio-row">
-      <button class="ghost" id="pasteBtn">Pegar desde portapapeles</button>
-      <button class="primary" id="interpretBtn">Interpretar</button>
-      <button class="ghost" id="clearBtn">Limpiar</button>
+    <div class="grid2" style="margin-top:10px">
+      <button class="primary actionBtn" id="speakBtn"><span class="icon">🗣️</span><span>Hablar</span></button>
+      <button class="success actionBtn" id="speakSaveBtn"><span class="icon">🗣️ 📁</span><span>Hablar y guardar</span></button>
     </div>
 
     <div class="sep"></div>
-    <div class="label">Texto pegado / detectado</div>
-    <div class="raw" id="heardBox">—</div>
-
-    <div class="sep"></div>
-    <div class="label">Frase resultante</div>
-    <div class="result" id="resultBox">—</div>
-
-    <div class="audio-row">
-      <button class="ghost" id="repeatBtn">Repetir frase</button>
-      <button class="ghost" id="useLiteralBtn">Usar literal</button>
-    </div>
-  </section>
-
-  <section class="card hidden" id="resolveCard">
-    <div class="title" style="font-size:1rem;margin-bottom:10px">Resolver sonidos o palabras no encontradas</div>
-    <div class="small">Completa cada elemento no reconocido con su palabra real. Se guardará para próximas veces.</div>
-    <div class="sep"></div>
-    <div id="resolveList"></div>
-    <div class="audio-row">
-      <button class="success" id="saveResolveBtn">Guardar todos</button>
-      <button class="ghost" id="cancelResolveBtn">Cancelar</button>
+    <div class="label">Sugerencias</div>
+    <div id="suggestionsBox" class="suggestions">
+      <div class="small">Empieza a escribir para ver frases ya usadas anteriormente.</div>
     </div>
   </section>
 
   <section class="card">
-    <div class="title" style="font-size:1rem;margin-bottom:10px">Añadir o ajustar caso manualmente</div>
-    <div class="small">Define el sonido que suele aparecer en el reconocimiento y la palabra real que significa.</div>
-    <div class="sep"></div>
-    <div class="grid2">
-      <div>
-        <div class="label">Sonido / texto detectado</div>
-        <input id="heardToken" placeholder="Ejemplo: ieo">
-      </div>
-      <div>
-        <div class="label">Palabra real</div>
-        <input id="realWord" placeholder="Ejemplo: Quiero">
-      </div>
-    </div>
-    <div class="audio-row">
-      <button class="success" id="saveTrainBtn">Guardar caso</button>
-    </div>
+    <div class="label">Última frase</div>
+    <div class="result" id="lastPhraseBox">—</div>
+    <div class="small" id="statusBox" style="margin-top:10px">Listo.</div>
   </section>
 
   <section class="card">
-    <div class="title" style="font-size:1rem;margin-bottom:10px">Diccionario</div>
-    <div class="small">Agrupado por palabra real. Incluye diccionario inicial y correcciones tuyas.</div>
+    <h1>Guardados por grupo</h1>
+    <p>Solo se muestran los grupos. Al pulsar un grupo se despliegan sus frases, que se pueden hablar o borrar.</p>
     <div class="sep"></div>
-    <div id="memoryBox"></div>
+    <div id="groupsBox"></div>
   </section>
 </div>
 
 <script>
-const STORAGE_KEY='voz_v60_externo';
-const DEFAULT_DICT=[
-{token:'a',real:'a'},{token:'e',real:'el'},{token:'la',real:'la'},{token:'lo',real:'lo'},
-{token:'un',real:'un'},{token:'na',real:'una'},{token:'de',real:'de'},{token:'i',real:'y'},
-{token:'o',real:'o'},{token:'en',real:'en'},{token:'con',real:'con'},{token:'sin',real:'sin'},
-{token:'por',real:'por'},{token:'or',real:'por'},{token:'pa',real:'para'},{token:'ra',real:'para'},
-{token:'no',real:'no'},{token:'si',real:'sí'},{token:'ya',real:'ya'},{token:'ke',real:'que'},
-{token:'qe',real:'que'},{token:'ki',real:'quiero'},{token:'ieo',real:'quiero'},{token:'ero',real:'quiero'},
-{token:'oy',real:'voy'},{token:'bo',real:'voy'},{token:'ve',real:'ve'},{token:'ven',real:'ven'},
-{token:'eer',real:'beber'},{token:'ber',real:'beber'},{token:'aua',real:'agua'},{token:'awa',real:'agua'},
-{token:'aga',real:'agua'},{token:'elo',real:'hielo'},{token:'ilo',real:'hielo'},{token:'amb',real:'hambre'},
-{token:'anbe',real:'hambre'},{token:'se',real:'sed'},{token:'dol',real:'dolor'},{token:'olor',real:'dolor'},
-{token:'ban',real:'baño'},{token:'bano',real:'baño'},{token:'aso',real:'paseo'},{token:'aseo',real:'paseo'},
-{token:'ama',real:'mamá'},{token:'apa',real:'papá'},{token:'uda',real:'ayuda'},{token:'ef',real:'enfermera'},
-{token:'me',real:'me'},{token:'te',real:'te'},{token:'mi',real:'mi'},{token:'tu',real:'tu'},
-{token:'mas',real:'más'},{token:'meno',real:'menos'},{token:'bien',real:'bien'},{token:'mal',real:'mal'},
-{token:'aki',real:'aquí'},{token:'alli',real:'allí'},{token:'eso',real:'eso'},{token:'esto',real:'esto'}
-];
-
-let data=loadData();
-let lastResult=''; let lastDetected=''; let pendingUnknown=[];
+const STORAGE_KEY='voz_v70_frases_grupos';
+let phrases=loadPhrases();
 
 const els={
-statusBox:document.getElementById('statusBox'), recognizedText:document.getElementById('recognizedText'),
-pasteBtn:document.getElementById('pasteBtn'), interpretBtn:document.getElementById('interpretBtn'),
-clearBtn:document.getElementById('clearBtn'), heardBox:document.getElementById('heardBox'),
-resultBox:document.getElementById('resultBox'), repeatBtn:document.getElementById('repeatBtn'),
-useLiteralBtn:document.getElementById('useLiteralBtn'), resolveCard:document.getElementById('resolveCard'),
-resolveList:document.getElementById('resolveList'), saveResolveBtn:document.getElementById('saveResolveBtn'),
-cancelResolveBtn:document.getElementById('cancelResolveBtn'), heardToken:document.getElementById('heardToken'),
-realWord:document.getElementById('realWord'), saveTrainBtn:document.getElementById('saveTrainBtn'),
-memoryBox:document.getElementById('memoryBox')
+  phraseInput:document.getElementById('phraseInput'),
+  speakBtn:document.getElementById('speakBtn'),
+  speakSaveBtn:document.getElementById('speakSaveBtn'),
+  suggestionsBox:document.getElementById('suggestionsBox'),
+  lastPhraseBox:document.getElementById('lastPhraseBox'),
+  statusBox:document.getElementById('statusBox'),
+  groupsBox:document.getElementById('groupsBox')
 };
 
-render();
+renderAll();
 
-function normalize(s=''){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim()}
-function prettify(s=''){return String(s).replace(/\s+/g,' ').trim()}
-function loadData(){
+function loadPhrases(){
   try{
     const raw=localStorage.getItem(STORAGE_KEY);
-    if(raw){
-      const parsed=JSON.parse(raw);
-      if(Array.isArray(parsed)) return parsed;
-    }
-  }catch(e){}
-  const seeded=DEFAULT_DICT.map((d,i)=>({id:'seed_'+i,token:d.token,real:d.real,seed:true}));
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(seeded));
-  return seeded;
+    if(!raw) return [];
+    const parsed=JSON.parse(raw);
+    return Array.isArray(parsed)?parsed:[];
+  }catch(e){ return []; }
 }
-function saveData(){localStorage.setItem(STORAGE_KEY, JSON.stringify(data))}
-function setStatus(msg){els.statusBox.textContent=msg}
-function setHeard(msg){lastDetected=msg||''; els.heardBox.textContent=msg||'—'}
-function setResult(msg){lastResult=msg||''; els.resultBox.textContent=msg||'—'}
-function showResolve(show){els.resolveCard.classList.toggle('hidden',!show)}
-function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function savePhrases(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(phrases)); }
+function normalize(s=''){ return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim(); }
+function pretty(s=''){ return String(s).replace(/\s+/g,' ').trim(); }
+function setStatus(s){ els.statusBox.textContent=s; }
+function setLastPhrase(s){ els.lastPhraseBox.textContent=s||'—'; }
+
 function speak(text){
   if(!text) return Promise.resolve(false);
   const synth=window.speechSynthesis;
   if(!synth) return Promise.resolve(false);
   return new Promise((resolve)=>{
-    let done=false; const finish=ok=>{if(!done){done=true; resolve(ok);}};
+    let done=false;
+    const finish=(ok)=>{ if(!done){ done=true; resolve(ok); } };
     try{
       synth.cancel();
       const u=new SpeechSynthesisUtterance(text);
@@ -186,152 +133,190 @@ function speak(text){
       u.onend=()=>finish(true); u.onerror=()=>finish(false);
       synth.speak(u);
       setTimeout(()=>finish(false),8000);
-    }catch(e){finish(false);}
+    }catch(e){ finish(false); }
   });
 }
-function render(){
-  els.memoryBox.innerHTML='';
+
+function similarity(a,b){
+  a=normalize(a); b=normalize(b);
+  if(!a||!b) return 0;
+  if(a===b) return 1;
+  if(a.includes(b) || b.includes(a)) return 0.92;
+  const wa=a.split(' ').filter(Boolean), wb=b.split(' ').filter(Boolean);
+  let matches=0;
+  wa.forEach(x=>{ if(wb.some(y=>y===x || y.startsWith(x) || x.startsWith(y))) matches++; });
+  return matches / Math.max(wa.length, wb.length, 1);
+}
+
+function inferGroup(phrase){
+  const norm=normalize(phrase);
+  if(!norm) return 'GENERAL';
+
+  const keywordGroups=[
+    {group:'PASEO', keys:['paseo','pasear','andar','salir','calle','caminar','paseando']},
+    {group:'AGUA', keys:['agua','beber','sed','botella','vaso']},
+    {group:'COMIDA', keys:['comer','hambre','desayuno','almuerzo','cena','merienda']},
+    {group:'DOLOR', keys:['dolor','duele','molesta','medicina','medicacion','mal']},
+    {group:'BAÑO', keys:['bano','baño','pis','servicio','aseo']},
+    {group:'DESCANSO', keys:['dormir','descansar','cama','sueno','sueño']},
+    {group:'AYUDA', keys:['ayuda','ven','llama','ven aqui','ven aquí']},
+    {group:'FAMILIA', keys:['mama','mamá','papa','papá','hijo','hija']},
+    {group:'HIELO', keys:['hielo','frio','frío','bolsa','compresa']},
+    {group:'ENFERMERA', keys:['enfermera','doctor','medico','médico','hospital']}
+  ];
+
+  let best={group:'GENERAL', score:0};
+  for(const item of keywordGroups){
+    for(const key of item.keys){
+      const score=similarity(norm,key);
+      if(score>best.score) best={group:item.group, score};
+    }
+  }
+  if(best.score>=0.34) return best.group;
+
+  let bestExisting={group:'GENERAL', score:0};
+  for(const p of phrases){
+    const s=similarity(norm,p.text);
+    if(s>bestExisting.score && p.group) bestExisting={group:p.group, score:s};
+  }
+  if(bestExisting.score>=0.45) return bestExisting.group;
+
+  const words=norm.split(' ').filter(Boolean);
+  return words.length ? words[0].slice(0,12).toUpperCase() : 'GENERAL';
+}
+
+async function usePhrase(item, increment=true){
+  const ok=await speak(item.text);
+  setLastPhrase(item.text);
+  if(ok){
+    if(increment){
+      item.uses=(item.uses||0)+1;
+      item.lastUsed=Date.now();
+      savePhrases();
+      renderGroups();
+      renderSuggestions();
+    }
+    setStatus('Frase reproducida.');
+  }else{
+    setStatus('No se pudo reproducir la frase.');
+  }
+}
+
+function savePhrase(text){
+  const cleaned=pretty(text);
+  if(!cleaned) return null;
+  const existing=phrases.find(p=>normalize(p.text)===normalize(cleaned));
+  if(existing){
+    existing.uses=(existing.uses||0)+1;
+    existing.lastUsed=Date.now();
+    savePhrases();
+    return existing;
+  }
+  const item={
+    id:String(Date.now())+'_'+Math.random().toString(36).slice(2,7),
+    text:cleaned,
+    uses:1,
+    group:inferGroup(cleaned),
+    lastUsed:Date.now()
+  };
+  phrases.push(item);
+  savePhrases();
+  return item;
+}
+
+function renderSuggestions(){
+  const query=normalize(els.phraseInput.value);
+  if(!query){
+    els.suggestionsBox.innerHTML='<div class="small">Empieza a escribir para ver frases ya usadas anteriormente.</div>';
+    return;
+  }
+  const matches=phrases
+    .map(p=>({...p, score: similarity(query,p.text)}))
+    .filter(p=>p.score>=0.18 || normalize(p.text).includes(query))
+    .sort((a,b)=>b.score-a.score || (b.uses||0)-(a.uses||0))
+    .slice(0,8);
+
+  if(!matches.length){
+    els.suggestionsBox.innerHTML='<div class="small">No hay sugerencias todavía.</div>';
+    return;
+  }
+
+  els.suggestionsBox.innerHTML='';
+  matches.forEach(item=>{
+    const div=document.createElement('div');
+    div.className='suggestion';
+    div.innerHTML='<div>'+escapeHtml(item.text)+'</div><div class="meta">Grupo: '+escapeHtml(item.group)+' · Usos: '+(item.uses||0)+'</div>';
+    div.addEventListener('click', async ()=>{
+      const real=phrases.find(p=>p.id===item.id) || item;
+      await usePhrase(real,true);
+    });
+    els.suggestionsBox.appendChild(div);
+  });
+}
+
+function groupSortEntries(){
   const grouped={};
-  data.forEach(d=>{if(!grouped[d.real]) grouped[d.real]=[]; grouped[d.real].push(d);});
-  Object.keys(grouped).sort((a,b)=>a.localeCompare(b,'es')).forEach(real=>{
+  phrases.forEach(p=>{ if(!grouped[p.group]) grouped[p.group]=[]; grouped[p.group].push(p); });
+  return Object.entries(grouped)
+    .map(([group,items])=>({
+      group,
+      totalUses:items.reduce((n,x)=>n+(x.uses||0),0),
+      items:items.slice().sort((a,b)=>(b.uses||0)-(a.uses||0) || a.text.localeCompare(b.text,'es'))
+    }))
+    .sort((a,b)=> a.group.localeCompare(b.group,'es') || b.totalUses-a.totalUses);
+}
+
+function renderGroups(){
+  els.groupsBox.innerHTML='';
+  if(!phrases.length){
+    els.groupsBox.innerHTML='<div class="small">Todavía no hay frases guardadas.</div>';
+    return;
+  }
+  const groups=groupSortEntries();
+  groups.forEach(g=>{
     const details=document.createElement('details');
     details.className='group';
-    details.innerHTML='<summary><div class="groupHead"><div>'+escapeHtml(real)+'</div><div class="groupCount">'+grouped[real].length+' caso(s)</div></div></summary>';
-    grouped[real].sort((a,b)=>a.token.localeCompare(b.token,'es')).forEach(d=>{
+    details.innerHTML='<summary><div class="groupHead"><div>'+escapeHtml(g.group)+'</div><div class="groupCount">'+g.items.length+' frase(s) · '+g.totalUses+' usos</div></div></summary>';
+    g.items.forEach(item=>{
       const div=document.createElement('div');
-      div.className='item';
-      div.style.marginTop='10px';
-      div.innerHTML='<div><span class="pill">'+escapeHtml(d.token)+'</span></div><div class="audio-row"><button class="ghost say">Decir palabra</button><button class="danger del">Borrar caso</button></div>';
-      div.querySelector('.say').addEventListener('click',async()=>{await speak(d.real);});
-      div.querySelector('.del').addEventListener('click',()=>{
-        data=data.filter(x=>x.id!==d.id);
-        saveData(); render(); setStatus('Caso borrado.');
+      div.className='phrase';
+      div.innerHTML='<div>'+escapeHtml(item.text)+'</div><div class="meta">Usos: '+(item.uses||0)+'</div><div class="audio-row"><button class="ghost say">Hablar</button><button class="danger del">Borrar</button></div>';
+      div.querySelector('.say').addEventListener('click', async ()=>{ await usePhrase(item,true); });
+      div.querySelector('.del').addEventListener('click', ()=>{
+        phrases=phrases.filter(x=>x.id!==item.id);
+        savePhrases();
+        renderAll();
+        setStatus('Frase borrada.');
       });
       details.appendChild(div);
     });
-    els.memoryBox.appendChild(details);
+    els.groupsBox.appendChild(details);
   });
 }
-function tokenScore(input, learned){
-  const a=normalize(input), b=normalize(learned);
-  if(!a||!b) return 0;
-  if(a===b) return 1;
-  if(a.includes(b)||b.includes(a)) return 0.94;
-  let prefix=0;
-  for(let i=0;i<Math.min(a.length,b.length);i++){ if(a[i]===b[i]) prefix++; else break; }
-  const prefixScore=prefix/Math.max(1,Math.min(a.length,b.length));
-  let common=0;
-  const setA=new Set();
-  for(let i=0;i<a.length-1;i++) setA.add(a.slice(i,i+2));
-  for(let i=0;i<b.length-1;i++){ if(setA.has(b.slice(i,i+2))) common++; }
-  const gramScore=common/Math.max(1,Math.min(Math.max(a.length-1,1),Math.max(b.length-1,1)));
-  return Math.max(prefixScore, gramScore*0.9);
-}
-function resolveToken(token){
-  const scored=data.map(d=>({...d,score:tokenScore(token,d.token)})).sort((a,b)=>b.score-a.score);
-  const top=scored[0], second=scored[1];
-  if(!top) return null;
-  if(top.score<0.56) return null;
-  if(second && top.real!==second.real && (top.score-second.score)<0.04) return null;
-  return top.real;
-}
-function tokenizeDetected(text){return normalize(text).split(' ').filter(Boolean)}
-function renderResolveList(tokens){
-  els.resolveList.innerHTML='';
-  tokens.forEach((tk,idx)=>{
-    const div=document.createElement('div');
-    div.className='item';
-    div.innerHTML='<div><strong>Sonido no encontrado:</strong> '+escapeHtml(tk)+'</div><div class="meta">Posición: '+(idx+1)+'</div><div class="sep"></div><label class="label">Palabra real</label><input class="resolveWord" data-token="'+escapeHtml(tk)+'" placeholder="Ejemplo: agua">';
-    els.resolveList.appendChild(div);
-  });
-}
-async function processRecognizedText(text){
-  setHeard(text||'—');
-  const tokens=tokenizeDetected(text);
-  if(!tokens.length){ setResult('—'); setStatus('No hay elementos útiles en el texto pegado.'); return; }
 
-  const words=[]; const unknown=[];
-  for(const tk of tokens){
-    const found=resolveToken(tk);
-    if(found){
-      words.push(found);
-      await speak(found);
-    }else{
-      words.push('['+tk+']');
-      unknown.push(tk);
-    }
+function renderAll(){ renderSuggestions(); renderGroups(); }
+
+function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
+els.phraseInput.addEventListener('input', renderSuggestions);
+
+els.speakBtn.addEventListener('click', async ()=>{
+  const text=pretty(els.phraseInput.value);
+  if(!text){ setStatus('Escribe primero una frase.'); return; }
+  const ok=await speak(text);
+  setLastPhrase(text);
+  setStatus(ok ? 'Frase reproducida.' : 'No se pudo reproducir la frase.');
+});
+
+els.speakSaveBtn.addEventListener('click', async ()=>{
+  const text=pretty(els.phraseInput.value);
+  if(!text){ setStatus('Escribe primero una frase.'); return; }
+  const item=savePhrase(text);
+  renderAll();
+  if(item){
+    await usePhrase(item,false);
+    setStatus('Frase hablada y guardada.');
   }
-
-  setResult(words.join(' '));
-
-  if(unknown.length){
-    pendingUnknown=unknown;
-    renderResolveList(unknown);
-    showResolve(true);
-    setStatus('Hay sonidos no resueltos. Complétalos abajo y quedarán aprendidos.');
-    return;
-  }
-  showResolve(false);
-  setStatus('Secuencia interpretada correctamente.');
-}
-
-els.pasteBtn.addEventListener('click', async ()=>{
-  try{
-    const txt=await navigator.clipboard.readText();
-    els.recognizedText.value=txt||'';
-    setStatus(txt?'Texto pegado desde el portapapeles.':'El portapapeles está vacío.');
-  }catch(e){
-    setStatus('No se pudo leer el portapapeles. Pega el texto manualmente.');
-  }
-});
-
-els.interpretBtn.addEventListener('click', async ()=>{
-  const txt=prettify(els.recognizedText.value);
-  if(!txt){ setStatus('Pega o escribe primero el texto reconocido por la app externa.'); return; }
-  await processRecognizedText(txt);
-});
-
-els.clearBtn.addEventListener('click', ()=>{
-  els.recognizedText.value='';
-  setHeard('—'); setResult('—'); showResolve(false); pendingUnknown=[];
-  setStatus('Campo limpio.');
-});
-
-els.repeatBtn.addEventListener('click', async ()=>{
-  if(!lastResult){ setStatus('Todavía no hay frase para repetir.'); return; }
-  await speak(lastResult);
-});
-
-els.useLiteralBtn.addEventListener('click', async ()=>{
-  if(!lastDetected){ setStatus('Todavía no hay texto detectado.'); return; }
-  setResult(lastDetected);
-  await speak(lastDetected);
-});
-
-els.saveTrainBtn.addEventListener('click', ()=>{
-  const token=prettify(els.heardToken.value), real=prettify(els.realWord.value);
-  if(!token){ setStatus('Escribe primero el sonido o texto detectado.'); return; }
-  if(!real){ setStatus('Escribe la palabra real.'); return; }
-  data.push({id:String(Date.now())+'_'+token, token, real});
-  saveData(); render();
-  els.heardToken.value=''; els.realWord.value='';
-  setStatus('Caso guardado.');
-});
-
-els.saveResolveBtn.addEventListener('click', ()=>{
-  const inputs=Array.from(document.querySelectorAll('.resolveWord'));
-  if(!inputs.length || !pendingUnknown.length){ setStatus('No hay sonidos pendientes.'); return; }
-  for(const input of inputs){
-    const token=prettify(input.dataset.token||''), real=prettify(input.value||'');
-    if(!real){ setStatus('Debes rellenar todas las palabras reales pendientes.'); return; }
-    data.push({id:String(Date.now())+'_'+token, token, real});
-  }
-  saveData(); render(); showResolve(false); pendingUnknown=[];
-  setStatus('Sonidos pendientes guardados.');
-});
-
-els.cancelResolveBtn.addEventListener('click', ()=>{
-  pendingUnknown=[]; showResolve(false); setStatus('Resolución cancelada.');
 });
 </script>
 </body>
