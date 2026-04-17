@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111827">
-<title>VOZ postoperatoria v7.3</title>
+<title>VOZ postoperatoria v7.4</title>
 <style>
 :root{--card:#121a2b;--card2:#182235;--text:#f3f4f6;--muted:#b7c0cf;--border:#2b3850}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -55,7 +55,7 @@ details.group summary::-webkit-details-marker{display:none}
   <div class="card">
     <div class="top">
       <div class="brand">VOZ postoperatoria</div>
-      <div class="tag">(c)oltyLAB '26 V7.3</div>
+      <div class="tag">(c)oltyLAB '26 V7.4</div>
     </div>
 
     <div class="entryRow">
@@ -99,8 +99,8 @@ details.group summary::-webkit-details-marker{display:none}
 </div>
 
 <script>
-const STORAGE_KEY='voz_v73_frases_grupos';
-const SETTINGS_KEY='voz_v73_settings';
+const STORAGE_KEY='voz_v74_frases_grupos';
+const SETTINGS_KEY='voz_v74_settings';
 let phrases=loadPhrases();
 let settings=loadSettings();
 
@@ -118,6 +118,7 @@ const els={
 };
 
 els.langSelect.value=settings.lang;
+unlockSpeech();
 applyListVisibility();
 renderAll();
 
@@ -150,9 +151,22 @@ function applyListVisibility(){
   els.toggleListBtn.textContent = settings.showList ? '📁' : '🚫📁';
 }
 
+function unlockSpeech(){
+  const synth=window.speechSynthesis;
+  if(!synth) return;
+  try{
+    synth.cancel();
+    const u=new SpeechSynthesisUtterance(' ');
+    u.volume=0;
+    u.lang='es-ES';
+    synth.speak(u);
+  }catch(e){}
+}
+
 async function translateText(text, targetLang){
   if(!text) return text;
-  if((targetLang || '').startsWith('es')) return text;
+  // Siempre traducir desde español de España al idioma elegido
+  if((targetLang || 'es-ES') === 'es-ES') return text;
   try{
     const target = (targetLang || 'es-ES').split('-')[0];
     const res = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=es|' + target);
@@ -170,6 +184,7 @@ async function speak(text){
 
   const synth=window.speechSynthesis;
   if(!synth) return false;
+
   return await new Promise((resolve)=>{
     let done=false;
     const finish=(ok)=>{ if(!done){ done=true; resolve(ok); } };
@@ -178,10 +193,12 @@ async function speak(text){
       const u=new SpeechSynthesisUtterance(translated);
       u.lang=settings.lang || 'es-ES';
       u.rate=0.95;
+      u.volume=1;
+      u.pitch=1;
       u.onend=()=>finish(true);
-      u.onerror=()=>finish(false);
+      u.onerror=(e)=>finish(false);
       synth.speak(u);
-      setTimeout(()=>finish(false),8000);
+      setTimeout(()=>finish(false),10000);
     }catch(e){ finish(false); }
   });
 }
@@ -321,7 +338,7 @@ function renderGroups(){
       div.className='phrase';
       div.innerHTML='<div>'+escapeHtml(item.text)+'</div><div class="meta">Usos: '+(item.uses||0)+'</div><div class="audio-row"><button class="ghost say">Hablar</button><button class="ghost edit">Editar</button><button class="danger del">Borrar</button></div><div class="editBox hidden"><div class="label">Frase</div><input class="editText" value="'+escapeHtml(item.text)+'"><div class="label" style="margin-top:10px">Grupo</div><input class="editGroup" value="'+escapeHtml(item.group)+'"><div class="audio-row"><button class="success saveEdit">Guardar cambios</button><button class="ghost cancelEdit">Cancelar</button></div></div>';
       const editBox=div.querySelector('.editBox');
-      div.querySelector('.say').addEventListener('click', async ()=>{ await usePhrase(item,true); });
+      div.querySelector('.say').addEventListener('click', async ()=>{ unlockSpeech(); await usePhrase(item,true); });
       div.querySelector('.edit').addEventListener('click', ()=>{ editBox.classList.remove('hidden'); });
       div.querySelector('.cancelEdit').addEventListener('click', ()=>{ editBox.classList.add('hidden'); });
       div.querySelector('.saveEdit').addEventListener('click', ()=>{
@@ -357,6 +374,7 @@ els.phraseInput.addEventListener('focus', ()=>{
 els.phraseInput.addEventListener('input', renderSuggestions);
 
 els.speakBtn.addEventListener('click', async ()=>{
+  unlockSpeech();
   const text=pretty(els.phraseInput.value);
   if(!text){ setStatus('Escribe primero una frase.'); return; }
   const ok=await speak(text);
@@ -364,13 +382,14 @@ els.speakBtn.addEventListener('click', async ()=>{
 });
 
 els.speakSaveBtn.addEventListener('click', async ()=>{
+  unlockSpeech();
   const text=pretty(els.phraseInput.value);
   if(!text){ setStatus('Escribe primero una frase.'); return; }
   const item=savePhrase(text);
   renderAll();
   if(item){
-    await usePhrase(item,false);
-    setStatus('Frase hablada y guardada.');
+    const ok=await speak(item.text);
+    setStatus(ok ? 'Frase hablada y guardada.' : 'No se pudo reproducir la frase.');
   }
 });
 
@@ -387,7 +406,7 @@ els.langBtn.addEventListener('click', ()=>{
 els.langSelect.addEventListener('change', ()=>{
   settings.lang=els.langSelect.value;
   saveSettings();
-  setStatus('Idioma actualizado. A partir de ahora hablará traduciendo a ese idioma.');
+  setStatus('Idioma actualizado. La traducción será siempre desde español al idioma elegido.');
 });
 </script>
 </body>
