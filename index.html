@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111827">
-<title>VOZ postoperatoria v7.2</title>
+<title>VOZ postoperatoria v7.3</title>
 <style>
 :root{--card:#121a2b;--card2:#182235;--text:#f3f4f6;--muted:#b7c0cf;--border:#2b3850}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -40,7 +40,9 @@ details.group summary::-webkit-details-marker{display:none}
 .audio-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .audio-row button{width:auto;padding:10px 12px;border-radius:12px}
 .hidden{display:none!important}
-.status{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523;margin-bottom:14px}
+.status,.resultBox{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523;margin-bottom:14px}
+.resultTitle{font-size:.82rem;color:var(--muted);margin-bottom:6px}
+.resultText{font-size:1.2rem;font-weight:900}
 .editBox{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
 .controlsRow{display:flex;justify-content:center;gap:10px;align-items:center;margin-top:12px}
 .miniSquare{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;padding:0}
@@ -53,7 +55,7 @@ details.group summary::-webkit-details-marker{display:none}
   <div class="card">
     <div class="top">
       <div class="brand">VOZ postoperatoria</div>
-      <div class="tag">(c)oltyLAB '26 V7.2</div>
+      <div class="tag">(c)oltyLAB '26 V7.3</div>
     </div>
 
     <div class="entryRow">
@@ -81,6 +83,11 @@ details.group summary::-webkit-details-marker{display:none}
     </div>
   </div>
 
+  <div class="resultBox">
+    <div class="resultTitle">Frase reproducida</div>
+    <div class="resultText" id="spokenPhraseBox">—</div>
+  </div>
+
   <div class="status" id="statusBox">Listo.</div>
 
   <div class="card">
@@ -92,8 +99,8 @@ details.group summary::-webkit-details-marker{display:none}
 </div>
 
 <script>
-const STORAGE_KEY='voz_v72_frases_grupos';
-const SETTINGS_KEY='voz_v72_settings';
+const STORAGE_KEY='voz_v73_frases_grupos';
+const SETTINGS_KEY='voz_v73_settings';
 let phrases=loadPhrases();
 let settings=loadSettings();
 
@@ -106,7 +113,8 @@ const els={
   groupsBox:document.getElementById('groupsBox'),
   toggleListBtn:document.getElementById('toggleListBtn'),
   langBtn:document.getElementById('langBtn'),
-  langSelect:document.getElementById('langSelect')
+  langSelect:document.getElementById('langSelect'),
+  spokenPhraseBox:document.getElementById('spokenPhraseBox')
 };
 
 els.langSelect.value=settings.lang;
@@ -126,10 +134,7 @@ function loadSettings(){
     const raw=localStorage.getItem(SETTINGS_KEY);
     if(!raw) return {showList:true, lang:'es-ES'};
     const parsed=JSON.parse(raw);
-    return {
-      showList: typeof parsed.showList==='boolean' ? parsed.showList : true,
-      lang: parsed.lang || 'es-ES'
-    };
+    return {showList: typeof parsed.showList==='boolean' ? parsed.showList : true, lang: parsed.lang || 'es-ES'};
   }catch(e){ return {showList:true, lang:'es-ES'}; }
 }
 function savePhrases(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(phrases)); }
@@ -137,6 +142,7 @@ function saveSettings(){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(setti
 function normalize(s=''){ return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim(); }
 function pretty(s=''){ return String(s).replace(/\s+/g,' ').trim(); }
 function setStatus(s){ els.statusBox.textContent=s; }
+function setSpokenPhrase(s){ els.spokenPhraseBox.textContent=s||'—'; }
 function escapeHtml(s=''){ return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
 function applyListVisibility(){
@@ -144,16 +150,32 @@ function applyListVisibility(){
   els.toggleListBtn.textContent = settings.showList ? '📁' : '🚫📁';
 }
 
-function speak(text){
-  if(!text) return Promise.resolve(false);
+async function translateText(text, targetLang){
+  if(!text) return text;
+  if((targetLang || '').startsWith('es')) return text;
+  try{
+    const target = (targetLang || 'es-ES').split('-')[0];
+    const res = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=es|' + target);
+    const data = await res.json();
+    return (data && data.responseData && data.responseData.translatedText) ? data.responseData.translatedText : text;
+  }catch(e){
+    return text;
+  }
+}
+
+async function speak(text){
+  if(!text) return false;
+  const translated = await translateText(text, settings.lang);
+  setSpokenPhrase(translated);
+
   const synth=window.speechSynthesis;
-  if(!synth) return Promise.resolve(false);
-  return new Promise((resolve)=>{
+  if(!synth) return false;
+  return await new Promise((resolve)=>{
     let done=false;
     const finish=(ok)=>{ if(!done){ done=true; resolve(ok); } };
     try{
       synth.cancel();
-      const u=new SpeechSynthesisUtterance(text);
+      const u=new SpeechSynthesisUtterance(translated);
       u.lang=settings.lang || 'es-ES';
       u.rate=0.95;
       u.onend=()=>finish(true);
@@ -238,13 +260,7 @@ function savePhrase(text){
     savePhrases();
     return existing;
   }
-  const item={
-    id:String(Date.now())+'_'+Math.random().toString(36).slice(2,7),
-    text:cleaned,
-    uses:1,
-    group:inferGroup(cleaned),
-    lastUsed:Date.now()
-  };
+  const item={id:String(Date.now())+'_'+Math.random().toString(36).slice(2,7), text:cleaned, uses:1, group:inferGroup(cleaned), lastUsed:Date.now()};
   phrases.push(item);
   savePhrases();
   return item;
@@ -257,10 +273,9 @@ function renderSuggestions(){
     return;
   }
   const queryWords=query.split(' ').filter(Boolean);
-
   const matches=phrases
     .map(p=>({...p, norm: normalize(p.text), score: similarity(query,p.text)}))
-    .filter(p=> queryWords.every(w => p.norm.includes(w)))
+    .filter(p=>queryWords.every(w=>p.norm.includes(w)))
     .sort((a,b)=>b.score-a.score || (b.uses||0)-(a.uses||0))
     .slice(0,8);
 
@@ -286,12 +301,8 @@ function groupSortEntries(){
   const grouped={};
   phrases.forEach(p=>{ if(!grouped[p.group]) grouped[p.group]=[]; grouped[p.group].push(p); });
   return Object.entries(grouped)
-    .map(([group,items])=>({
-      group,
-      totalUses:items.reduce((n,x)=>n+(x.uses||0),0),
-      items:items.slice().sort((a,b)=>(b.uses||0)-(a.uses||0) || a.text.localeCompare(b.text,'es'))
-    }))
-    .sort((a,b)=> a.group.localeCompare(b.group,'es') || b.totalUses-a.totalUses);
+    .map(([group,items])=>({group,totalUses:items.reduce((n,x)=>n+(x.uses||0),0),items:items.slice().sort((a,b)=>(b.uses||0)-(a.uses||0) || a.text.localeCompare(b.text,'es'))}))
+    .sort((a,b)=>a.group.localeCompare(b.group,'es') || b.totalUses-a.totalUses);
 }
 
 function renderGroups(){
@@ -305,12 +316,10 @@ function renderGroups(){
     const details=document.createElement('details');
     details.className='group';
     details.innerHTML='<summary><div class="groupHead"><div>'+escapeHtml(g.group)+'</div><div class="groupCount">'+g.items.length+' frase(s) · '+g.totalUses+' usos</div></div></summary>';
-
     g.items.forEach(item=>{
       const div=document.createElement('div');
       div.className='phrase';
       div.innerHTML='<div>'+escapeHtml(item.text)+'</div><div class="meta">Usos: '+(item.uses||0)+'</div><div class="audio-row"><button class="ghost say">Hablar</button><button class="ghost edit">Editar</button><button class="danger del">Borrar</button></div><div class="editBox hidden"><div class="label">Frase</div><input class="editText" value="'+escapeHtml(item.text)+'"><div class="label" style="margin-top:10px">Grupo</div><input class="editGroup" value="'+escapeHtml(item.group)+'"><div class="audio-row"><button class="success saveEdit">Guardar cambios</button><button class="ghost cancelEdit">Cancelar</button></div></div>';
-
       const editBox=div.querySelector('.editBox');
       div.querySelector('.say').addEventListener('click', async ()=>{ await usePhrase(item,true); });
       div.querySelector('.edit').addEventListener('click', ()=>{ editBox.classList.remove('hidden'); });
@@ -333,10 +342,8 @@ function renderGroups(){
         renderAll();
         setStatus('Frase borrada.');
       });
-
       details.appendChild(div);
     });
-
     els.groupsBox.appendChild(details);
   });
 }
@@ -380,7 +387,7 @@ els.langBtn.addEventListener('click', ()=>{
 els.langSelect.addEventListener('change', ()=>{
   settings.lang=els.langSelect.value;
   saveSettings();
-  setStatus('Idioma actualizado.');
+  setStatus('Idioma actualizado. A partir de ahora hablará traduciendo a ese idioma.');
 });
 </script>
 </body>
