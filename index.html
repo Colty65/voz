@@ -2,63 +2,81 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#111827">
-  <title>VOZ postoperatoria v7.1</title>
-  <style>
-    :root{--card:#121a2b;--card2:#182235;--text:#f3f4f6;--muted:#b7c0cf;--border:#2b3850}
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    body{margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220)}
-    .app{max-width:1080px;margin:0 auto;min-height:100vh;padding:16px 14px 28px}
-    .card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;white-space:nowrap}
-    .brand{font-size:1.18rem;font-weight:900;letter-spacing:.2px}
-    .tag{font-size:.92rem;color:var(--muted);font-weight:700}
-    textarea,input{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border);padding:14px;background:#0d1523;color:var(--text)}
-    textarea{min-height:100px;resize:vertical}
-    .entryRow{display:grid;grid-template-columns:1fr 72px;gap:10px;align-items:stretch}
-    .btnCol{display:grid;grid-template-rows:1fr 1fr;gap:8px}
-    button{font:inherit;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer;border:1px solid var(--border)}
-    .iconBtn{border-radius:16px;display:flex;align-items:center;justify-content:center;padding:0;min-height:46px}
-    .iconBtn .icon{font-size:1.2rem}
-    .primary{background:linear-gradient(180deg,#2f90cb,#2679ab);border:none}
-    .success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
-    .danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}
-    .ghost{background:#10151d}
-    .suggestion{background:#111a2b;border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:8px;cursor:pointer}
-    .meta{font-size:.82rem;color:var(--muted);margin-top:4px}
-    .small{color:var(--muted);font-size:.92rem;line-height:1.4}
-    details.group{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
-    details.group summary{cursor:pointer;list-style:none;font-weight:800}
-    details.group summary::-webkit-details-marker{display:none}
-    .groupHead{display:flex;justify-content:space-between;gap:10px;align-items:center}
-    .groupCount{font-size:.84rem;color:var(--muted)}
-    .phrase{background:#0d1523;border:1px solid var(--border);border-radius:16px;padding:12px;margin-top:10px}
-    .audio-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .audio-row button{width:auto;padding:10px 12px;border-radius:12px}
-    .hidden{display:none!important}
-    .status{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523;margin-bottom:14px}
-    .editBox{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<title>VOZ postoperatoria v7.2</title>
+<style>
+:root{--card:#121a2b;--card2:#182235;--text:#f3f4f6;--muted:#b7c0cf;--border:#2b3850}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220)}
+.app{max-width:1080px;margin:0 auto;min-height:100vh;padding:16px 14px 28px}
+.card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;white-space:nowrap}
+.brand{font-size:1.18rem;font-weight:900;letter-spacing:.2px}
+.tag{font-size:.92rem;color:var(--muted);font-weight:700}
+textarea,input,select{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border);padding:14px;background:#0d1523;color:var(--text)}
+textarea{min-height:100px;resize:vertical}
+.entryRow{display:grid;grid-template-columns:1fr 72px;gap:10px;align-items:stretch}
+.btnCol{display:grid;grid-template-rows:1fr 1fr;gap:8px}
+button{font:inherit;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer;border:1px solid var(--border)}
+.iconBtn{border-radius:16px;display:flex;align-items:center;justify-content:center;padding:0;min-height:46px}
+.iconBtn .icon{font-size:1.2rem}
+.talkBtn{background:linear-gradient(180deg,#f59e0b,#d97706);border:none}
+.saveTalkBtn{background:linear-gradient(180deg,#14b8a6,#0f766e);border:none}
+.success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
+.danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}
+.ghost{background:#10151d}
+.small{color:var(--muted);font-size:.92rem;line-height:1.4}
+.suggestions{margin-top:12px}
+.suggestion{background:#111a2b;border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:8px;cursor:pointer}
+.suggestion .meta{font-size:.82rem;color:var(--muted);margin-top:4px}
+details.group{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
+details.group summary{cursor:pointer;list-style:none;font-weight:800}
+details.group summary::-webkit-details-marker{display:none}
+.groupHead{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.groupCount{font-size:.84rem;color:var(--muted)}
+.phrase{background:#0d1523;border:1px solid var(--border);border-radius:16px;padding:12px;margin-top:10px}
+.audio-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.audio-row button{width:auto;padding:10px 12px;border-radius:12px}
+.hidden{display:none!important}
+.status{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523;margin-bottom:14px}
+.editBox{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
+.controlsRow{display:flex;justify-content:center;gap:10px;align-items:center;margin-top:12px}
+.miniSquare{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;padding:0}
+.langWrap{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:12px}
+.langSelect{max-width:260px}
+</style>
 </head>
 <body>
 <div class="app">
   <div class="card">
     <div class="top">
       <div class="brand">VOZ postoperatoria</div>
-      <div class="tag">(c)oltyLAB '26 V7.1</div>
+      <div class="tag">(c)oltyLAB '26 V7.2</div>
     </div>
 
     <div class="entryRow">
       <textarea id="phraseInput" placeholder="Escribe aquí..."></textarea>
       <div class="btnCol">
-        <button class="primary iconBtn" id="speakBtn" title="Hablar"><span class="icon">🗣️</span></button>
-        <button class="success iconBtn" id="speakSaveBtn" title="Hablar y guardar"><span class="icon">🗣️📁</span></button>
+        <button class="talkBtn iconBtn" id="speakBtn" title="Hablar"><span class="icon">🗣️</span></button>
+        <button class="saveTalkBtn iconBtn" id="speakSaveBtn" title="Hablar y guardar"><span class="icon">🗣️📁</span></button>
       </div>
     </div>
 
-    <div id="suggestionsBox" style="margin-top:12px">
+    <div class="langWrap">
+      <button class="ghost miniSquare" id="langBtn" title="Idioma">🌐</button>
+      <select id="langSelect" class="langSelect hidden">
+        <option value="es-ES">Español</option>
+        <option value="en-US">English</option>
+        <option value="fr-FR">Français</option>
+        <option value="it-IT">Italiano</option>
+        <option value="pt-PT">Português</option>
+        <option value="de-DE">Deutsch</option>
+      </select>
+    </div>
+
+    <div id="suggestionsBox" class="suggestions">
       <div class="small">Empieza a escribir para ver sugerencias.</div>
     </div>
   </div>
@@ -66,13 +84,18 @@
   <div class="status" id="statusBox">Listo.</div>
 
   <div class="card">
+    <div class="controlsRow">
+      <button class="ghost miniSquare" id="toggleListBtn" title="Mostrar u ocultar guardados">📁</button>
+    </div>
     <div id="groupsBox"></div>
   </div>
 </div>
 
 <script>
-const STORAGE_KEY='voz_v71_frases_grupos';
+const STORAGE_KEY='voz_v72_frases_grupos';
+const SETTINGS_KEY='voz_v72_settings';
 let phrases=loadPhrases();
+let settings=loadSettings();
 
 const els={
   phraseInput:document.getElementById('phraseInput'),
@@ -80,9 +103,14 @@ const els={
   speakSaveBtn:document.getElementById('speakSaveBtn'),
   suggestionsBox:document.getElementById('suggestionsBox'),
   statusBox:document.getElementById('statusBox'),
-  groupsBox:document.getElementById('groupsBox')
+  groupsBox:document.getElementById('groupsBox'),
+  toggleListBtn:document.getElementById('toggleListBtn'),
+  langBtn:document.getElementById('langBtn'),
+  langSelect:document.getElementById('langSelect')
 };
 
+els.langSelect.value=settings.lang;
+applyListVisibility();
 renderAll();
 
 function loadPhrases(){
@@ -93,11 +121,28 @@ function loadPhrases(){
     return Array.isArray(parsed)?parsed:[];
   }catch(e){ return []; }
 }
+function loadSettings(){
+  try{
+    const raw=localStorage.getItem(SETTINGS_KEY);
+    if(!raw) return {showList:true, lang:'es-ES'};
+    const parsed=JSON.parse(raw);
+    return {
+      showList: typeof parsed.showList==='boolean' ? parsed.showList : true,
+      lang: parsed.lang || 'es-ES'
+    };
+  }catch(e){ return {showList:true, lang:'es-ES'}; }
+}
 function savePhrases(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(phrases)); }
+function saveSettings(){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
 function normalize(s=''){ return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim(); }
 function pretty(s=''){ return String(s).replace(/\s+/g,' ').trim(); }
 function setStatus(s){ els.statusBox.textContent=s; }
 function escapeHtml(s=''){ return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+function applyListVisibility(){
+  els.groupsBox.classList.toggle('hidden', !settings.showList);
+  els.toggleListBtn.textContent = settings.showList ? '📁' : '🚫📁';
+}
 
 function speak(text){
   if(!text) return Promise.resolve(false);
@@ -109,8 +154,10 @@ function speak(text){
     try{
       synth.cancel();
       const u=new SpeechSynthesisUtterance(text);
-      u.lang='es-ES'; u.rate=0.95;
-      u.onend=()=>finish(true); u.onerror=()=>finish(false);
+      u.lang=settings.lang || 'es-ES';
+      u.rate=0.95;
+      u.onend=()=>finish(true);
+      u.onerror=()=>finish(false);
       synth.speak(u);
       setTimeout(()=>finish(false),8000);
     }catch(e){ finish(false); }
@@ -131,15 +178,16 @@ function similarity(a,b){
 function inferGroup(phrase){
   const norm=normalize(phrase);
   if(!norm) return 'GENERAL';
+  const words=norm.split(' ').filter(Boolean).filter(w=>!['voy','estoy','quiero','necesito','el','la','de','a','y','en','me','te','mi','tu','es','un','una','al','del','por','para','con','sin','lo','los','las'].includes(w));
 
   const keywordGroups=[
-    {group:'CAMPO', keys:['campo','paseo','pasear','paseando','andar','calle','salir']},
+    {group:'CAMPO', keys:['campo','paseo','pasear','paseando','andar','caminar']},
     {group:'AGUA', keys:['agua','beber','sed','vaso','botella']},
     {group:'COMIDA', keys:['comer','hambre','desayuno','almuerzo','cena','merienda']},
     {group:'DOLOR', keys:['dolor','duele','molesta','medicina','medicacion','mal']},
     {group:'BAÑO', keys:['bano','baño','pis','servicio','aseo']},
     {group:'DESCANSO', keys:['dormir','descansar','cama','sueno','sueño']},
-    {group:'AYUDA', keys:['ayuda','ven','llama','ven aqui','ven aquí']},
+    {group:'AYUDA', keys:['ayuda','ven','llama']},
     {group:'FAMILIA', keys:['mama','mamá','papa','papá','hijo','hija']},
     {group:'HIELO', keys:['hielo','frio','frío','bolsa','compresa']},
     {group:'ENFERMERA', keys:['enfermera','doctor','medico','médico','hospital']}
@@ -161,7 +209,6 @@ function inferGroup(phrase){
   }
   if(bestExisting.score>=0.45) return bestExisting.group;
 
-  const words=norm.split(' ').filter(Boolean).filter(w=>!['voy','estoy','quiero','necesito','el','la','de','a','y','en','me','te','mi','tu','es','un','una'].includes(w));
   return words.length ? words[0].slice(0,12).toUpperCase() : 'GENERAL';
 }
 
@@ -209,9 +256,11 @@ function renderSuggestions(){
     els.suggestionsBox.innerHTML='<div class="small"></div>';
     return;
   }
+  const queryWords=query.split(' ').filter(Boolean);
+
   const matches=phrases
-    .map(p=>({...p, score: similarity(query,p.text)}))
-    .filter(p=>p.score>=0.18 || normalize(p.text).includes(query))
+    .map(p=>({...p, norm: normalize(p.text), score: similarity(query,p.text)}))
+    .filter(p=> queryWords.every(w => p.norm.includes(w)))
     .sort((a,b)=>b.score-a.score || (b.uses||0)-(a.uses||0))
     .slice(0,8);
 
@@ -316,6 +365,22 @@ els.speakSaveBtn.addEventListener('click', async ()=>{
     await usePhrase(item,false);
     setStatus('Frase hablada y guardada.');
   }
+});
+
+els.toggleListBtn.addEventListener('click', ()=>{
+  settings.showList=!settings.showList;
+  saveSettings();
+  applyListVisibility();
+});
+
+els.langBtn.addEventListener('click', ()=>{
+  els.langSelect.classList.toggle('hidden');
+});
+
+els.langSelect.addEventListener('change', ()=>{
+  settings.lang=els.langSelect.value;
+  saveSettings();
+  setStatus('Idioma actualizado.');
 });
 </script>
 </body>
