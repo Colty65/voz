@@ -5,25 +5,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111827">
-<title>VOZ postoperatoria v7.4</title>
+<title>VOZ postoperatoria v7.5</title>
 <style>
-:root{--card:#121a2b;--card2:#182235;--text:#f3f4f6;--muted:#b7c0cf;--border:#2b3850}
+:root{
+  --card:#121a2b;--card2:#182235;--text:#f3f4f6;--muted:#b7c0cf;--border:#2b3850;
+  --speak:#475569; --speak2:#334155; --save:#0f766e; --save2:#115e59;
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220)}
 .app{max-width:1080px;margin:0 auto;min-height:100vh;padding:16px 14px 28px}
 .card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;white-space:nowrap}
-.brand{font-size:1.18rem;font-weight:900;letter-spacing:.2px}
-.tag{font-size:.92rem;color:var(--muted);font-weight:700}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+.brand{font-size:1.55rem;font-weight:900;letter-spacing:.2px;line-height:1.05}
+.tagWrap{text-align:center;min-width:120px}
+.tag{font-size:.92rem;color:var(--muted);font-weight:700;line-height:1.1}
+.ver{font-size:.88rem;color:var(--muted);font-weight:700;margin-top:4px}
 textarea,input,select{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border);padding:14px;background:#0d1523;color:var(--text)}
 textarea{min-height:100px;resize:vertical}
-.entryRow{display:grid;grid-template-columns:1fr 72px;gap:10px;align-items:stretch}
+.entryRow{display:grid;grid-template-columns:150px 1fr 84px;gap:10px;align-items:stretch}
 .btnCol{display:grid;grid-template-rows:1fr 1fr;gap:8px}
 button{font:inherit;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer;border:1px solid var(--border)}
-.iconBtn{border-radius:16px;display:flex;align-items:center;justify-content:center;padding:0;min-height:46px}
-.iconBtn .icon{font-size:1.2rem}
-.talkBtn{background:linear-gradient(180deg,#f59e0b,#d97706);border:none}
-.saveTalkBtn{background:linear-gradient(180deg,#14b8a6,#0f766e);border:none}
+.iconBtn{border-radius:16px;display:flex;align-items:center;justify-content:center;padding:0;min-height:46px;position:relative}
+.iconBtn .icon{font-size:1.25rem;filter:drop-shadow(0 1px 0 rgba(0,0,0,.25))}
+.talkBtn{background:linear-gradient(180deg,var(--speak),var(--speak2));border:none}
+.saveTalkBtn{background:linear-gradient(180deg,var(--save),var(--save2));border:none}
 .success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
 .danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}
 .ghost{background:#10151d}
@@ -46,8 +51,12 @@ details.group summary::-webkit-details-marker{display:none}
 .editBox{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
 .controlsRow{display:flex;justify-content:center;gap:10px;align-items:center;margin-top:12px}
 .miniSquare{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;padding:0}
-.langWrap{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:12px}
-.langSelect{max-width:260px}
+.destWrap{display:flex;justify-content:center;align-items:center;gap:8px}
+.destSelect{max-width:84px;min-width:84px;padding:10px;border-radius:14px}
+@media (max-width:760px){
+  .entryRow{grid-template-columns:1fr;gap:10px}
+  .destSelect{max-width:none}
+}
 </style>
 </head>
 <body>
@@ -55,27 +64,38 @@ details.group summary::-webkit-details-marker{display:none}
   <div class="card">
     <div class="top">
       <div class="brand">VOZ postoperatoria</div>
-      <div class="tag">(c)oltyLAB '26 V7.4</div>
-    </div>
-
-    <div class="entryRow">
-      <textarea id="phraseInput" placeholder="Escribe aquí..."></textarea>
-      <div class="btnCol">
-        <button class="talkBtn iconBtn" id="speakBtn" title="Hablar"><span class="icon">🗣️</span></button>
-        <button class="saveTalkBtn iconBtn" id="speakSaveBtn" title="Hablar y guardar"><span class="icon">🗣️📁</span></button>
+      <div class="tagWrap">
+        <div class="tag">(c)oltyLAB ‘26</div>
+        <div class="ver">V7.5</div>
       </div>
     </div>
 
-    <div class="langWrap">
-      <button class="ghost miniSquare" id="langBtn" title="Idioma">🌐</button>
-      <select id="langSelect" class="langSelect hidden">
-        <option value="es-ES">Español</option>
-        <option value="en-US">English</option>
-        <option value="fr-FR">Français</option>
-        <option value="it-IT">Italiano</option>
-        <option value="pt-PT">Português</option>
-        <option value="de-DE">Deutsch</option>
+    <div class="entryRow">
+      <select id="sourceLangSelect" title="Idioma de origen">
+        <option value="es">Español</option>
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="it">Italiano</option>
+        <option value="pt">Português</option>
+        <option value="de">Deutsch</option>
       </select>
+
+      <textarea id="phraseInput" placeholder="Escribe aquí..."></textarea>
+
+      <div class="btnCol">
+        <button class="talkBtn iconBtn" id="speakBtn" title="Hablar"><span class="icon">🗣️</span></button>
+        <div class="destWrap">
+          <button class="saveTalkBtn iconBtn" id="speakSaveBtn" title="Hablar y guardar" style="flex:1"><span class="icon">🗣️📁</span></button>
+          <select id="destLangSelect" class="destSelect" title="Idioma destino">
+            <option value="es-ES">ES</option>
+            <option value="en-US">EN</option>
+            <option value="fr-FR">FR</option>
+            <option value="it-IT">IT</option>
+            <option value="pt-PT">PT</option>
+            <option value="de-DE">DE</option>
+          </select>
+        </div>
+      </div>
     </div>
 
     <div id="suggestionsBox" class="suggestions">
@@ -99,8 +119,8 @@ details.group summary::-webkit-details-marker{display:none}
 </div>
 
 <script>
-const STORAGE_KEY='voz_v74_frases_grupos';
-const SETTINGS_KEY='voz_v74_settings';
+const STORAGE_KEY='voz_v75_frases_grupos';
+const SETTINGS_KEY='voz_v75_settings';
 let phrases=loadPhrases();
 let settings=loadSettings();
 
@@ -112,12 +132,13 @@ const els={
   statusBox:document.getElementById('statusBox'),
   groupsBox:document.getElementById('groupsBox'),
   toggleListBtn:document.getElementById('toggleListBtn'),
-  langBtn:document.getElementById('langBtn'),
-  langSelect:document.getElementById('langSelect'),
+  sourceLangSelect:document.getElementById('sourceLangSelect'),
+  destLangSelect:document.getElementById('destLangSelect'),
   spokenPhraseBox:document.getElementById('spokenPhraseBox')
 };
 
-els.langSelect.value=settings.lang;
+els.sourceLangSelect.value=settings.sourceLang;
+els.destLangSelect.value=settings.destLang;
 unlockSpeech();
 applyListVisibility();
 renderAll();
@@ -133,10 +154,14 @@ function loadPhrases(){
 function loadSettings(){
   try{
     const raw=localStorage.getItem(SETTINGS_KEY);
-    if(!raw) return {showList:true, lang:'es-ES'};
+    if(!raw) return {showList:true, sourceLang:'es', destLang:'es-ES'};
     const parsed=JSON.parse(raw);
-    return {showList: typeof parsed.showList==='boolean' ? parsed.showList : true, lang: parsed.lang || 'es-ES'};
-  }catch(e){ return {showList:true, lang:'es-ES'}; }
+    return {
+      showList: typeof parsed.showList==='boolean' ? parsed.showList : true,
+      sourceLang: parsed.sourceLang || 'es',
+      destLang: parsed.destLang || 'es-ES'
+    };
+  }catch(e){ return {showList:true, sourceLang:'es', destLang:'es-ES'}; }
 }
 function savePhrases(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(phrases)); }
 function saveSettings(){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
@@ -163,13 +188,13 @@ function unlockSpeech(){
   }catch(e){}
 }
 
-async function translateText(text, targetLang){
+async function translateText(text, sourceLang, targetLang){
   if(!text) return text;
-  // Siempre traducir desde español de España al idioma elegido
-  if((targetLang || 'es-ES') === 'es-ES') return text;
+  const src=(sourceLang||'es').split('-')[0];
+  const tgt=(targetLang||'es-ES').split('-')[0];
+  if(src===tgt) return text;
   try{
-    const target = (targetLang || 'es-ES').split('-')[0];
-    const res = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=es|' + target);
+    const res = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + src + '|' + tgt);
     const data = await res.json();
     return (data && data.responseData && data.responseData.translatedText) ? data.responseData.translatedText : text;
   }catch(e){
@@ -179,7 +204,7 @@ async function translateText(text, targetLang){
 
 async function speak(text){
   if(!text) return false;
-  const translated = await translateText(text, settings.lang);
+  const translated = await translateText(text, settings.sourceLang, settings.destLang);
   setSpokenPhrase(translated);
 
   const synth=window.speechSynthesis;
@@ -191,12 +216,12 @@ async function speak(text){
     try{
       synth.cancel();
       const u=new SpeechSynthesisUtterance(translated);
-      u.lang=settings.lang || 'es-ES';
+      u.lang=settings.destLang || 'es-ES';
       u.rate=0.95;
       u.volume=1;
       u.pitch=1;
       u.onend=()=>finish(true);
-      u.onerror=(e)=>finish(false);
+      u.onerror=()=>finish(false);
       synth.speak(u);
       setTimeout(()=>finish(false),10000);
     }catch(e){ finish(false); }
@@ -308,6 +333,7 @@ function renderSuggestions(){
     div.innerHTML='<div>'+escapeHtml(item.text)+'</div><div class="meta">Grupo: '+escapeHtml(item.group)+' · Usos: '+(item.uses||0)+'</div>';
     div.addEventListener('click', async ()=>{
       const real=phrases.find(p=>p.id===item.id) || item;
+      unlockSpeech();
       await usePhrase(real,true);
     });
     els.suggestionsBox.appendChild(div);
@@ -399,14 +425,16 @@ els.toggleListBtn.addEventListener('click', ()=>{
   applyListVisibility();
 });
 
-els.langBtn.addEventListener('click', ()=>{
-  els.langSelect.classList.toggle('hidden');
+els.sourceLangSelect.addEventListener('change', ()=>{
+  settings.sourceLang=els.sourceLangSelect.value;
+  saveSettings();
+  setStatus('Idioma de origen actualizado.');
 });
 
-els.langSelect.addEventListener('change', ()=>{
-  settings.lang=els.langSelect.value;
+els.destLangSelect.addEventListener('change', ()=>{
+  settings.destLang=els.destLangSelect.value;
   saveSettings();
-  setStatus('Idioma actualizado. La traducción será siempre desde español al idioma elegido.');
+  setStatus('Idioma destino actualizado.');
 });
 </script>
 </body>
