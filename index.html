@@ -5,437 +5,109 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111827">
-<title>VOZ postoperatoria v7.5</title>
+<title>VOZ postoperatoria v8.0</title>
 <style>
-:root{
-  --card:#121a2b;--card2:#182235;--text:#f3f4f6;--muted:#b7c0cf;--border:#2b3850;
-  --speak:#475569; --speak2:#334155; --save:#0f766e; --save2:#115e59;
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220)}
-.app{max-width:1080px;margin:0 auto;min-height:100vh;padding:16px 14px 28px}
-.card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px}
-.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
-.brand{font-size:1.55rem;font-weight:900;letter-spacing:.2px;line-height:1.05}
-.tagWrap{text-align:center;min-width:120px}
-.tag{font-size:.92rem;color:var(--muted);font-weight:700;line-height:1.1}
-.ver{font-size:.88rem;color:var(--muted);font-weight:700;margin-top:4px}
-textarea,input,select{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border);padding:14px;background:#0d1523;color:var(--text)}
-textarea{min-height:100px;resize:vertical}
-.entryRow{display:grid;grid-template-columns:150px 1fr 84px;gap:10px;align-items:stretch}
-.btnCol{display:grid;grid-template-rows:1fr 1fr;gap:8px}
-button{font:inherit;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer;border:1px solid var(--border)}
-.iconBtn{border-radius:16px;display:flex;align-items:center;justify-content:center;padding:0;min-height:46px;position:relative}
-.iconBtn .icon{font-size:1.25rem;filter:drop-shadow(0 1px 0 rgba(0,0,0,.25))}
-.talkBtn{background:linear-gradient(180deg,var(--speak),var(--speak2));border:none}
-.saveTalkBtn{background:linear-gradient(180deg,var(--save),var(--save2));border:none}
-.success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
-.danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}
-.ghost{background:#10151d}
-.small{color:var(--muted);font-size:.92rem;line-height:1.4}
-.suggestions{margin-top:12px}
-.suggestion{background:#111a2b;border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:8px;cursor:pointer}
-.suggestion .meta{font-size:.82rem;color:var(--muted);margin-top:4px}
-details.group{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
-details.group summary{cursor:pointer;list-style:none;font-weight:800}
-details.group summary::-webkit-details-marker{display:none}
-.groupHead{display:flex;justify-content:space-between;gap:10px;align-items:center}
-.groupCount{font-size:.84rem;color:var(--muted)}
-.phrase{background:#0d1523;border:1px solid var(--border);border-radius:16px;padding:12px;margin-top:10px}
-.audio-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.audio-row button{width:auto;padding:10px 12px;border-radius:12px}
-.hidden{display:none!important}
-.status,.resultBox{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523;margin-bottom:14px}
-.resultTitle{font-size:.82rem;color:var(--muted);margin-bottom:6px}
-.resultText{font-size:1.2rem;font-weight:900}
-.editBox{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
-.controlsRow{display:flex;justify-content:center;gap:10px;align-items:center;margin-top:12px}
-.miniSquare{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;padding:0}
-.destWrap{display:flex;justify-content:center;align-items:center;gap:8px}
-.destSelect{max-width:84px;min-width:84px;padding:10px;border-radius:14px}
-@media (max-width:760px){
-  .entryRow{grid-template-columns:1fr;gap:10px}
-  .destSelect{max-width:none}
-}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;background:#0b1220;color:#fff;margin:0;padding:20px}
+.container{max-width:900px;margin:auto}
+h1{font-size:28px;margin-bottom:5px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.langs{display:flex;gap:10px;margin:10px 0}
+textarea{width:100%;height:100px;border-radius:10px;padding:10px;font-size:16px}
+.buttons{display:flex;gap:10px;margin-top:10px}
+button{padding:12px;border-radius:10px;border:none;cursor:pointer}
+.speak{background:#334155;color:#fff}
+.save{background:#0f766e;color:#fff}
+.list{margin-top:20px}
+.item{background:#1e293b;padding:10px;border-radius:10px;margin-bottom:8px}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="card">
-    <div class="top">
-      <div class="brand">VOZ postoperatoria</div>
-      <div class="tagWrap">
-        <div class="tag">(c)oltyLAB ‘26</div>
-        <div class="ver">V7.5</div>
-      </div>
-    </div>
+<div class="container">
+<div class="top">
+<h1>VOZ postoperatoria</h1>
+<div>
+<div>(c)oltyLAB ‘26</div>
+<div>V8.0</div>
+</div>
+</div>
 
-    <div class="entryRow">
-      <select id="sourceLangSelect" title="Idioma de origen">
-        <option value="es">Español</option>
-        <option value="en">English</option>
-        <option value="fr">Français</option>
-        <option value="it">Italiano</option>
-        <option value="pt">Português</option>
-        <option value="de">Deutsch</option>
-      </select>
+<div class="langs">
+<select id="src">
+<option value="es">Español</option>
+<option value="en">English</option>
+</select>
+<select id="dst">
+<option value="es-ES">Español</option>
+<option value="en-US">English</option>
+</select>
+</div>
 
-      <textarea id="phraseInput" placeholder="Escribe aquí..."></textarea>
+<textarea id="txt" placeholder="Escribe aquí..."></textarea>
 
-      <div class="btnCol">
-        <button class="talkBtn iconBtn" id="speakBtn" title="Hablar"><span class="icon">🗣️</span></button>
-        <div class="destWrap">
-          <button class="saveTalkBtn iconBtn" id="speakSaveBtn" title="Hablar y guardar" style="flex:1"><span class="icon">🗣️📁</span></button>
-          <select id="destLangSelect" class="destSelect" title="Idioma destino">
-            <option value="es-ES">ES</option>
-            <option value="en-US">EN</option>
-            <option value="fr-FR">FR</option>
-            <option value="it-IT">IT</option>
-            <option value="pt-PT">PT</option>
-            <option value="de-DE">DE</option>
-          </select>
-        </div>
-      </div>
-    </div>
+<div class="buttons">
+<button class="speak" onclick="speak()">Hablar</button>
+<button class="save" onclick="save()">Hablar+Guardar</button>
+</div>
 
-    <div id="suggestionsBox" class="suggestions">
-      <div class="small">Empieza a escribir para ver sugerencias.</div>
-    </div>
-  </div>
+<div id="out" style="margin-top:10px;font-weight:bold"></div>
 
-  <div class="resultBox">
-    <div class="resultTitle">Frase reproducida</div>
-    <div class="resultText" id="spokenPhraseBox">—</div>
-  </div>
-
-  <div class="status" id="statusBox">Listo.</div>
-
-  <div class="card">
-    <div class="controlsRow">
-      <button class="ghost miniSquare" id="toggleListBtn" title="Mostrar u ocultar guardados">📁</button>
-    </div>
-    <div id="groupsBox"></div>
-  </div>
+<div class="list" id="list"></div>
 </div>
 
 <script>
-const STORAGE_KEY='voz_v75_frases_grupos';
-const SETTINGS_KEY='voz_v75_settings';
-let phrases=loadPhrases();
-let settings=loadSettings();
+let data = JSON.parse(localStorage.getItem("voz_v8")||"[]");
 
-const els={
-  phraseInput:document.getElementById('phraseInput'),
-  speakBtn:document.getElementById('speakBtn'),
-  speakSaveBtn:document.getElementById('speakSaveBtn'),
-  suggestionsBox:document.getElementById('suggestionsBox'),
-  statusBox:document.getElementById('statusBox'),
-  groupsBox:document.getElementById('groupsBox'),
-  toggleListBtn:document.getElementById('toggleListBtn'),
-  sourceLangSelect:document.getElementById('sourceLangSelect'),
-  destLangSelect:document.getElementById('destLangSelect'),
-  spokenPhraseBox:document.getElementById('spokenPhraseBox')
-};
-
-els.sourceLangSelect.value=settings.sourceLang;
-els.destLangSelect.value=settings.destLang;
-unlockSpeech();
-applyListVisibility();
-renderAll();
-
-function loadPhrases(){
-  try{
-    const raw=localStorage.getItem(STORAGE_KEY);
-    if(!raw) return [];
-    const parsed=JSON.parse(raw);
-    return Array.isArray(parsed)?parsed:[];
-  }catch(e){ return []; }
-}
-function loadSettings(){
-  try{
-    const raw=localStorage.getItem(SETTINGS_KEY);
-    if(!raw) return {showList:true, sourceLang:'es', destLang:'es-ES'};
-    const parsed=JSON.parse(raw);
-    return {
-      showList: typeof parsed.showList==='boolean' ? parsed.showList : true,
-      sourceLang: parsed.sourceLang || 'es',
-      destLang: parsed.destLang || 'es-ES'
-    };
-  }catch(e){ return {showList:true, sourceLang:'es', destLang:'es-ES'}; }
-}
-function savePhrases(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(phrases)); }
-function saveSettings(){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
-function normalize(s=''){ return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim(); }
-function pretty(s=''){ return String(s).replace(/\s+/g,' ').trim(); }
-function setStatus(s){ els.statusBox.textContent=s; }
-function setSpokenPhrase(s){ els.spokenPhraseBox.textContent=s||'—'; }
-function escapeHtml(s=''){ return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-
-function applyListVisibility(){
-  els.groupsBox.classList.toggle('hidden', !settings.showList);
-  els.toggleListBtn.textContent = settings.showList ? '📁' : '🚫📁';
-}
-
-function unlockSpeech(){
-  const synth=window.speechSynthesis;
-  if(!synth) return;
-  try{
-    synth.cancel();
-    const u=new SpeechSynthesisUtterance(' ');
-    u.volume=0;
-    u.lang='es-ES';
-    synth.speak(u);
-  }catch(e){}
-}
-
-async function translateText(text, sourceLang, targetLang){
-  if(!text) return text;
-  const src=(sourceLang||'es').split('-')[0];
-  const tgt=(targetLang||'es-ES').split('-')[0];
-  if(src===tgt) return text;
-  try{
-    const res = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + src + '|' + tgt);
-    const data = await res.json();
-    return (data && data.responseData && data.responseData.translatedText) ? data.responseData.translatedText : text;
-  }catch(e){
-    return text;
-  }
-}
-
-async function speak(text){
-  if(!text) return false;
-  const translated = await translateText(text, settings.sourceLang, settings.destLang);
-  setSpokenPhrase(translated);
-
-  const synth=window.speechSynthesis;
-  if(!synth) return false;
-
-  return await new Promise((resolve)=>{
-    let done=false;
-    const finish=(ok)=>{ if(!done){ done=true; resolve(ok); } };
-    try{
-      synth.cancel();
-      const u=new SpeechSynthesisUtterance(translated);
-      u.lang=settings.destLang || 'es-ES';
-      u.rate=0.95;
-      u.volume=1;
-      u.pitch=1;
-      u.onend=()=>finish(true);
-      u.onerror=()=>finish(false);
-      synth.speak(u);
-      setTimeout(()=>finish(false),10000);
-    }catch(e){ finish(false); }
+function render(){
+  let src=document.getElementById("src").value;
+  let list=document.getElementById("list");
+  list.innerHTML="";
+  data.filter(x=>x.src===src).forEach(x=>{
+    let d=document.createElement("div");
+    d.className="item";
+    d.innerHTML=x.text+" ("+x.src+")";
+    d.onclick=()=>doSpeak(x.text);
+    list.appendChild(d);
   });
 }
 
-function similarity(a,b){
-  a=normalize(a); b=normalize(b);
-  if(!a||!b) return 0;
-  if(a===b) return 1;
-  if(a.includes(b) || b.includes(a)) return 0.92;
-  const wa=a.split(' ').filter(Boolean), wb=b.split(' ').filter(Boolean);
-  let matches=0;
-  wa.forEach(x=>{ if(wb.some(y=>y===x || y.startsWith(x) || x.startsWith(y))) matches++; });
-  return matches / Math.max(wa.length, wb.length, 1);
+async function translate(t){
+  let src=document.getElementById("src").value;
+  let dst=document.getElementById("dst").value.split("-")[0];
+  if(src===dst) return t;
+  try{
+    let r=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(t)+"&langpair="+src+"|"+dst);
+    let j=await r.json();
+    return j.responseData.translatedText;
+  }catch(e){return t;}
 }
 
-function inferGroup(phrase){
-  const norm=normalize(phrase);
-  if(!norm) return 'GENERAL';
-  const words=norm.split(' ').filter(Boolean).filter(w=>!['voy','estoy','quiero','necesito','el','la','de','a','y','en','me','te','mi','tu','es','un','una','al','del','por','para','con','sin','lo','los','las'].includes(w));
-
-  const keywordGroups=[
-    {group:'CAMPO', keys:['campo','paseo','pasear','paseando','andar','caminar']},
-    {group:'AGUA', keys:['agua','beber','sed','vaso','botella']},
-    {group:'COMIDA', keys:['comer','hambre','desayuno','almuerzo','cena','merienda']},
-    {group:'DOLOR', keys:['dolor','duele','molesta','medicina','medicacion','mal']},
-    {group:'BAÑO', keys:['bano','baño','pis','servicio','aseo']},
-    {group:'DESCANSO', keys:['dormir','descansar','cama','sueno','sueño']},
-    {group:'AYUDA', keys:['ayuda','ven','llama']},
-    {group:'FAMILIA', keys:['mama','mamá','papa','papá','hijo','hija']},
-    {group:'HIELO', keys:['hielo','frio','frío','bolsa','compresa']},
-    {group:'ENFERMERA', keys:['enfermera','doctor','medico','médico','hospital']}
-  ];
-
-  let best={group:'GENERAL', score:0};
-  for(const item of keywordGroups){
-    for(const key of item.keys){
-      const score=similarity(norm,key);
-      if(score>best.score) best={group:item.group, score};
-    }
-  }
-  if(best.score>=0.34) return best.group;
-
-  let bestExisting={group:'GENERAL', score:0};
-  for(const p of phrases){
-    const s=similarity(norm,p.text);
-    if(s>bestExisting.score && p.group) bestExisting={group:p.group, score:s};
-  }
-  if(bestExisting.score>=0.45) return bestExisting.group;
-
-  return words.length ? words[0].slice(0,12).toUpperCase() : 'GENERAL';
+async function doSpeak(t){
+  let tr=await translate(t);
+  document.getElementById("out").innerText=tr;
+  let u=new SpeechSynthesisUtterance(tr);
+  u.lang=document.getElementById("dst").value;
+  speechSynthesis.speak(u);
 }
 
-async function usePhrase(item, increment=true){
-  const ok=await speak(item.text);
-  if(ok){
-    if(increment){
-      item.uses=(item.uses||0)+1;
-      item.lastUsed=Date.now();
-      savePhrases();
-      renderGroups();
-      renderSuggestions();
-    }
-    setStatus('Frase reproducida.');
-  }else{
-    setStatus('No se pudo reproducir la frase.');
-  }
+function speak(){
+  let t=document.getElementById("txt").value;
+  if(!t)return;
+  doSpeak(t);
 }
 
-function savePhrase(text){
-  const cleaned=pretty(text);
-  if(!cleaned) return null;
-  const existing=phrases.find(p=>normalize(p.text)===normalize(cleaned));
-  if(existing){
-    existing.uses=(existing.uses||0)+1;
-    existing.lastUsed=Date.now();
-    savePhrases();
-    return existing;
-  }
-  const item={id:String(Date.now())+'_'+Math.random().toString(36).slice(2,7), text:cleaned, uses:1, group:inferGroup(cleaned), lastUsed:Date.now()};
-  phrases.push(item);
-  savePhrases();
-  return item;
+function save(){
+  let t=document.getElementById("txt").value;
+  if(!t)return;
+  let src=document.getElementById("src").value;
+  data.push({text:t,src});
+  localStorage.setItem("voz_v8",JSON.stringify(data));
+  speak();
+  render();
 }
 
-function renderSuggestions(){
-  const query=normalize(els.phraseInput.value);
-  if(!query){
-    els.suggestionsBox.innerHTML='<div class="small"></div>';
-    return;
-  }
-  const queryWords=query.split(' ').filter(Boolean);
-  const matches=phrases
-    .map(p=>({...p, norm: normalize(p.text), score: similarity(query,p.text)}))
-    .filter(p=>queryWords.every(w=>p.norm.includes(w)))
-    .sort((a,b)=>b.score-a.score || (b.uses||0)-(a.uses||0))
-    .slice(0,8);
-
-  if(!matches.length){
-    els.suggestionsBox.innerHTML='<div class="small">No hay sugerencias.</div>';
-    return;
-  }
-
-  els.suggestionsBox.innerHTML='';
-  matches.forEach(item=>{
-    const div=document.createElement('div');
-    div.className='suggestion';
-    div.innerHTML='<div>'+escapeHtml(item.text)+'</div><div class="meta">Grupo: '+escapeHtml(item.group)+' · Usos: '+(item.uses||0)+'</div>';
-    div.addEventListener('click', async ()=>{
-      const real=phrases.find(p=>p.id===item.id) || item;
-      unlockSpeech();
-      await usePhrase(real,true);
-    });
-    els.suggestionsBox.appendChild(div);
-  });
-}
-
-function groupSortEntries(){
-  const grouped={};
-  phrases.forEach(p=>{ if(!grouped[p.group]) grouped[p.group]=[]; grouped[p.group].push(p); });
-  return Object.entries(grouped)
-    .map(([group,items])=>({group,totalUses:items.reduce((n,x)=>n+(x.uses||0),0),items:items.slice().sort((a,b)=>(b.uses||0)-(a.uses||0) || a.text.localeCompare(b.text,'es'))}))
-    .sort((a,b)=>a.group.localeCompare(b.group,'es') || b.totalUses-a.totalUses);
-}
-
-function renderGroups(){
-  els.groupsBox.innerHTML='';
-  if(!phrases.length){
-    els.groupsBox.innerHTML='<div class="small">Todavía no hay frases guardadas.</div>';
-    return;
-  }
-  const groups=groupSortEntries();
-  groups.forEach(g=>{
-    const details=document.createElement('details');
-    details.className='group';
-    details.innerHTML='<summary><div class="groupHead"><div>'+escapeHtml(g.group)+'</div><div class="groupCount">'+g.items.length+' frase(s) · '+g.totalUses+' usos</div></div></summary>';
-    g.items.forEach(item=>{
-      const div=document.createElement('div');
-      div.className='phrase';
-      div.innerHTML='<div>'+escapeHtml(item.text)+'</div><div class="meta">Usos: '+(item.uses||0)+'</div><div class="audio-row"><button class="ghost say">Hablar</button><button class="ghost edit">Editar</button><button class="danger del">Borrar</button></div><div class="editBox hidden"><div class="label">Frase</div><input class="editText" value="'+escapeHtml(item.text)+'"><div class="label" style="margin-top:10px">Grupo</div><input class="editGroup" value="'+escapeHtml(item.group)+'"><div class="audio-row"><button class="success saveEdit">Guardar cambios</button><button class="ghost cancelEdit">Cancelar</button></div></div>';
-      const editBox=div.querySelector('.editBox');
-      div.querySelector('.say').addEventListener('click', async ()=>{ unlockSpeech(); await usePhrase(item,true); });
-      div.querySelector('.edit').addEventListener('click', ()=>{ editBox.classList.remove('hidden'); });
-      div.querySelector('.cancelEdit').addEventListener('click', ()=>{ editBox.classList.add('hidden'); });
-      div.querySelector('.saveEdit').addEventListener('click', ()=>{
-        const newText=pretty(div.querySelector('.editText').value);
-        const newGroup=pretty(div.querySelector('.editGroup').value);
-        if(!newText){ setStatus('La frase no puede estar vacía.'); return; }
-        if(!newGroup){ setStatus('El grupo no puede estar vacío.'); return; }
-        item.text=newText;
-        item.group=newGroup.toUpperCase();
-        item.lastUsed=Date.now();
-        savePhrases();
-        renderAll();
-        setStatus('Frase y grupo actualizados.');
-      });
-      div.querySelector('.del').addEventListener('click', ()=>{
-        phrases=phrases.filter(x=>x.id!==item.id);
-        savePhrases();
-        renderAll();
-        setStatus('Frase borrada.');
-      });
-      details.appendChild(div);
-    });
-    els.groupsBox.appendChild(details);
-  });
-}
-
-function renderAll(){ renderSuggestions(); renderGroups(); }
-
-els.phraseInput.addEventListener('focus', ()=>{
-  els.phraseInput.value='';
-  els.suggestionsBox.innerHTML='<div class="small"></div>';
-});
-els.phraseInput.addEventListener('input', renderSuggestions);
-
-els.speakBtn.addEventListener('click', async ()=>{
-  unlockSpeech();
-  const text=pretty(els.phraseInput.value);
-  if(!text){ setStatus('Escribe primero una frase.'); return; }
-  const ok=await speak(text);
-  setStatus(ok ? 'Frase reproducida.' : 'No se pudo reproducir la frase.');
-});
-
-els.speakSaveBtn.addEventListener('click', async ()=>{
-  unlockSpeech();
-  const text=pretty(els.phraseInput.value);
-  if(!text){ setStatus('Escribe primero una frase.'); return; }
-  const item=savePhrase(text);
-  renderAll();
-  if(item){
-    const ok=await speak(item.text);
-    setStatus(ok ? 'Frase hablada y guardada.' : 'No se pudo reproducir la frase.');
-  }
-});
-
-els.toggleListBtn.addEventListener('click', ()=>{
-  settings.showList=!settings.showList;
-  saveSettings();
-  applyListVisibility();
-});
-
-els.sourceLangSelect.addEventListener('change', ()=>{
-  settings.sourceLang=els.sourceLangSelect.value;
-  saveSettings();
-  setStatus('Idioma de origen actualizado.');
-});
-
-els.destLangSelect.addEventListener('change', ()=>{
-  settings.destLang=els.destLangSelect.value;
-  saveSettings();
-  setStatus('Idioma destino actualizado.');
-});
+document.getElementById("src").onchange=render;
+render();
 </script>
+
 </body>
 </html>
