@@ -1,438 +1,337 @@
+
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#111827">
-  <title>Voz postoperatoria v3.0</title>
-  <style>
-    :root{
-      --bg:#0b1220; --card:#121a2b; --card2:#182235; --text:#f3f4f6; --muted:#b7c0cf;
-      --border:#2b3850; --safe-top:max(env(safe-area-inset-top),14px); --safe-bottom:max(env(safe-area-inset-bottom),14px);
-    }
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    body{margin:0;background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-    .app{max-width:980px;margin:0 auto;min-height:100vh;padding:var(--safe-top) 14px calc(30px + var(--safe-bottom))}
-    .card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
-    .title{font-size:1.16rem;font-weight:800}
-    .sub{font-size:.9rem;color:var(--muted)}
-    .tag{border:1px solid var(--border);padding:10px 12px;border-radius:999px;color:var(--muted);font-size:.84rem}
-    h1{margin:0 0 8px;font-size:1.42rem;line-height:1.15}
-    p{margin:0;color:var(--muted);line-height:1.45}
-    .status,.result,.raw,.suggestion{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523}
-    .result{font-size:1.5rem;font-weight:900;text-align:center}
-    .raw,.suggestion{font-size:1.02rem}
-    .label{font-size:.82rem;color:var(--muted);margin-bottom:6px}
-    .sep{height:1px;background:var(--border);margin:14px 0}
-    .grid2{display:grid;gap:10px;grid-template-columns:1fr 1fr}
-    @media (max-width:760px){.grid2{grid-template-columns:1fr}}
-    button,input,textarea{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border)}
-    input,textarea{padding:14px;background:#0d1523;color:var(--text)}
-    textarea{min-height:86px;resize:vertical}
-    button{padding:18px 14px;color:var(--text);font-weight:800;background:#1b2740;cursor:pointer}
-    .primary{background:linear-gradient(180deg,#2f90cb,#2679ab);border:none}
-    .success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
-    .danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}
-    .ghost{background:#10151d}
-    .small{color:var(--muted);font-size:.92rem;line-height:1.4}
-    .big-indicator{margin-top:12px;padding:18px;border-radius:18px;text-align:center;font-size:1.55rem;font-weight:900;border:2px solid rgba(255,255,255,.15);background:#111827}
-    .hidden{display:none!important}
-    .listening{background:rgba(168,107,73,.22);border-color:rgba(168,107,73,.8);color:#fff3e8;animation:pulseWarn 1s infinite}
-    .processing{background:rgba(47,143,216,.22);border-color:rgba(47,143,216,.8);color:#e8f4ff;animation:pulseWarn 1s infinite}
-    .item{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
-    .meta{font-size:.84rem;color:var(--muted);margin-top:6px}
-    .audio-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
-    .audio-row button{width:auto;padding:10px 12px;border-radius:12px}
-    @keyframes pulseWarn{0%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(1.02)}100%{opacity:1;transform:scale(1)}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<title>VOZ postoperatoria v8.2</title>
+<style>
+:root{
+  --card:#121a2b;--card2:#182235;--text:#f3f4f6;--muted:#b7c0cf;--border:#2b3850;
+  --green1:#16a34a;--green2:#15803d;--red1:#dc2626;--red2:#b91c1c;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#09101c,#10192b 40%,#0b1220)}
+.app{max-width:1080px;margin:0 auto;min-height:100vh;padding:16px 14px 28px}
+.card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:22px;padding:16px;margin-bottom:14px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px}
+.brand{font-size:1.55rem;font-weight:900;letter-spacing:.2px;line-height:1.05}
+.tagWrap{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-width:128px}
+.tag{font-size:.92rem;color:var(--muted);font-weight:700;line-height:1.1;text-align:center}
+.ver{font-size:.88rem;color:var(--muted);font-weight:700;line-height:1.1;text-align:center;margin-top:2px}
+.langRow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 14px 0}
+textarea,input,select{width:100%;font:inherit;border-radius:18px;border:1px solid var(--border);padding:14px;background:#0d1523;color:var(--text)}
+textarea{min-height:108px;resize:vertical}
+.iconSelect{display:flex;gap:8px;align-items:center}
+.iconBox{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:#10151d;border:1px solid var(--border);font-size:1.2rem}
+.entryRow{display:grid;grid-template-columns:1fr 92px;gap:10px;align-items:start}
+.sideCol{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.bigBtn{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer}
+.bigBtn.speak{background:linear-gradient(180deg,var(--green1),var(--green2))}
+.bigBtn.stop{background:linear-gradient(180deg,var(--red1),var(--red2))}
+.bigBtn span{font-size:1.5rem;filter:drop-shadow(0 1px 0 rgba(0,0,0,.25))}
+.small{color:var(--muted);font-size:.92rem;line-height:1.4}
+.suggestions{margin-top:12px}
+.suggestion{background:#111a2b;border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:8px;cursor:pointer}
+.suggestion .meta{font-size:.82rem;color:var(--muted);margin-top:4px}
+.hidden{display:none!important}
+.status,.resultBox{border:1px solid var(--border);border-radius:18px;padding:14px;background:#0d1523;margin-bottom:14px}
+.resultTitle{font-size:.82rem;color:var(--muted);margin-bottom:6px}
+.resultText{font-size:1.2rem;font-weight:900}
+.controlsRow{display:flex;justify-content:center;gap:10px;align-items:center;margin-top:12px}
+.miniSquare{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;padding:0;background:#10151d;border:1px solid var(--border);color:var(--text);cursor:pointer}
+details.group{background:#111a2b;border:1px solid var(--border);border-radius:18px;padding:12px;margin-bottom:10px}
+details.group summary{cursor:pointer;list-style:none;font-weight:800}
+details.group summary::-webkit-details-marker{display:none}
+.groupHead{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.groupCount{font-size:.84rem;color:var(--muted)}
+.phrase{background:#0d1523;border:1px solid var(--border);border-radius:16px;padding:12px;margin-top:10px}
+.audio-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.audio-row button{width:auto;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#10151d;color:var(--text);cursor:pointer}
+.audio-row .danger{background:linear-gradient(180deg,#b34f4f,#8c3d3d);border:none}
+.audio-row .success{background:linear-gradient(180deg,#208c6d,#176f57);border:none}
+.editBox{margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
+@media (max-width:760px){.langRow{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <div class="app">
-  <div class="top">
-    <div>
-      <div class="title">Voz postoperatoria</div>
-      <div class="sub">Aprendizaje por confirmación y corrección</div>
-    </div>
-    <div class="tag">(c)oltyLAB '26 V3.0</div>
-  </div>
-
-  <section class="card">
-    <h1>Escuchar, sugerir, corregir y aprender</h1>
-    <p>La app escucha una vez, muestra lo detectado, intenta proponer una frase aprendida parecida y aprende con cada confirmación o corrección.</p>
-  </section>
-
-  <section class="card">
-    <div class="status" id="statusBox">Listo. Pulsa “Escuchar”.</div>
-    <div class="big-indicator hidden" id="activityIndicator"></div>
-
-    <div class="sep"></div>
-
-    <div class="label">Detectado</div>
-    <div class="raw" id="rawBox">—</div>
-
-    <div class="sep"></div>
-
-    <div class="label">Interpretación sugerida</div>
-    <div class="suggestion" id="suggestionBox">—</div>
-
-    <div class="sep"></div>
-
-    <div class="label">Frase mostrada / reproducida</div>
-    <div class="result" id="resultBox">—</div>
-
-    <div class="sep"></div>
-
-    <button class="primary" id="listenBtn">Escuchar</button>
-
-    <div class="audio-row" id="feedbackRow" style="display:none">
-      <button class="success" id="correctBtn">Sí, eso era</button>
-      <button class="danger" id="wrongBtn">No, corregir</button>
-      <button class="ghost" id="speakBtn">Repetir</button>
+  <div class="card">
+    <div class="top">
+      <div class="brand">VOZ postoperatoria</div>
+      <div class="tagWrap"><div class="tag">(c)oltyLAB ‘26</div><div class="ver">V8.2</div></div>
     </div>
 
-    <div id="correctionBox" class="hidden" style="margin-top:12px">
-      <div class="small">Escribe lo que realmente quería decir el enfermo y se guardará para próximas veces.</div>
-      <div class="sep"></div>
-      <textarea id="correctionInput" placeholder="Ejemplo: Necesito agua"></textarea>
-      <div class="audio-row">
-        <button class="success" id="saveCorrectionBtn">Guardar aprendizaje</button>
-        <button class="ghost" id="cancelCorrectionBtn">Cancelar</button>
+    <div class="langRow">
+      <div class="iconSelect">
+        <div class="iconBox">📝</div>
+        <select id="sourceLangSelect">
+          <option value="es">Idioma origen: Español</option>
+          <option value="en">Idioma origen: English</option>
+          <option value="fr">Idioma origen: Français</option>
+          <option value="it">Idioma origen: Italiano</option>
+          <option value="pt">Idioma origen: Português</option>
+          <option value="de">Idioma origen: Deutsch</option>
+          <option value="ca">Idioma origen: Català</option>
+          <option value="gl">Idioma origen: Galego</option>
+          <option value="eu">Idioma origen: Euskara</option>
+          <option value="nl">Idioma origen: Nederlands</option>
+        </select>
+      </div>
+      <div class="iconSelect">
+        <div class="iconBox">🌐</div>
+        <select id="destLangSelect">
+          <option value="es-ES">Idioma destino: Español</option>
+          <option value="en-US">Idioma destino: English</option>
+          <option value="fr-FR">Idioma destino: Français</option>
+          <option value="it-IT">Idioma destino: Italiano</option>
+          <option value="pt-PT">Idioma destino: Português</option>
+          <option value="de-DE">Idioma destino: Deutsch</option>
+          <option value="ca-ES">Idioma destino: Català</option>
+          <option value="gl-ES">Idioma destino: Galego</option>
+          <option value="eu-ES">Idioma destino: Euskara</option>
+          <option value="nl-NL">Idioma destino: Nederlands</option>
+        </select>
       </div>
     </div>
-  </section>
 
-  <section class="card">
-    <div class="title" style="font-size:1rem;margin-bottom:10px">Frases aprendidas</div>
-    <div class="small">La app aprende relaciones entre lo oído y lo que realmente quería decir.</div>
-    <div class="sep"></div>
-    <div id="memoryBox"></div>
-  </section>
+    <div class="entryRow">
+      <textarea id="phraseInput" placeholder="Escribe aquí..."></textarea>
+      <div class="sideCol">
+        <button class="bigBtn speak" id="speakSaveBtn" title="Hablar y archivar"><span id="speakIcon">🗣️📁</span></button>
+      </div>
+    </div>
+
+    <div id="suggestionsBox" class="suggestions"><div class="small">Empieza a escribir para ver sugerencias.</div></div>
+  </div>
+
+  <div class="resultBox"><div class="resultTitle">Frase reproducida</div><div class="resultText" id="spokenPhraseBox">—</div></div>
+  <div class="status" id="statusBox">Listo.</div>
+
+  <div class="card">
+    <div class="controlsRow"><button class="miniSquare" id="toggleListBtn" title="Mostrar u ocultar guardados">📁</button></div>
+    <div id="groupsBox"></div>
+  </div>
 </div>
 
 <script>
-const STORAGE_KEY = 'coltylab_postop_v30_learning';
-let memories = loadMemories();
-let rawDetected = '';
-let currentSuggestion = '';
-let isListening = false;
-let speechUnlocked = false;
+const STORAGE_KEY='voz_v82_frases_grupos';
+const SETTINGS_KEY='voz_v82_settings';
+let phrases=loadPhrases();
+let settings=loadSettings();
+let isSpeaking=false;
 
-const els = {
-  statusBox: document.getElementById('statusBox'),
-  activityIndicator: document.getElementById('activityIndicator'),
-  rawBox: document.getElementById('rawBox'),
-  suggestionBox: document.getElementById('suggestionBox'),
-  resultBox: document.getElementById('resultBox'),
-  listenBtn: document.getElementById('listenBtn'),
-  feedbackRow: document.getElementById('feedbackRow'),
-  correctBtn: document.getElementById('correctBtn'),
-  wrongBtn: document.getElementById('wrongBtn'),
-  speakBtn: document.getElementById('speakBtn'),
-  correctionBox: document.getElementById('correctionBox'),
-  correctionInput: document.getElementById('correctionInput'),
-  saveCorrectionBtn: document.getElementById('saveCorrectionBtn'),
-  cancelCorrectionBtn: document.getElementById('cancelCorrectionBtn'),
-  memoryBox: document.getElementById('memoryBox')
+const els={
+  phraseInput:document.getElementById('phraseInput'),
+  speakSaveBtn:document.getElementById('speakSaveBtn'),
+  speakIcon:document.getElementById('speakIcon'),
+  suggestionsBox:document.getElementById('suggestionsBox'),
+  statusBox:document.getElementById('statusBox'),
+  groupsBox:document.getElementById('groupsBox'),
+  toggleListBtn:document.getElementById('toggleListBtn'),
+  sourceLangSelect:document.getElementById('sourceLangSelect'),
+  destLangSelect:document.getElementById('destLangSelect'),
+  spokenPhraseBox:document.getElementById('spokenPhraseBox')
 };
 
-renderMemories();
+els.sourceLangSelect.value=settings.sourceLang;
+els.destLangSelect.value=settings.destLang;
+unlockSpeech();
+applyListVisibility();
+renderAll();
 
-function loadMemories(){
+function loadPhrases(){
   try{
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw=localStorage.getItem(STORAGE_KEY);
     if(!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    const parsed=JSON.parse(raw);
+    return Array.isArray(parsed)?parsed:[];
   }catch(e){ return []; }
 }
-function saveMemories(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(memories)); }
-function setStatus(msg){ els.statusBox.textContent = msg; }
-function setActivity(mode, text=''){
-  els.activityIndicator.className = 'big-indicator';
-  if(!mode){
-    els.activityIndicator.classList.add('hidden');
-    els.activityIndicator.textContent = '';
-    return;
-  }
-  els.activityIndicator.classList.remove('hidden');
-  els.activityIndicator.classList.add(mode);
-  els.activityIndicator.textContent = text;
-}
-function normalize(s=''){
-  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim();
-}
-function titleText(s=''){
-  return String(s).replace(/\s+/g,' ').trim();
-}
-function setDetected(text){
-  rawDetected = titleText(text || '');
-  els.rawBox.textContent = rawDetected || '—';
-}
-function setSuggestion(text){
-  currentSuggestion = titleText(text || '');
-  els.suggestionBox.textContent = currentSuggestion || '—';
-  els.resultBox.textContent = currentSuggestion || '—';
-}
-function showFeedback(show){ els.feedbackRow.style.display = show ? 'flex' : 'none'; }
-function showCorrection(show){ els.correctionBox.classList.toggle('hidden', !show); }
-function unlockSpeech(){
-  const synth = window.speechSynthesis;
-  if(!synth) return;
+function loadSettings(){
   try{
-    synth.cancel();
-    const u = new SpeechSynthesisUtterance(' ');
-    u.volume = 0;
-    u.lang = 'es-ES';
-    synth.speak(u);
-    speechUnlocked = true;
-  }catch(e){}
+    const raw=localStorage.getItem(SETTINGS_KEY);
+    if(!raw) return {showList:true,sourceLang:'es',destLang:'es-ES'};
+    const parsed=JSON.parse(raw);
+    return {showList: typeof parsed.showList==='boolean'?parsed.showList:true, sourceLang: parsed.sourceLang||'es', destLang: parsed.destLang||'es-ES'};
+  }catch(e){ return {showList:true,sourceLang:'es',destLang:'es-ES'}; }
 }
-function speakText(text){
-  if(!text) return Promise.resolve(false);
-  const synth = window.speechSynthesis;
-  if(!synth) return Promise.resolve(false);
-  return new Promise((resolve)=>{
-    let done = false;
-    const finish = (ok)=>{ if(!done){ done = true; resolve(ok); } };
+function savePhrases(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(phrases)); }
+function saveSettings(){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
+function normalize(s=''){ return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim(); }
+function pretty(s=''){ return String(s).replace(/\s+/g,' ').trim(); }
+function setStatus(s){ els.statusBox.textContent=s; }
+function setSpokenPhrase(s){ els.spokenPhraseBox.textContent=s||'—'; }
+function escapeHtml(s=''){ return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function applyListVisibility(){ els.groupsBox.classList.toggle('hidden', !settings.showList); els.toggleListBtn.textContent=settings.showList?'📁':'🚫📁'; }
+function setButtonState(speaking){ isSpeaking=speaking; els.speakSaveBtn.className='bigBtn '+(speaking?'stop':'speak'); els.speakIcon.textContent=speaking?'🚫🗣️':'🗣️📁'; }
+function unlockSpeech(){ const synth=window.speechSynthesis; if(!synth) return; try{ synth.cancel(); const u=new SpeechSynthesisUtterance(' '); u.volume=0; u.lang='es-ES'; synth.speak(u);}catch(e){} }
+async function translateText(text,sourceLang,targetLang){
+  if(!text) return text;
+  const src=(sourceLang||'es').split('-')[0], tgt=(targetLang||'es-ES').split('-')[0];
+  if(src===tgt) return text;
+  try{
+    const res=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair='+src+'|'+tgt);
+    const data=await res.json();
+    return (data&&data.responseData&&data.responseData.translatedText)?data.responseData.translatedText:text;
+  }catch(e){ return text; }
+}
+async function speak(text){
+  if(!text) return false;
+  const translated=await translateText(text, settings.sourceLang, settings.destLang);
+  setSpokenPhrase(translated);
+  const synth=window.speechSynthesis;
+  if(!synth) return false;
+  return await new Promise((resolve)=>{
+    let done=false;
+    const finish=(ok)=>{ if(!done){ done=true; setButtonState(false); resolve(ok); } };
     try{
       synth.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'es-ES';
-      u.rate = 0.95;
-      u.onend = ()=>finish(true);
-      u.onerror = ()=>finish(false);
+      const u=new SpeechSynthesisUtterance(translated);
+      u.lang=settings.destLang||'es-ES';
+      u.rate=0.95; u.volume=1; u.pitch=1;
+      setButtonState(true);
+      u.onend=()=>finish(true);
+      u.onerror=()=>finish(false);
       synth.speak(u);
-      setTimeout(()=>finish(false), 8000);
+      setTimeout(()=>finish(false),10000);
     }catch(e){ finish(false); }
   });
 }
-async function speakWithRetry(text){
-  let ok = await speakText(text);
-  if(ok) return true;
-  await new Promise(r=>setTimeout(r,250));
-  return await speakText(text);
-}
-function levenshtein(a,b){
-  const m=a.length,n=b.length,dp=Array.from({length:m+1},()=>Array(n+1).fill(0));
-  for(let i=0;i<=m;i++) dp[i][0]=i;
-  for(let j=0;j<=n;j++) dp[0][j]=j;
-  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++){
-    const cost = a[i-1]===b[j-1] ? 0 : 1;
-    dp[i][j] = Math.min(dp[i-1][j]+1, dp[i][j-1]+1, dp[i-1][j-1]+cost);
-  }
-  return dp[m][n];
-}
 function similarity(a,b){
-  a = normalize(a); b = normalize(b);
-  if(!a || !b) return 0;
-  if(a === b) return 1;
-  if(a.includes(b) || b.includes(a)) return 0.92;
-  const dist = levenshtein(a,b);
-  return Math.max(0, 1 - dist / Math.max(a.length,b.length,1));
+  a=normalize(a); b=normalize(b);
+  if(!a||!b) return 0;
+  if(a===b) return 1;
+  if(a.includes(b)||b.includes(a)) return 0.92;
+  const wa=a.split(' ').filter(Boolean), wb=b.split(' ').filter(Boolean);
+  let m=0;
+  wa.forEach(x=>{ if(wb.some(y=>y===x||y.startsWith(x)||x.startsWith(y))) m++; });
+  return m/Math.max(wa.length, wb.length, 1);
 }
-function findBestLearnedPhrase(detected){
-  if(!detected || !memories.length) return null;
-  const scored = memories.map(m => {
-    let score = similarity(detected, m.heardPattern);
-    score += Math.min(0.12, (m.timesConfirmed || 0) * 0.02);
-    score -= Math.min(0.10, (m.timesRejected || 0) * 0.03);
-    return Object.assign({}, m, {score});
-  }).sort((a,b)=>b.score-a.score);
-
-  const top = scored[0];
-  const second = scored[1];
-  if(!top || top.score < 0.45) return null;
-  if(second && Math.abs(top.score - second.score) < 0.06){
-    return {ambiguous:true, choices: scored.slice(0,3)};
-  }
-  return {ambiguous:false, match: top};
+function inferTopic(phrase){
+  const norm=normalize(phrase);
+  if(!norm) return 'GENERAL';
+  const words=norm.split(' ').filter(Boolean).filter(w=>!['voy','estoy','quiero','necesito','el','la','de','a','y','en','me','te','mi','tu','es','un','una','al','del','por','para','con','sin','lo','los','las'].includes(w));
+  const kg=[
+    {group:'CAMPO',keys:['campo','paseo','pasear','paseando','andar','caminar']},
+    {group:'AGUA',keys:['agua','beber','sed','vaso','botella']},
+    {group:'COMIDA',keys:['comer','hambre','desayuno','almuerzo','cena','merienda']},
+    {group:'DOLOR',keys:['dolor','duele','molesta','medicina','medicacion','mal']},
+    {group:'BAÑO',keys:['bano','baño','pis','servicio','aseo']},
+    {group:'DESCANSO',keys:['dormir','descansar','cama','sueno','sueño']},
+    {group:'AYUDA',keys:['ayuda','ven','llama']},
+    {group:'FAMILIA',keys:['mama','mamá','papa','papá','hijo','hija']},
+    {group:'HIELO',keys:['hielo','frio','frío','bolsa','compresa']},
+    {group:'ENFERMERA',keys:['enfermera','doctor','medico','médico','hospital']}
+  ];
+  let best={group:'GENERAL',score:0};
+  for(const item of kg){ for(const key of item.keys){ const s=similarity(norm,key); if(s>best.score) best={group:item.group,score:s}; } }
+  if(best.score>=0.34) return best.group;
+  let be={group:'GENERAL',score:0};
+  for(const p of phrases){ const s=similarity(norm,p.text); if(s>be.score&&p.topic) be={group:p.topic,score:s}; }
+  if(be.score>=0.45) return be.group;
+  return words.length?words[0].slice(0,12).toUpperCase():'GENERAL';
 }
-function upsertMemory(heardPattern, realPhrase, wasConfirmed){
-  const heard = titleText(heardPattern);
-  const real = titleText(realPhrase);
-  let existing = memories.find(m => normalize(m.heardPattern) === normalize(heard) && normalize(m.realPhrase) === normalize(real));
-  if(existing){
-    if(wasConfirmed) existing.timesConfirmed = (existing.timesConfirmed || 0) + 1;
-    existing.lastUsed = Date.now();
-  } else {
-    memories.unshift({
-      id: String(Date.now()),
-      heardPattern: heard,
-      realPhrase: real,
-      timesConfirmed: wasConfirmed ? 1 : 0,
-      timesRejected: 0,
-      lastUsed: Date.now()
-    });
-  }
-  saveMemories();
-  renderMemories();
+async function usePhrase(item,increment=true){
+  const ok=await speak(item.text);
+  if(ok){
+    if(increment){ item.uses=(item.uses||0)+1; item.lastUsed=Date.now(); savePhrases(); renderAll(); }
+    setStatus('Frase reproducida.');
+  } else setStatus('No se pudo reproducir la frase.');
 }
-function markRejected(heardPattern, realPhrase){
-  const existing = memories.find(m => normalize(m.heardPattern) === normalize(heardPattern) && normalize(m.realPhrase) === normalize(realPhrase));
-  if(existing){
-    existing.timesRejected = (existing.timesRejected || 0) + 1;
-    existing.lastUsed = Date.now();
-    saveMemories();
-    renderMemories();
-  }
+function savePhrase(text){
+  const cleaned=pretty(text);
+  if(!cleaned) return null;
+  const existing=phrases.find(p=>normalize(p.text)===normalize(cleaned)&&p.sourceLang===settings.sourceLang);
+  if(existing){ existing.uses=(existing.uses||0)+1; existing.lastUsed=Date.now(); savePhrases(); return existing; }
+  const item={id:String(Date.now())+'_'+Math.random().toString(36).slice(2,7), text:cleaned, uses:1, topic:inferTopic(cleaned), sourceLang:settings.sourceLang, lastUsed:Date.now()};
+  phrases.push(item); savePhrases(); return item;
 }
-function renderMemories(){
-  els.memoryBox.innerHTML = '';
-  if(!memories.length){
-    els.memoryBox.innerHTML = '<div class="small">Todavía no hay aprendizaje guardado.</div>';
-    return;
-  }
-  const ordered = memories.slice().sort((a,b)=>(b.lastUsed||0)-(a.lastUsed||0));
-  ordered.forEach((m)=>{
-    const div = document.createElement('div');
-    div.className = 'item';
-    div.innerHTML = `
-      <div><strong>Oído:</strong> ${escapeHtml(m.heardPattern)}</div>
-      <div style="margin-top:4px"><strong>Quiere decir:</strong> ${escapeHtml(m.realPhrase)}</div>
-      <div class="meta">Confirmada ${m.timesConfirmed || 0} vez/veces · Rechazada ${m.timesRejected || 0}</div>
-      <div class="audio-row">
-        <button class="ghost say">Decir frase</button>
-        <button class="danger del">Borrar</button>
-      </div>
-    `;
-    div.querySelector('.say').addEventListener('click', async ()=>{ await speakWithRetry(m.realPhrase); });
-    div.querySelector('.del').addEventListener('click', ()=>{
-      memories = memories.filter(x => x.id !== m.id);
-      saveMemories();
-      renderMemories();
-      setStatus('Aprendizaje borrado.');
-    });
-    els.memoryBox.appendChild(div);
+function filteredPhrases(){ return phrases.filter(p=>(p.sourceLang||'es')===settings.sourceLang); }
+function renderSuggestions(){
+  const query=normalize(els.phraseInput.value);
+  if(!query){ els.suggestionsBox.innerHTML='<div class="small"></div>'; return; }
+  const qw=query.split(' ').filter(Boolean);
+  const matches=filteredPhrases()
+    .map(p=>({...p,norm:normalize(p.text),score:similarity(query,p.text)}))
+    .filter(p=>qw.every(w=>p.norm.includes(w)))
+    .sort((a,b)=>a.text.localeCompare(b.text,'es') || (b.uses||0)-(a.uses||0))
+    .slice(0,8);
+  if(!matches.length){ els.suggestionsBox.innerHTML='<div class="small">No hay sugerencias.</div>'; return; }
+  els.suggestionsBox.innerHTML='';
+  matches.forEach(item=>{
+    const div=document.createElement('div');
+    div.className='suggestion';
+    div.innerHTML='<div>'+escapeHtml(item.text)+'</div><div class="meta">Tema: '+escapeHtml(item.topic)+' · Usos: '+(item.uses||0)+'</div>';
+    div.addEventListener('click', async ()=>{ const real=phrases.find(p=>p.id===item.id)||item; unlockSpeech(); await usePhrase(real,true); });
+    els.suggestionsBox.appendChild(div);
   });
 }
-function escapeHtml(s=''){
-  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function topicSortEntries(){
+  const grouped={};
+  filteredPhrases().forEach(p=>{ if(!grouped[p.topic]) grouped[p.topic]=[]; grouped[p.topic].push(p); });
+  return Object.entries(grouped)
+    .map(([topic,items])=>({topic,totalUses:items.reduce((n,x)=>n+(x.uses||0),0),items:items.slice().sort((a,b)=>a.text.localeCompare(b.text,'es') || (b.uses||0)-(a.uses||0))}))
+    .sort((a,b)=>a.topic.localeCompare(b.topic,'es'));
 }
-async function recognizeSpeech(){
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SR) throw new Error('Este navegador no ofrece reconocimiento de voz web.');
-  return await new Promise((resolve,reject)=>{
-    const sr = new SR();
-    sr.lang = 'es-ES';
-    sr.interimResults = false;
-    sr.maxAlternatives = 5;
-    sr.continuous = false;
-    let done = false;
-    sr.onresult = (e)=>{
-      done = true;
-      const arr = Array.from(e.results[0]).map(x => x.transcript).filter(Boolean);
-      resolve(arr);
-    };
-    sr.onerror = ()=>{ if(!done) reject(new Error('No se pudo reconocer la voz.')); };
-    sr.onend = ()=>{ if(!done) reject(new Error('No hubo audio suficiente.')); };
-    try{ sr.start(); } catch(e){ reject(new Error('No se pudo iniciar el micrófono.')); }
+function renderGroups(){
+  els.groupsBox.innerHTML='';
+  const visible=filteredPhrases();
+  if(!visible.length){ els.groupsBox.innerHTML='<div class="small">No hay frases guardadas para el idioma origen seleccionado.</div>'; return; }
+  const groups=topicSortEntries();
+  groups.forEach(g=>{
+    const details=document.createElement('details');
+    details.className='group';
+    details.innerHTML='<summary><div class="groupHead"><div>'+escapeHtml(g.topic)+'</div><div class="groupCount">'+g.items.length+' frase(s)</div></div></summary>';
+    g.items.forEach(item=>{
+      const div=document.createElement('div');
+      div.className='phrase';
+      div.innerHTML='<div>'+escapeHtml(item.text)+'</div><div class="meta">Usos: '+(item.uses||0)+' · Idioma origen: '+escapeHtml(item.sourceLang||'es')+'</div><div class="audio-row"><button class="ghost say">Hablar</button><button class="ghost edit">Editar</button><button class="danger del">Borrar</button></div><div class="editBox hidden"><div class="small">Texto, tema e idioma origen editables.</div><div style="margin-top:10px"></div><input class="editText" value="'+escapeHtml(item.text)+'"><div style="margin-top:10px"></div><input class="editTopic" value="'+escapeHtml(item.topic)+'"><div style="margin-top:10px"></div><select class="editSourceLang"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option><option value="it">Italiano</option><option value="pt">Português</option><option value="de">Deutsch</option><option value="ca">Català</option><option value="gl">Galego</option><option value="eu">Euskara</option><option value="nl">Nederlands</option></select><div class="audio-row"><button class="success saveEdit">Guardar cambios</button><button class="ghost cancelEdit">Cancelar</button></div></div>';
+      const eb=div.querySelector('.editBox');
+      div.querySelector('.editSourceLang').value=item.sourceLang||'es';
+      div.querySelector('.say').addEventListener('click', async ()=>{ unlockSpeech(); await usePhrase(item,true); });
+      div.querySelector('.edit').addEventListener('click', ()=>{ eb.classList.remove('hidden'); });
+      div.querySelector('.cancelEdit').addEventListener('click', ()=>{ eb.classList.add('hidden'); });
+      div.querySelector('.saveEdit').addEventListener('click', ()=>{
+        const nt=pretty(div.querySelector('.editText').value), ng=pretty(div.querySelector('.editTopic').value), ns=div.querySelector('.editSourceLang').value;
+        if(!nt){ setStatus('La frase no puede estar vacía.'); return; }
+        if(!ng){ setStatus('El tema no puede estar vacío.'); return; }
+        item.text=nt; item.topic=ng.toUpperCase(); item.sourceLang=ns; item.lastUsed=Date.now();
+        savePhrases(); renderAll(); setStatus('Frase, tema e idioma origen actualizados.');
+      });
+      div.querySelector('.del').addEventListener('click', ()=>{ phrases=phrases.filter(x=>x.id!==item.id); savePhrases(); renderAll(); setStatus('Frase borrada.'); });
+      details.appendChild(div);
+    });
+    els.groupsBox.appendChild(details);
   });
 }
-function getBestRecognized(alternatives){
-  if(!alternatives || !alternatives.length) return '';
-  return alternatives.slice().sort((a,b)=>b.length-a.length)[0];
-}
-async function processDetected(recognized){
-  setActivity('processing', 'PROCESANDO…');
-  setDetected(recognized);
+function renderAll(){ renderSuggestions(); renderGroups(); }
 
-  if(!recognized){
-    setSuggestion('');
-    showFeedback(false);
-    setStatus('No se detectó texto reconocible. Pulsa “Escuchar” otra vez.');
+els.phraseInput.addEventListener('focus', ()=>{ els.phraseInput.value=''; els.suggestionsBox.innerHTML='<div class="small"></div>'; });
+els.phraseInput.addEventListener('input', renderSuggestions);
+
+els.speakSaveBtn.addEventListener('click', async ()=>{
+  if(isSpeaking){
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+    setButtonState(false);
+    setStatus('Lectura detenida.');
     return;
   }
-
-  const learned = findBestLearnedPhrase(recognized);
-
-  if(!learned){
-    setSuggestion(recognized);
-    setStatus('No hay aprendizaje claro todavía. Revisa si era correcto o corrige.');
-  } else if(learned.ambiguous){
-    setSuggestion(learned.choices[0].realPhrase);
-    setStatus('Hay varias frases aprendidas parecidas. Revisa si la sugerida es correcta o corrige.');
-  } else {
-    setSuggestion(learned.match.realPhrase);
-    setStatus('Frase sugerida a partir del aprendizaje. Revisa si era correcta o corrige.');
+  unlockSpeech();
+  const text=pretty(els.phraseInput.value);
+  if(!text){ setStatus('Escribe primero una frase.'); return; }
+  const item=savePhrase(text);
+  renderAll();
+  if(item){
+    const ok=await speak(item.text);
+    setStatus(ok?'Frase hablada y archivada.':'No se pudo reproducir la frase.');
   }
-
-  showFeedback(true);
-  const ok = await speakWithRetry(currentSuggestion);
-  if(!ok){
-    setStatus('Frase mostrada, pero Safari no la reprodujo automáticamente. Pulsa “Repetir”.');
-  }
-}
-async function startListening(){
-  if(!speechUnlocked) unlockSpeech();
-  isListening = true;
-  rawDetected = '';
-  currentSuggestion = '';
-  setDetected('');
-  setSuggestion('');
-  showFeedback(false);
-  showCorrection(false);
-  els.listenBtn.disabled = true;
-  els.listenBtn.textContent = 'Escuchando…';
-  setActivity('listening', 'ESCUCHANDO…');
-  setStatus('Escuchando…');
-
-  try{
-    const alternatives = await recognizeSpeech();
-    const recognized = getBestRecognized(alternatives);
-    await processDetected(recognized);
-  } catch(err){
-    setStatus(err && err.message ? err.message : 'No se pudo escuchar.');
-  } finally {
-    isListening = false;
-    els.listenBtn.disabled = false;
-    els.listenBtn.textContent = 'Escuchar';
-    setActivity(null);
-  }
-}
-
-els.listenBtn.addEventListener('click', ()=>{ if(!isListening) startListening(); });
-els.correctBtn.addEventListener('click', ()=>{
-  if(!rawDetected || !currentSuggestion) return;
-  upsertMemory(rawDetected, currentSuggestion, true);
-  setStatus('Aprendizaje confirmado. La app lo recordará para próximas veces.');
-  showCorrection(false);
-});
-els.wrongBtn.addEventListener('click', ()=>{
-  if(rawDetected && currentSuggestion) markRejected(rawDetected, currentSuggestion);
-  els.correctionInput.value = '';
-  showCorrection(true);
-  setStatus('Escribe la frase real y guárdala para que la app aprenda.');
-});
-els.saveCorrectionBtn.addEventListener('click', ()=>{
-  const real = titleText(els.correctionInput.value);
-  if(!real){
-    setStatus('Escribe la frase real primero.');
-    return;
-  }
-  if(!rawDetected){
-    setStatus('No hay frase detectada para aprender.');
-    return;
-  }
-  upsertMemory(rawDetected, real, true);
-  setSuggestion(real);
-  showCorrection(false);
-  setStatus('Aprendizaje guardado. La próxima vez se intentará usar esta frase.');
-});
-els.cancelCorrectionBtn.addEventListener('click', ()=>{
-  showCorrection(false);
-  setStatus('Corrección cancelada.');
-});
-els.speakBtn.addEventListener('click', async ()=>{
-  if(!currentSuggestion){
-    setStatus('No hay frase para repetir.');
-    return;
-  }
-  const ok = await speakWithRetry(currentSuggestion);
-  if(!ok) setStatus('No se pudo reproducir la frase.');
 });
 
-unlockSpeech();
+els.toggleListBtn.addEventListener('click', ()=>{ settings.showList=!settings.showList; saveSettings(); applyListVisibility(); });
+els.sourceLangSelect.addEventListener('change', ()=>{ settings.sourceLang=els.sourceLangSelect.value; saveSettings(); renderAll(); setStatus('Idioma origen actualizado.'); });
+els.destLangSelect.addEventListener('change', ()=>{ settings.destLang=els.destLangSelect.value; saveSettings(); setStatus('Idioma destino actualizado.'); });
 </script>
 </body>
 </html>
